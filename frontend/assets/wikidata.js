@@ -96,16 +96,24 @@ $(function () {
         .removeAttr('disabled')
         .removeClass('disabled')
         .removeClass('busy');
-      renderResults(json);
+      if (json.error) {
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_search_error_title'),
+          json.error
+        );
+      } else {
+        renderResults(json);
+      }
     },
     error: function (err) {
       $('.btn', $searchForm)
         .removeAttr('disabled')
         .removeClass('disabled')
         .removeClass('busy');
+      var errMsg = (err.responseJSON && err.responseJSON.error) || err.responseText || AS.renderTemplate('template_wikidata_search_error_message');
       AS.openQuickModal(
         AS.renderTemplate('template_wikidata_search_error_title'),
-        AS.renderTemplate('template_wikidata_search_error_message')
+        errMsg
       );
     }
   });

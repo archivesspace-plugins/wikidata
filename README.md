@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Wikidata plugin is intended to let ArchivesSpace users search [Wikidata](https://www.wikidata.org/) and import selected entities as agents (and optionally subjects). It uses the Wikidata API (`wbsearchentities`, `wbgetentities`) and would convert Wikidata JSON to MARCXML for import via ArchivesSpace’s existing `marcxml_auth_agent` and `marcxml_subjects_and_agents` importers.
+The Wikidata plugin lets ArchivesSpace users import [Wikidata](https://www.wikidata.org/) entities as agent records. Users provide a Wikidata URL (e.g. `https://www.wikidata.org/wiki/Q42`) or Q ID, and the plugin fetches entity data via the [Wikidata SPARQL Query API](https://query.wikidata.org/) and converts it to MARCXML for import via ArchivesSpace's `marcxml_auth_agent` importer.
+
+Supported agent types: **Person** (Q5), **Family** (Q8436), **Corporate** (Q131085629 and subclasses). See [WIKIDATA_API.md](WIKIDATA_API.md) for API documentation and field mappings.
 
 ## Installation
 

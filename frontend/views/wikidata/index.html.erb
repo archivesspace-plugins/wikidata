@@ -52,6 +52,7 @@
     <details class="position-relative">
       <summary class="pl-3 py-2 rounded-top">
         <strong>${record.title}</strong>
+        <span class="badge badge-secondary ms-2">${record.agent_type|h}</span>
         <span class="position-absolute d-flex align-items-center" style="top: .25rem; right: 1rem;">
           <button class="btn btn-sm btn-default d-none select-record" data-qid="${record.qid}"><%= I18n.t("plugins.wikidata.actions.select") %></button>
           <span data-js-selected-label class="py-1 px-2 fs-14px cursor-default rounded bg-success text-white"><%= I18n.t("plugins.wikidata.messages.selected") %></span>
