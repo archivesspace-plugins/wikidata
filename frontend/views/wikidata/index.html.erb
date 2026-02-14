@@ -1,0 +1,108 @@
+<%= setup_context :title => "Wikidata Search" %>
+
+<div class="d-flex">
+  <div class="col-md-8">
+    <h2><%= I18n.t("plugins.wikidata.label") %></h2>
+
+    <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+    <%= form_tag({:controller => :wikidata, :action => :search}, {:id => "wikidata_search", :class => "form-search", :method => "GET"}) do |form| %>
+
+    <div class='control-group form-group required'>
+      <label class='control-label' for="wikidata-search-query"><%= I18n.t("plugins.wikidata.search.query") %></label>
+      <div class='controls'>
+        <input type="text" name="q" class="wikidata-search-query form-control" id="wikidata-search-query" placeholder="<%= I18n.t("plugins.wikidata.search.placeholder") %>" />
+      </div>
+    </div>
+
+    <div class='control-group form-group'>
+      <button type="submit" class="btn btn-primary">
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>"Loading..." %>
+        <%= I18n.t("plugins.wikidata.actions.search") %>
+      </button>
+    </div>
+    <%= hidden_field_tag "page", @page %>
+    <%= hidden_field_tag "records_per_page", @records_per_page %>
+    <% end %>
+
+    <div id="results"></div>
+  </div>
+  <div class="col-md-4">
+    <%= form_tag({:controller => :wikidata, :action => :import}, {:id => "wikidata_import"}) do |form| %>
+    <div class="position-fixed selected-container">
+      <div class="alert alert-info"><%= I18n.t("plugins.wikidata.messages.none_selected") %></div>
+      <div id="selected"></div>
+      <button id="import-selected" class="btn btn-primary" disabled>
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>"Importing..." %>
+        <%= I18n.t("plugins.wikidata.actions.import") %>
+      </button>
+    </div>
+    <% end %>
+  </div>
+
+</div>
+
+<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/wikidata.js" %>"></script>
+
+<link href="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/styles/wikidata.css" %>" media="all" rel="stylesheet" type="text/css">
+
+
+<div id="template_wikidata_result"><!--
+  <div class="wikidata-result mb-3">
+    <details class="position-relative">
+      <summary class="pl-3 py-2 rounded-top">
+        <strong>${record.title}</strong>
+        <span class="position-absolute d-flex align-items-center" style="top: .25rem; right: 1rem;">
+          <button class="btn btn-sm btn-default d-none select-record" data-qid="${record.qid}"><%= I18n.t("plugins.wikidata.actions.select") %></button>
+          <span data-js-selected-label class="py-1 px-2 fs-14px cursor-default rounded bg-success text-white"><%= I18n.t("plugins.wikidata.messages.selected") %></span>
+        </span>
+      </summary>
+      <div class="col-md-12 wikidata-detail"><pre><code>${record.description|h}</code></pre></div>
+    </details>
+  </div>
+--></div>
+
+<div id="template_wikidata_result_summary"><!--
+  <hr class="mt-5" />
+  <div class="mb-4 text-right">
+    <%= I18n.t("plugins.wikidata.result_summary", :page => "${page}", :first_record_index => "${first_record_index}", :last_record_index => "${last_record_index}", :hit_count => "${hit_count}") %>
+  </div>
+--></div>
+
+<div id="template_wikidata_pagination"><!--
+  <div class="row-fluid mb-3">
+    <hr/>
+    <div class="wikidata-pagination text-center">
+      {if !at_start}<a href='<%= url_for :controller => :wikidata, :action => :search %>${queryString}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-sm btn-default"><%= I18n.t("pagination.previous").html_safe %> <%= I18n.t("pagination.previous_label") %></a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :wikidata, :action => :search %>${queryString}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-sm btn-default"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next").html_safe %></a>{/if}
+    </div>
+  </div>
+--></div>
+
+<div id="template_wikidata_selected"><!--
+  <div data-qid="${qid}" class="wikidata-selected">
+    ${qid}
+    <input type="hidden" name="qid[]" value="${qid}"/>
+    <button class="btn btn-mini btn-default btn-xs remove-selected pull-right"><span class="icon icon-trash glyphicon glyphicon-trash"></span></button>
+  </div>
+--></div>
+
+<div id="template_wikidata_import_error_title"><!--
+  <%= I18n.t("plugins.wikidata.messages.import_error") %>
+--></div>
+
+<div id="template_wikidata_import_success_title"><!--
+  <%= I18n.t("plugins.wikidata.messages.import_success") %>
+--></div>
+
+<div id="template_wikidata_import_success_message"><!--
+  <div class="alert alert-success"><%= I18n.t("plugins.wikidata.messages.import_success_message") %></div>
+--></div>
+
+<div id="template_wikidata_search_error_title"><!--
+  <%= I18n.t("plugins.wikidata.messages.search_error") %>
+--></div>
+
+<div id="template_wikidata_search_error_message"><!--
+  <%= I18n.t("plugins.wikidata.messages.search_error_message") %>
+--></div>

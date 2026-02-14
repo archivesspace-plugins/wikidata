@@ -1,0 +1,71 @@
+.wikidata-result summary,
+.wikidata-result .wikidata-detail {
+  border: 1px solid #bce8f1;
+  border-radius: 0.25rem;
+  background-color: #d9edf7;
+  color: #006f9b;
+}
+
+.wikidata-result summary {
+  padding-right: 100px;
+}
+
+.wikidata-result.selected summary,
+.wikidata-result.selected .wikidata-detail {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border-color: #d0e6be;
+}
+
+.wikidata-result.selected .select-record,
+.wikidata-result [data-js-selected-label] {
+  display: none;
+}
+.wikidata-result .select-record,
+.wikidata-result.selected [data-js-selected-label] {
+  display: block;
+}
+
+.wikidata-result > details[open] summary {
+  border-bottom-width: 0;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+.wikidata-result > details[open] .wikidata-detail {
+  border-top-width: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.wikidata-detail {
+  height: 200px;
+  overflow: auto;
+  margin-bottom: 1rem;
+}
+
+.wikidata-detail pre {
+  background-color: #fff;
+  border: none;
+}
+
+.form-search,
+.selected-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+#import-selected {
+  width: 100%;
+}
+
+#selected {
+  margin: 10px 0 20px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.wikidata-selected {
+  margin: 5px 0;
+  border-bottom: 1px solid #fafafa;
+  padding: 5px 0;
+}

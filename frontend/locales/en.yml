@@ -1,0 +1,22 @@
+en:
+  plugins:
+    wikidata:
+      label: Wikidata Import
+      search:
+        query: Search
+        placeholder: Search for person, corporate, family...
+      actions:
+        search: Search
+        import: Import
+        select: Select
+      messages:
+        none_selected: No Results Selected
+        no_results: No Results For Query
+        selected: Selected
+        import_success: Import job created
+        import_success_message: Redirecting to the job status page...
+        import_error: Error while importing from Wikidata
+        search_error: Search Error
+        search_error_message: A problem was encountered while completing this search. Please ensure the Wikidata service is available.
+        service_warning: This plugin depends on the Wikidata API which may have rate limits.
+      result_summary: 'Page %{page} - Showing results %{first_record_index} to %{last_record_index} of %{hit_count} matches'
