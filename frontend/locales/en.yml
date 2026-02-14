@@ -3,8 +3,8 @@ en:
     wikidata:
       label: Wikidata Import
       search:
-        query: Search
-        placeholder: Search for person, corporate, family...
+        query: Wikidata URL or Q ID
+        placeholder: e.g. https://www.wikidata.org/wiki/Q42 or Q42
       actions:
         search: Search
         import: Import
@@ -16,6 +16,7 @@ en:
         import_success: Import job created
         import_success_message: Redirecting to the job status page...
         import_error: Error while importing from Wikidata
+        import_no_agents: No valid agent records to import.
         search_error: Search Error
         search_error_message: A problem was encountered while completing this search. Please ensure the Wikidata service is available.
         service_warning: This plugin depends on the Wikidata API which may have rate limits.

@@ -1,21 +1,80 @@
-# Parses wbsearchentities JSON response and provides same structure as OpenSearchResultSet.
-# TODO: implement to match OpenSearchResultSet#to_json shape for frontend compatibility
+# Parses Wikidata SPARQL JSON response and provides structured data for a single entity.
+# SPARQL returns: { "results": { "bindings": [ {"propertyName": {...}, "value": {...}} ] } }
 class WikidataResultSet
 
-  attr_reader :total_results
-  attr_reader :start_index
-  attr_reader :items_per_page
-  attr_reader :entries
+  attr_reader :data
+  attr_reader :qid
+  attr_reader :error
 
-  def initialize(response_body, query)
-    @entries = []
-    @query = query
-    # TODO: parse JSON, populate @entries with title, qid, uri
-    # TODO: set pagination fields
+  def initialize(sparql_json_response, qid)
+    @qid = normalize_qid(qid)
+    @data = {}
+    @error = nil
+
+    return if sparql_json_response.nil? || sparql_json_response.empty?
+
+    begin
+      json = sparql_json_response.is_a?(String) ? JSON.parse(sparql_json_response) : sparql_json_response
+      bindings = json.dig('results', 'bindings') || []
+      bindings.each do |row|
+        pname = extract_value(row['propertyName'])
+        val = extract_value(row['value'])
+        next if pname.nil?
+        @data[pname] ||= []
+        @data[pname] << val unless val.nil?
+      end
+    rescue JSON::ParserError => e
+      @error = "Failed to parse SPARQL response: #{e.message}"
+    end
   end
 
-  def to_json
-    # TODO: return same structure as OpenSearchResultSet
-    raise NotImplementedError, "WikidataResultSet#to_json not yet implemented"
+  def valid?
+    @error.nil? && !@data.empty?
+  end
+
+  def agent_type
+    return 'agent_family' if @data['isFamily']&.include?('true')
+    return 'agent_corporate_entity' if @data['isCollectiveAgent']&.include?('true')
+    return 'agent_person' if @data['isHuman']&.include?('true')
+    'agent_person'
+  end
+
+  def label
+    @data['label']&.first || @data['qNumber']&.first || @qid
+  end
+
+  def description
+    @data['description']&.first
+  end
+
+  AGENT_TYPE_LABELS = {
+    'agent_person' => 'Person',
+    'agent_family' => 'Family',
+    'agent_corporate_entity' => 'Corporate'
+  }.freeze
+
+  def to_preview_hash
+    {
+      qid: @qid,
+      title: label,
+      description: description || '',
+      agent_type: AGENT_TYPE_LABELS[agent_type] || agent_type
+    }
+  end
+
+  private
+
+  def extract_value(node)
+    return nil if node.nil?
+    return node['value'] if node.is_a?(Hash) && node.key?('value')
+    return node['content'] if node.is_a?(Hash) && node.key?('content')
+    node.to_s
+  end
+
+  def normalize_qid(qid)
+    return nil if qid.nil?
+    s = qid.to_s.upcase.strip
+    s = "Q#{s}" unless s.start_with?('Q')
+    s
   end
 end
