@@ -59,6 +59,10 @@ class WikidataSearcher
       return error_response('No data returned from Wikidata for this entity')
     end
 
+    unless result_set.agent_type_valid?
+      return error_response('This Wikidata entity is not a person, family, or corporate body. Only agent records can be imported.')
+    end
+
     {
       records: [result_set.to_preview_hash],
       hit_count: 1,
@@ -85,7 +89,7 @@ class WikidataSearcher
       next if qid.nil?
 
       result_set = fetch_entity(qid)
-      next if result_set.nil? || !result_set.valid?
+      next if result_set.nil? || !result_set.valid? || !result_set.agent_type_valid?
 
       converter = WikidataToMarcxml.new(result_set.data, qid)
       marcxml = converter.to_marcxml
