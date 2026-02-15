@@ -32,11 +32,17 @@ class WikidataResultSet
     @error.nil? && !@data.empty?
   end
 
+  # Returns agent type only for valid agent entities (person, family, corporate).
+  # Returns nil for subjects/concepts (e.g. Q5891 philosophy) that should not be imported as agents.
   def agent_type
     return 'agent_family' if @data['isFamily']&.include?('true')
     return 'agent_corporate_entity' if @data['isCollectiveAgent']&.include?('true')
     return 'agent_person' if @data['isHuman']&.include?('true')
-    'agent_person'
+    nil
+  end
+
+  def agent_type_valid?
+    !agent_type.nil?
   end
 
   def label
@@ -58,7 +64,8 @@ class WikidataResultSet
       qid: @qid,
       title: label,
       description: description || '',
-      agent_type: AGENT_TYPE_LABELS[agent_type] || agent_type
+      agent_type: AGENT_TYPE_LABELS[agent_type] || agent_type,
+      agent_type_valid: agent_type_valid?
     }
   end
 
