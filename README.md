@@ -1,8 +1,9 @@
-> [!WARNING]
+# ArchivesSpace Wikidata Plugin
+
+> [!CAUTION]
 > This is work in progress there is no functioning version of this plugin available yet. This warning will be removed as soon as there is a first version that can be tested available.
 
 
-# ArchivesSpace Wikidata Plugin
 
 ## Overview
 
