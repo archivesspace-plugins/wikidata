@@ -99,6 +99,14 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(/"isFamily"/, query)
   end
 
+  # Regression: type detection must use p:P31/ps:P31 (all statement ranks) not wdt:P31
+  # (best-rank only). Entities like Q40662 have P31=Q5 at normal rank — wdt:P31 skips it.
+  def test_type_detection_uses_all_statement_ranks
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(/p:P31\/ps:P31/, query, 'Type detection must use p:P31/ps:P31 to cover non-preferred rank statements')
+    refute_match(/wdt:P31\/wdt:P279\*\s+wd:Q5/, query, 'Should not use wdt:P31 for type detection (misses non-preferred rank)')
+  end
+
   def test_includes_alias_block
     query = WikidataSparqlQuery.query_for('Q42')
     assert_match(/skos:altLabel/, query, 'Missing alias/altLabel block')

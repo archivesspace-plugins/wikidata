@@ -103,19 +103,19 @@ module WikidataSparqlQuery
       }
       UNION
       {
-        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q5 .
+        wd:Q_PLACEHOLDER p:P31/ps:P31/wdt:P279* wd:Q5 .
         BIND("true" as ?value)
         BIND("isHuman" as ?propertyName)
       }
       UNION
       {
-        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q131085629 .
+        wd:Q_PLACEHOLDER p:P31/ps:P31/wdt:P279* wd:Q131085629 .
         BIND("true" as ?value)
         BIND("isCollectiveAgent" as ?propertyName)
       }
       UNION
       {
-        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q8436 .
+        wd:Q_PLACEHOLDER p:P31/ps:P31/wdt:P279* wd:Q8436 .
         BIND("true" as ?value)
         BIND("isFamily" as ?propertyName)
       }

@@ -1,0 +1,48 @@
+{
+  "servers": {
+    "docker-services": {
+      "description": "MySQL, Solr, and Nginx dev infrastructure via Docker Compose",
+      "command": "docker compose -f docker-compose-dev.yml up -d",
+      "cwd": "/Users/cpap/Documents/projects/archivesspace",
+      "ports": {
+        "mysql-dev": 3306,
+        "mysql-test": 3307,
+        "solr-dev": 8983,
+        "solr-test": 8984,
+        "nginx-proxy": 80
+      }
+    },
+    "backend": {
+      "description": "ArchivesSpace backend API (Sinatra/JRuby)",
+      "command": "./build/run backend:devserver",
+      "cwd": "/Users/cpap/Documents/projects/archivesspace",
+      "ports": {
+        "api": 4567
+      }
+    },
+    "frontend": {
+      "description": "ArchivesSpace staff UI (Rails) — the Wikidata plugin loads here",
+      "command": "./build/run frontend:devserver",
+      "cwd": "/Users/cpap/Documents/projects/archivesspace",
+      "ports": {
+        "staff-ui": 3000
+      },
+      "depends_on": ["backend"]
+    },
+    "public": {
+      "description": "ArchivesSpace public interface (Rails)",
+      "command": "./build/run public:devserver",
+      "cwd": "/Users/cpap/Documents/projects/archivesspace",
+      "ports": {
+        "public-ui": 3001
+      },
+      "depends_on": ["backend"]
+    },
+    "indexer": {
+      "description": "Search indexer (indexes records into Solr)",
+      "command": "./build/run indexer",
+      "cwd": "/Users/cpap/Documents/projects/archivesspace",
+      "depends_on": ["backend", "docker-services"]
+    }
+  }
+}

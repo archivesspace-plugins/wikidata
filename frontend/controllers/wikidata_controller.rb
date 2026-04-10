@@ -65,6 +65,8 @@ class WikidataController < ApplicationController
   def do_search(params)
     query = params[:q].to_s.strip
     searcher.search(query, params[:page].to_i, params[:records_per_page].to_i)
+  rescue WikidataSearcher::WikidataError => e
+    { records: [], hit_count: 0, error: e.message }
   end
 
 
