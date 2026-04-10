@@ -24,7 +24,7 @@ class WikidataSearcher
     if m = s.match(%r{wikidata\.org/wiki/(Q\d+)}i)
       return m[1].upcase
     end
-    if m = s.match(/\b(Q?\d+)\b/)
+    if m = s.match(/\b(Q?\d+)\b/i)
       q = m[1].upcase
       q = "Q#{q}" unless q.start_with?('Q')
       return q
