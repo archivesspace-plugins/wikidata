@@ -90,6 +90,12 @@ module WikidataSparqlQuery
       }
       UNION
       {
+        wd:Q_PLACEHOLDER skos:altLabel ?value .
+        FILTER(LANG(?value) = "en")
+        BIND("alias" as ?propertyName)
+      }
+      UNION
+      {
         wd:Q_PLACEHOLDER wdt:P31 ?instanceOfEntity .
         ?instanceOfEntity rdfs:label ?value .
         FILTER(LANG(?value) = "en")

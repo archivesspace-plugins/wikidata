@@ -127,15 +127,16 @@ class WikidataToMarcxml
   def parse_wikidata_date(val)
     return nil if val.nil? || val.to_s.strip.empty?
     s = val.to_s.strip
-    # Wikidata dates: "1952-03-11T00:00:00Z", "+1952-03-11T00:00:00Z", "1952-03-11", "1952", "+1952-00-00T00:00:00Z"
+    # Wikidata dates: "+1952-03-11T00:00:00Z", "1952-03-11", "1952", "+1952-00-00T00:00:00Z"
+    # Preserve precision: year-only → "1960", year-month → "196006", full → "19520311"
     if m = s.match(/^\+?(\d{4})-(\d{2})-(\d{2})/)
       y, mo, d = m[1], m[2], m[3]
       return "#{y}#{mo}#{d}" if mo != '00' && d != '00'
-      return "#{y}#{mo}01" if mo != '00'
-      return "#{y}0101"
+      return "#{y}#{mo}" if mo != '00'
+      return y
     end
     if m = s.match(/^\+?(\d{4})/)
-      return "#{m[1]}0101"
+      return m[1]
     end
     nil
   end
@@ -190,9 +191,10 @@ class WikidataToMarcxml
 
     add_datafield(record, '100', ind1, ' ', *subfields) if primary
 
-    # Aliases (pseudonyms) as 400
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '400', ind1, ' ', ['a', pseudo])
+    # Aliases and pseudonyms as 400 (additional name forms, direct order)
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '400', '0', ' ', ['a', alias_name])
     end
   end
 
@@ -201,8 +203,9 @@ class WikidataToMarcxml
     primary = label || @qid
     add_datafield(record, '100', '3', ' ', ['a', primary]) if primary
 
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '400', '3', ' ', ['a', pseudo])
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '400', '3', ' ', ['a', alias_name])
     end
   end
 
@@ -211,8 +214,9 @@ class WikidataToMarcxml
     primary = label || @qid
     add_datafield(record, '110', '2', ' ', ['a', primary]) if primary
 
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '410', '2', ' ', ['a', pseudo])
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '410', '2', ' ', ['a', alias_name])
     end
   end
 
