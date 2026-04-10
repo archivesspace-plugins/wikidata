@@ -1,0 +1,11 @@
+{
+  "results": {
+    "bindings": [
+      { "propertyName": { "type": "literal", "value": "label" }, "value": { "type": "literal", "xml:lang": "en", "value": "Clinton family" } },
+      { "propertyName": { "type": "literal", "value": "description" }, "value": { "type": "literal", "xml:lang": "en", "value": "family" } },
+      { "propertyName": { "type": "literal", "value": "qNumber" }, "value": { "type": "literal", "value": "Q21026250" } },
+      { "propertyName": { "type": "literal", "value": "instanceOf" }, "value": { "type": "literal", "xml:lang": "en", "value": "family" } },
+      { "propertyName": { "type": "literal", "value": "isFamily" }, "value": { "type": "literal", "value": "true" } }
+    ]
+  }
+}
