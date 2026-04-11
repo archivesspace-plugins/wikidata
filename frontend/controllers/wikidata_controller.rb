@@ -33,6 +33,12 @@ class WikidataController < ApplicationController
       return
     end
 
+    existing = find_existing_agents(qids)
+    if existing.any?
+      render :json => { 'already_imported' => existing }, :status => 422
+      return
+    end
+
     begin
       parse_results = searcher.results_to_marcxml_file(qids)
 
@@ -72,5 +78,32 @@ class WikidataController < ApplicationController
 
   def searcher
     WikidataSearcher.new
+  end
+
+  def find_existing_agents(qids)
+    agent_types = %w[agent_person agent_family agent_corporate_entity]
+    existing = []
+
+    qids.each do |qid|
+      qid = qid.to_s.strip.upcase
+      qid = "Q#{qid}" unless qid.start_with?('Q')
+
+      results = JSONModel::HTTP.get_json('/search', {
+        'q' => "authority_id:#{qid}",
+        'type[]' => agent_types,
+        'page' => 1
+      })
+
+      next unless results && results['total_hits'].to_i > 0
+
+      hit = results['results'].first
+      existing << {
+        'qid' => qid,
+        'uri' => hit['uri'],
+        'title' => hit['title']
+      }
+    end
+
+    existing
   end
 end

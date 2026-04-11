@@ -146,14 +146,20 @@ $(function () {
       }
     },
     error: function (err) {
-      $('.btn', $importForm)
-        .removeAttr('disabled')
-        .removeClass('disabled')
-        .removeClass('busy');
-      AS.openQuickModal(
-        AS.renderTemplate('template_wikidata_import_error_title'),
-        err.responseText || 'Import failed'
-      );
+      var errJson = err.responseJSON || {};
+      $('#import-selected').removeAttr('disabled').removeClass('disabled').removeClass('busy');
+      if (errJson.already_imported && errJson.already_imported.length > 0) {
+        var body = AS.renderTemplate('template_wikidata_already_imported', { agents: errJson.already_imported });
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_already_imported_title'),
+          body
+        );
+      } else {
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_import_error_title'),
+          errJson.error || err.responseText || 'Import failed'
+        );
+      }
     }
   });
 
