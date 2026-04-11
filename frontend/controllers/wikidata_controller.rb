@@ -40,20 +40,42 @@ class WikidataController < ApplicationController
     end
 
     begin
-      parse_results = searcher.results_to_marcxml_file(qids)
+      agents = searcher.results_to_agents(qids)
 
-      if parse_results[:agents][:count] > 0
-        marcxml_file = parse_results[:agents][:file]
+      if agents.empty?
+        render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_no_agents") }, :status => 422
+        return
+      end
 
-        agents_job = Job.new("import_job", {
-                             "import_type" => "marcxml_auth_agent",
-                             "jsonmodel_type" => "import_job",
-                             "import_subjects" => nil
-                            },
-                      {"wikidata_import_#{SecureRandom.uuid}" => marcxml_file})
+      created  = []
+      existing = []
 
-        agents_job_response = agents_job.upload
-        render :json => { 'job_uri' => url_for(:controller => :jobs, :action => :show, :id => agents_job_response['id']) }
+      agents.each do |entry|
+        agent_type  = entry[:agent_hash][:jsonmodel_type]
+        agent_model = JSONModel(agent_type.to_sym).from_hash(entry[:agent_hash])
+
+        begin
+          agent_model.save
+          created << { 'qid' => entry[:qid], 'uri' => frontend_agent_url(agent_model) }
+        rescue JSONModel::ValidationException => ve
+          # Backend uniqueness constraint fires when Solr hasn't indexed yet
+          exceptions = (ve.invalid_object._exceptions rescue {})
+          conflicts = Array(exceptions['conflicting_record'])
+          if conflicts.any?
+            agent_uri  = conflicts.first
+            agent_info = JSONModel::HTTP.get_json(agent_uri) rescue nil
+            title      = agent_info ? (agent_info['display_name'] || agent_info['title'] || agent_uri) : agent_uri
+            existing << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(agent_uri), 'title' => title }
+          else
+            raise
+          end
+        end
+      end
+
+      if existing.any? && created.empty?
+        render :json => { 'already_imported' => existing }, :status => 422
+      elsif created.any?
+        render :json => { 'created' => created }
       else
         render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_no_agents") }, :status => 422
       end
@@ -78,6 +100,27 @@ class WikidataController < ApplicationController
 
   def searcher
     WikidataSearcher.new
+  end
+
+  BACKEND_TO_FRONTEND_TYPE = {
+    'people'             => 'agent_person',
+    'families'           => 'agent_family',
+    'corporate_entities' => 'agent_corporate_entity'
+  }.freeze
+
+  # Convert a saved agent model's backend URI → frontend path
+  def frontend_agent_url(agent_model)
+    frontend_uri_from_json_uri(agent_model.uri.to_s)
+  end
+
+  # Convert backend URI string (/agents/people/42) → frontend path (/agents/agent_person/42)
+  def frontend_uri_from_json_uri(uri)
+    parts         = uri.to_s.split('/')   # ["", "agents", "people", "42"]
+    backend_type  = parts[2]
+    id            = parts[3]
+    frontend_type = BACKEND_TO_FRONTEND_TYPE[backend_type] || backend_type
+    url_for(:controller => :agents, :action => :show,
+            :agent_type => frontend_type, :id => id)
   end
 
   def find_existing_agents(qids)

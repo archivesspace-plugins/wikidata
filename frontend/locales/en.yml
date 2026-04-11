@@ -13,8 +13,8 @@ en:
         none_selected: No Results Selected
         no_results: No Results For Query
         selected: Selected
-        import_success: Import job created
-        import_success_message: Redirecting to the job status page...
+        import_success: Imported successfully
+        import_success_message: Redirecting to the agent record...
         already_imported_title: Already Imported
         already_imported_message: The following entities have already been imported. Click the link to view the existing record.
         import_error: Error while importing from Wikidata
