@@ -1,0 +1,42 @@
+{
+  "pseudonym": [
+    "David Agnew"
+  ],
+  "dateOfDeath": [
+    "2001-05-11T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "1952-03-11T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80076765"
+  ],
+  "qNumber": [
+    "Q42"
+  ],
+  "givenName": [
+    "Douglas",
+    "No\u00ebl"
+  ],
+  "familyName": [
+    "Adams"
+  ],
+  "viafClusterId": [
+    "113230702"
+  ],
+  "snacArkId": [
+    "w65h7md1"
+  ],
+  "label": [
+    "Douglas Adams"
+  ],
+  "description": [
+    "British science fiction writer and humorist (1952\u20132001)"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

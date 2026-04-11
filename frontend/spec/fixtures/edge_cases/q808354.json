@@ -1,0 +1,30 @@
+{
+  "qNumber": [
+    "Q808354"
+  ],
+  "description": [
+    "family"
+  ],
+  "viafClusterId": [
+    "811172"
+  ],
+  "label": [
+    "Barmakids"
+  ],
+  "alias": [
+    "Baramika",
+    "Baramikah",
+    "Barmacides",
+    "Barmakid",
+    "Barmakid family"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

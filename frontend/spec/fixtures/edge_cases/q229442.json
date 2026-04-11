@@ -1,0 +1,48 @@
+{
+  "dateOfBirth": [
+    "1949-09-19T00:00:00Z"
+  ],
+  "pseudonym": [
+    "Twiggy"
+  ],
+  "givenName": [
+    "Lesley"
+  ],
+  "qNumber": [
+    "Q229442"
+  ],
+  "description": [
+    "British model, actress and singer"
+  ],
+  "snacArkId": [
+    "w6458c9d"
+  ],
+  "honorificPrefix": [
+    "Dame"
+  ],
+  "viafClusterId": [
+    "2661164"
+  ],
+  "familyName": [
+    "Hornby",
+    "Lawson"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n50018938"
+  ],
+  "alias": [
+    "Lesley Lawson",
+    "Dame Lesley Lawson",
+    "Lesley Hornby",
+    "Twiggy Lawson"
+  ],
+  "label": [
+    "Twiggy"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

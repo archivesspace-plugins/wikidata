@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1976-04-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n84040978"
+  ],
+  "label": [
+    "Apple Inc."
+  ],
+  "qNumber": [
+    "Q312"
+  ],
+  "instanceOf": [
+    "corporation",
+    "public company",
+    "business",
+    "enterprise",
+    "technology company"
+  ],
+  "viafClusterId": [
+    "154701873"
+  ],
+  "description": [
+    "American multinational technology company based in Cupertino, California"
+  ],
+  "snacArkId": [
+    "w67t8fjv"
+  ],
+  "instanceQid": [
+    "Q167037",
+    "Q891723",
+    "Q4830453",
+    "Q6881511",
+    "Q18388277"
+  ]
+}

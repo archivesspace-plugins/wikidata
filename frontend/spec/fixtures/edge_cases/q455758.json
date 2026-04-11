@@ -1,0 +1,29 @@
+{
+  "viafClusterId": [
+    "74755762"
+  ],
+  "qNumber": [
+    "Q455758"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "sh89003883"
+  ],
+  "label": [
+    "Amati"
+  ],
+  "description": [
+    "Italian violin-making family"
+  ],
+  "familyName": [
+    "Amati"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

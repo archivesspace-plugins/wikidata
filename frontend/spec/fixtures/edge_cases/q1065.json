@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1945-10-24T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q1065"
+  ],
+  "viafClusterId": [
+    "144904638"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79021345",
+    "sh98000836"
+  ],
+  "alias": [
+    "United Nations Organization",
+    "UN",
+    "UNO",
+    "the U.N.",
+    "the UN",
+    "U.N."
+  ],
+  "label": [
+    "United Nations"
+  ],
+  "description": [
+    "global international and intergovernmental organization"
+  ],
+  "instanceOf": [
+    "nonprofit organization",
+    "intergovernmental organization",
+    "international organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

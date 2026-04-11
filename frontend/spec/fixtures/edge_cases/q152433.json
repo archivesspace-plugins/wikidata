@@ -1,0 +1,34 @@
+{
+  "inception": [
+    "1906-04-18T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q152433"
+  ],
+  "snacArkId": [
+    "w6n1200t"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n82166611"
+  ],
+  "description": [
+    "American document management corporation"
+  ],
+  "viafClusterId": [
+    "135176325"
+  ],
+  "alias": [
+    "Haloid",
+    "Haloid Xerox"
+  ],
+  "label": [
+    "Xerox"
+  ],
+  "instanceOf": [
+    "business",
+    "enterprise"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

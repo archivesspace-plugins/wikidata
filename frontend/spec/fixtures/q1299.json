@@ -10,7 +10,7 @@
       { "propertyName": { "type": "literal", "value": "snacArkId" }, "value": { "type": "literal", "value": "w6xx59c2" } },
       { "propertyName": { "type": "literal", "value": "viafClusterId" }, "value": { "type": "literal", "value": "141205608" } },
       { "propertyName": { "type": "literal", "value": "instanceOf" }, "value": { "type": "literal", "xml:lang": "en", "value": "rock band" } },
-      { "propertyName": { "type": "literal", "value": "isCollectiveAgent" }, "value": { "type": "literal", "value": "true" } },
+      { "propertyName": { "type": "literal", "value": "instanceQid" }, "value": { "type": "literal", "value": "Q215380" } },
       { "propertyName": { "type": "literal", "value": "alias" }, "value": { "type": "literal", "xml:lang": "en", "value": "Beatles" } },
       { "propertyName": { "type": "literal", "value": "alias" }, "value": { "type": "literal", "xml:lang": "en", "value": "Fab Four" } }
     ]

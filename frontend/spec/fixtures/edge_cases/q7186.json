@@ -1,0 +1,41 @@
+{
+  "qNumber": [
+    "Q7186"
+  ],
+  "dateOfBirth": [
+    "1867-11-07T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "1934-07-04T00:00:00Z"
+  ],
+  "snacArkId": [
+    "w6bh3fxq"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80155913"
+  ],
+  "viafClusterId": [
+    "76353174"
+  ],
+  "label": [
+    "Marie Curie"
+  ],
+  "familyName": [
+    "Curie",
+    "Sk\u0142odowska-Curie",
+    "Sk\u0142odowska"
+  ],
+  "givenName": [
+    "Marie",
+    "Maria"
+  ],
+  "description": [
+    "Polish-French physicist and chemist (1867\u20131934)"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

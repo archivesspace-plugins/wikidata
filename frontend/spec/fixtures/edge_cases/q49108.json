@@ -1,0 +1,44 @@
+{
+  "inception": [
+    "1861-04-10T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79006591"
+  ],
+  "qNumber": [
+    "Q49108"
+  ],
+  "snacArkId": [
+    "w6sv8d0k"
+  ],
+  "viafClusterId": [
+    "150025207"
+  ],
+  "description": [
+    "private university in Cambridge, Massachusetts, USA, founded 1861"
+  ],
+  "alias": [
+    "MIT",
+    "M.I.T.",
+    "Mass Tech"
+  ],
+  "label": [
+    "Massachusetts Institute of Technology"
+  ],
+  "instanceQid": [
+    "Q3918",
+    "Q1371037",
+    "Q6040928",
+    "Q21032622",
+    "Q23002054",
+    "Q96888669"
+  ],
+  "instanceOf": [
+    "university",
+    "institute of technology",
+    "Institute of Technology",
+    "space grant institution",
+    "private not-for-profit educational institution",
+    "academic publisher"
+  ]
+}

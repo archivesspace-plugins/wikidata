@@ -1,0 +1,42 @@
+{
+  "dateOfBirth": [
+    "-0383-01-01T00:00:00Z"
+  ],
+  "viafClusterId": [
+    "7524651",
+    "605144647705519704282",
+    "108159371",
+    "4306168049039238410003",
+    "72206945"
+  ],
+  "dateOfDeath": [
+    "-0321-01-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79004182"
+  ],
+  "qNumber": [
+    "Q868"
+  ],
+  "givenName": [
+    "Aristotelis"
+  ],
+  "description": [
+    "4th-century BCE Classical Greek philosopher and polymath"
+  ],
+  "snacArkId": [
+    "w60k6ff5"
+  ],
+  "label": [
+    "Aristotle"
+  ],
+  "alias": [
+    "the Stagirite"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

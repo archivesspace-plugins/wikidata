@@ -1,0 +1,44 @@
+{
+  "inception": [
+    "1800-04-24T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q131454"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n78089035"
+  ],
+  "snacArkId": [
+    "w6f58cnp"
+  ],
+  "viafClusterId": [
+    "151962300"
+  ],
+  "description": [
+    "(de facto) national library of the United States of America"
+  ],
+  "label": [
+    "Library of Congress"
+  ],
+  "alias": [
+    "LC",
+    "LOC",
+    "Congressional Library",
+    "LoC",
+    "loc.gov",
+    "United States. Library of Congress",
+    "US Library of Congress"
+  ],
+  "instanceQid": [
+    "Q22806",
+    "Q11422631",
+    "Q53251146",
+    "Q115456878"
+  ],
+  "instanceOf": [
+    "United Nations Depository Library",
+    "parliamentary archives",
+    "legislative branch agency",
+    "national library"
+  ]
+}

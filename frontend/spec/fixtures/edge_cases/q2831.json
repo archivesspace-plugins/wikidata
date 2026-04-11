@@ -1,0 +1,39 @@
+{
+  "dateOfBirth": [
+    "1958-08-29T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "2009-06-25T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q2831"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n83133203"
+  ],
+  "snacArkId": [
+    "w64467gw"
+  ],
+  "familyName": [
+    "Jackson"
+  ],
+  "givenName": [
+    "Joseph",
+    "Michael"
+  ],
+  "viafClusterId": [
+    "27092134"
+  ],
+  "description": [
+    "American singer, songwriter, dancer, and philanthropist (1958\u20132009)"
+  ],
+  "label": [
+    "Michael Jackson"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

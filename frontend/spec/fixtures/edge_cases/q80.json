@@ -1,0 +1,40 @@
+{
+  "dateOfBirth": [
+    "1955-06-08T00:00:00Z"
+  ],
+  "givenName": [
+    "Tim"
+  ],
+  "qNumber": [
+    "Q80"
+  ],
+  "viafClusterId": [
+    "85312226"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no99010609"
+  ],
+  "snacArkId": [
+    "w66t1hk5"
+  ],
+  "label": [
+    "Tim Berners-Lee"
+  ],
+  "description": [
+    "English computer scientist (born 1955)"
+  ],
+  "alias": [
+    "Timothy John Berners-Lee",
+    "Sir Timothy John Berners-Lee",
+    "TimBL"
+  ],
+  "honorificPrefix": [
+    "Sir"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

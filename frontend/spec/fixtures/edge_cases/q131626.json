@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1846-08-10T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79053968"
+  ],
+  "qNumber": [
+    "Q131626"
+  ],
+  "description": [
+    "group of museums and research centers administered by the United States government"
+  ],
+  "snacArkId": [
+    "w6rc7tp0"
+  ],
+  "viafClusterId": [
+    "159805885"
+  ],
+  "label": [
+    "Smithsonian Institution"
+  ],
+  "alias": [
+    "The Smithsonian",
+    "Smithsonian"
+  ],
+  "instanceQid": [
+    "Q33506",
+    "Q163740",
+    "Q178706"
+  ],
+  "instanceOf": [
+    "nonprofit organization",
+    "museum",
+    "institution"
+  ]
+}

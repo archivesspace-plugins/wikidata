@@ -1,0 +1,32 @@
+{
+  "inception": [
+    "1927-01-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79074359"
+  ],
+  "description": [
+    "British public service broadcaster"
+  ],
+  "snacArkId": [
+    "w6pk45t7"
+  ],
+  "viafClusterId": [
+    "127458402"
+  ],
+  "label": [
+    "British Broadcasting Corporation"
+  ],
+  "qNumber": [
+    "Q9531"
+  ],
+  "alias": [
+    "BBC"
+  ],
+  "instanceOf": [
+    "public broadcaster"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

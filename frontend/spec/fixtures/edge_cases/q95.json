@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1998-09-04T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q95"
+  ],
+  "viafClusterId": [
+    "124291214"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no00095539"
+  ],
+  "instanceQid": [
+    "Q891723",
+    "Q4830453",
+    "Q5988403",
+    "Q18388277",
+    "Q19967801"
+  ],
+  "alias": [
+    "Big G"
+  ],
+  "label": [
+    "Google"
+  ],
+  "instanceOf": [
+    "public company",
+    "identity provider",
+    "business",
+    "technology company",
+    "online service"
+  ],
+  "description": [
+    "American multinational technology company, a subsidiary of Alphabet Inc."
+  ]
+}

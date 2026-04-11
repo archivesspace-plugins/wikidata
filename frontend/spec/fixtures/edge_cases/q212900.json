@@ -1,0 +1,34 @@
+{
+  "inception": [
+    "1850-01-01T00:00:00Z"
+  ],
+  "dissolvedDate": [
+    "2008-01-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n81066329"
+  ],
+  "description": [
+    "defunct American financial services firm"
+  ],
+  "qNumber": [
+    "Q212900"
+  ],
+  "label": [
+    "Lehman Brothers"
+  ],
+  "viafClusterId": [
+    "151279667"
+  ],
+  "alias": [
+    "Lehman Brothers Holdings Inc."
+  ],
+  "instanceOf": [
+    "investment bank",
+    "public company",
+    "business"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

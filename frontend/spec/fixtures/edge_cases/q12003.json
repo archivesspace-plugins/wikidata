@@ -1,0 +1,50 @@
+{
+  "dateOfBirth": [
+    "1946-05-20T00:00:00Z"
+  ],
+  "pseudonym": [
+    "Cher",
+    "Bonnie Jo Mason",
+    "Cher Allman",
+    "Cher Bono",
+    "Cherilyn Sarkisan LaPiere",
+    "Cherilyn Sarkisian LaPiere Bono Allman",
+    "Cheryl LaPiere"
+  ],
+  "qNumber": [
+    "Q12003"
+  ],
+  "viafClusterId": [
+    "101870495"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n50038010"
+  ],
+  "snacArkId": [
+    "w6kh3jsb"
+  ],
+  "alias": [
+    "Bonnie Jo Mason",
+    "Ch\u00e9r",
+    "Cher Allman",
+    "Cher Bono",
+    "Cherilyn Sarkisian",
+    "Cheryl Sarkisian",
+    "Cherilyn Sarkisian LaPiere"
+  ],
+  "description": [
+    "American singer, actress and television personality (born 1946)"
+  ],
+  "givenName": [
+    "Cheryl"
+  ],
+  "label": [
+    "Cher"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

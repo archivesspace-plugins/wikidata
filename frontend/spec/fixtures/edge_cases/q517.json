@@ -1,0 +1,57 @@
+{
+  "dateOfBirth": [
+    "1769-08-15T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "1821-05-05T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q517"
+  ],
+  "label": [
+    "Napoleon"
+  ],
+  "givenName": [
+    "Napol\u00e9on"
+  ],
+  "viafClusterId": [
+    "106964661"
+  ],
+  "alias": [
+    "Napol\u00e9on Bonaparte",
+    "Napoleon I",
+    "The Little Corporal",
+    "Napoleon Bonaparte",
+    "Napoleon I of France",
+    "Emperador dels Francesos Napole\u00f3 I",
+    "Empereur des Fran\u00e7ais Napol\u00e9on I",
+    "Little Corporal",
+    "Napoleon Buonaparte",
+    "Napoleone Bonaparte",
+    "Napoleone Buonaparte",
+    "Napoleone di Buonaparte",
+    "Napoleone I",
+    "Napulione Buonaparte",
+    "Napulione di Buonaparte",
+    "the Corsican Napolean"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79054933"
+  ],
+  "description": [
+    "French military leader, French Emperor 1804\u20131814 and again in 1815 (1769\u20131821)"
+  ],
+  "snacArkId": [
+    "w61z5f76",
+    "w69x15nw"
+  ],
+  "familyName": [
+    "Bonaparte"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}
