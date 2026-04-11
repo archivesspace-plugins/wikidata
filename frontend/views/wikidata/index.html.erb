@@ -97,12 +97,12 @@
     <%= I18n.t("plugins.wikidata.messages.already_imported_message") %>
   </div>
   <ul class="list-unstyled mt-2">
-    {#agents}
+    {for agent in agents}
     <li class="mb-1">
-      <strong>${qid}</strong> &mdash;
-      <a href="<%= AppConfig[:frontend_proxy_prefix] %>${uri}" target="_blank">${title}</a>
+      <strong>${agent.qid}</strong> &mdash;
+      <a href="<%= AppConfig[:frontend_proxy_prefix] %>${agent.uri}" target="_blank">${agent.title}</a>
     </li>
-    {/agents}
+    {/for}
   </ul>
 --></div>
 
