@@ -55,13 +55,3 @@ Then 'the agent has no date expression for the birth date' do
   expect(page).not_to have_text '1879-03-14 (expression)'
 end
 
-Then 'the already imported modal is displayed' do
-  expect(page).to have_text 'Already Imported', wait: 15
-  expect(page).to have_text 'already been imported'
-end
-
-Then 'the modal contains a link to the existing agent' do
-  within '.modal-content' do
-    expect(page).to have_css('a[href*="/agents/"]')
-  end
-end

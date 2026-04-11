@@ -33,12 +33,6 @@ class WikidataController < ApplicationController
       return
     end
 
-    existing = find_existing_agents(qids)
-    if existing.any?
-      render :json => { 'already_imported' => existing }, :status => 422
-      return
-    end
-
     begin
       agents = searcher.results_to_agents(qids)
 
@@ -47,10 +41,18 @@ class WikidataController < ApplicationController
         return
       end
 
-      created  = []
-      existing = []
+      created = []
+
+      # Pre-populate with agents already indexed in Solr (avoids a redundant save attempt).
+      find_existing_agents(qids).each do |hit|
+        created << { 'qid' => hit['qid'], 'uri' => frontend_uri_from_json_uri(hit['uri']) }
+      end
+
+      already_found = created.map { |c| c['qid'] }.to_set
 
       agents.each do |entry|
+        next if already_found.include?(entry[:qid])
+
         agent_type  = entry[:agent_hash][:jsonmodel_type]
         agent_model = JSONModel(agent_type.to_sym).from_hash(entry[:agent_hash])
 
@@ -58,23 +60,19 @@ class WikidataController < ApplicationController
           agent_model.save
           created << { 'qid' => entry[:qid], 'uri' => frontend_agent_url(agent_model) }
         rescue JSONModel::ValidationException => ve
-          # Backend uniqueness constraint fires when Solr hasn't indexed yet
+          # Uniqueness conflict when Solr index lags behind the database.
+          # Redirect to the existing record just like a successful import.
           exceptions = (ve.invalid_object._exceptions rescue {})
-          conflicts = Array(exceptions['conflicting_record'])
+          conflicts  = Array(exceptions['conflicting_record'])
           if conflicts.any?
-            agent_uri  = conflicts.first
-            agent_info = JSONModel::HTTP.get_json(agent_uri) rescue nil
-            title      = agent_info ? (agent_info['display_name'] || agent_info['title'] || agent_uri) : agent_uri
-            existing << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(agent_uri), 'title' => title }
+            created << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(conflicts.first) }
           else
             raise
           end
         end
       end
 
-      if existing.any? && created.empty?
-        render :json => { 'already_imported' => existing }, :status => 422
-      elsif created.any?
+      if created.any?
         render :json => { 'created' => created }
       else
         render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_no_agents") }, :status => 422
