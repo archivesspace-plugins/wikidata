@@ -1,0 +1,24 @@
+{
+  "qNumber": [
+    "Q21026250"
+  ],
+  "label": [
+    "Clinton family"
+  ],
+  "description": [
+    "First Family of the United States from 1993 to 2001"
+  ],
+  "alias": [
+    "Clintons"
+  ],
+  "instanceOf": [
+    "first family of the United States",
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "inception": [
+    "1958-07-29T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q23548"
+  ],
+  "label": [
+    "National Aeronautics and Space Administration"
+  ],
+  "viafClusterId": [
+    "146202023"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n78087581"
+  ],
+  "snacArkId": [
+    "w6r60hpw"
+  ],
+  "description": [
+    "American space and aeronautics agency"
+  ],
+  "instanceOf": [
+    "independent agency of the United States government",
+    "space agency"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

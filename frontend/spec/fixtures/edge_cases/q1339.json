@@ -1,0 +1,45 @@
+{
+  "dateOfDeath": [
+    "1750-07-28T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "1685-03-31T00:00:00Z"
+  ],
+  "givenName": [
+    "Johann",
+    "Sebastian"
+  ],
+  "viafClusterId": [
+    "12304462"
+  ],
+  "snacArkId": [
+    "w63x84mt"
+  ],
+  "qNumber": [
+    "Q1339"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79021425"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "familyName": [
+    "Bach"
+  ],
+  "alias": [
+    "J.S. Bach",
+    "Bach",
+    "J S Bach",
+    "J. S. Bach"
+  ],
+  "label": [
+    "Johann Sebastian Bach"
+  ],
+  "description": [
+    "German composer (1685-1750)"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

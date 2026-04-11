@@ -1,0 +1,35 @@
+{
+  "inception": [
+    "1925-01-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q217365"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79093275"
+  ],
+  "viafClusterId": [
+    "133679516"
+  ],
+  "description": [
+    "research and scientific development company"
+  ],
+  "alias": [
+    "Bell Laboratories",
+    "Bell Telephone Laboratories",
+    "AT&T Bell Laboratories",
+    "Bell Labs Innovations",
+    "Nokia Bell Labs"
+  ],
+  "label": [
+    "Bell Labs"
+  ],
+  "instanceOf": [
+    "publishing house",
+    "research institute",
+    "privately held company"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "familyName": [
+    "Obama"
+  ],
+  "qNumber": [
+    "Q76"
+  ],
+  "givenName": [
+    "Barack",
+    "Hussein"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n94112934"
+  ],
+  "description": [
+    "president of the United States from 2009 to 2017 (born 1961)"
+  ],
+  "dateOfBirth": [
+    "1961-08-04T00:00:00Z"
+  ],
+  "snacArkId": [
+    "w6f29nwg"
+  ],
+  "viafClusterId": [
+    "52010985"
+  ],
+  "alias": [
+    "POTUS 44"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

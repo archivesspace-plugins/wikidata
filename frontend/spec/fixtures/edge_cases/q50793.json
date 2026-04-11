@@ -1,0 +1,27 @@
+{
+  "libraryOfCongressAuthorityId": [
+    "sh85097685"
+  ],
+  "description": [
+    "German noble family"
+  ],
+  "qNumber": [
+    "Q50793"
+  ],
+  "label": [
+    "Pappenheim"
+  ],
+  "viafClusterId": [
+    "35251814"
+  ],
+  "instanceOf": [
+    "family",
+    "German noble family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "inception": [
+    "1911-06-16T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q37156"
+  ],
+  "snacArkId": [
+    "w6330m1p"
+  ],
+  "label": [
+    "IBM"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79142877"
+  ],
+  "viafClusterId": [
+    "150702892"
+  ],
+  "description": [
+    "American multinational technology corporation"
+  ],
+  "instanceQid": [
+    "Q43229",
+    "Q161726",
+    "Q891723",
+    "Q1058914",
+    "Q4830453",
+    "Q6881511",
+    "Q18388277",
+    "Q23670565"
+  ],
+  "alias": [
+    "Big Blue",
+    "International Business Machines Corporation",
+    "18M",
+    "IBM Corp.",
+    "ibm.com",
+    "International Business Machines Corporation (Armonk, NY)"
+  ],
+  "instanceOf": [
+    "multinational corporation",
+    "organization",
+    "software company",
+    "public company",
+    "enterprise",
+    "business",
+    "technology company",
+    "professional services firm"
+  ]
+}

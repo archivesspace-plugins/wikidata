@@ -1,0 +1,39 @@
+{
+  "pseudonym": [
+    "Lady Gaga"
+  ],
+  "dateOfBirth": [
+    "1986-03-28T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q19848"
+  ],
+  "label": [
+    "Lady Gaga"
+  ],
+  "viafClusterId": [
+    "49555103"
+  ],
+  "description": [
+    "American singer, songwriter, and actress (born 1986)"
+  ],
+  "familyName": [
+    "Germanotta"
+  ],
+  "givenName": [
+    "Stefani"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no2008179258"
+  ],
+  "alias": [
+    "Stefani Germanotta",
+    "Stefani Joanne Angelina Germanotta"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

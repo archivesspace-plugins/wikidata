@@ -1,0 +1,57 @@
+{
+  "dateOfDeath": [
+    "1948-01-30T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "1869-10-02T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q1001"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79041626"
+  ],
+  "snacArkId": [
+    "w6110pkc",
+    "w6bs9g59"
+  ],
+  "viafClusterId": [
+    "71391324"
+  ],
+  "description": [
+    "Indian independence activist (1869\u20131948)"
+  ],
+  "honorificPrefix": [
+    "Mahatma"
+  ],
+  "familyName": [
+    "Gandhi"
+  ],
+  "label": [
+    "Mahatma Gandhi"
+  ],
+  "givenName": [
+    "Mohandas"
+  ],
+  "alias": [
+    "Gandhi",
+    "Bapu",
+    "Bapuji",
+    "Father of the Nation",
+    "Gandhiji",
+    "M K Gandhi",
+    "M. K. Gandhi",
+    "Mahatma Mohandas Karamchand Gandhi",
+    "MK Gandhi",
+    "Mohandas Gandhi",
+    "Mohandas K Gandhi",
+    "Mohandas K. Gandhi",
+    "Mohandas Karamchand Gandhi"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

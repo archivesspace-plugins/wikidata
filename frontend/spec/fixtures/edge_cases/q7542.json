@@ -1,0 +1,77 @@
+{
+  "pseudonym": [
+    "Prince",
+    "Camille",
+    "Alexander Nevermind",
+    "Jamie Starr",
+    "Joey Coco"
+  ],
+  "dateOfBirth": [
+    "1958-06-07T00:00:00Z"
+  ],
+  "familyName": [
+    "Nelson"
+  ],
+  "dateOfDeath": [
+    "2016-04-21T00:00:00Z"
+  ],
+  "givenName": [
+    "Prince",
+    "Rogers"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n84079379"
+  ],
+  "qNumber": [
+    "Q7542"
+  ],
+  "snacArkId": [
+    "w60t20hk"
+  ],
+  "label": [
+    "Prince"
+  ],
+  "viafClusterId": [
+    "256968961"
+  ],
+  "alias": [
+    "@3RDEYEGIRL",
+    "@PRINCE3EG",
+    "Artist Formerly Known as Prince",
+    "Azifwekar\u00e9",
+    "Ecnirp",
+    "TAFKAP",
+    "The Artist (Formerly Known As Prince)",
+    "The artist formerly known as Prince",
+    "Yo Grandma!",
+    "Camille",
+    "Christopher",
+    "The Symbol",
+    "Jamie Starr",
+    "\u01ac\u0335\u032c\u030a",
+    "Alexander Nevermind",
+    "Austra Chanel",
+    "Evolsidog",
+    "Freddie The Phantom",
+    "His Royal Badness",
+    "Joey Coco",
+    "Love Symbol",
+    "P. Mann",
+    "Prince Nelson",
+    "Prince Rogers Nelson",
+    "Rocker Happyfeller",
+    "Son Of A King",
+    "The Beautiful Experience",
+    "The Purple One",
+    "Yo Mama!"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "description": [
+    "American musician (1958\u20132016)"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

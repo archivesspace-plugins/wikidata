@@ -1,0 +1,44 @@
+{
+  "pseudonym": [
+    "Bono"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no96027739"
+  ],
+  "dateOfBirth": [
+    "1960-05-10T00:00:00Z"
+  ],
+  "description": [
+    "Irish singer-songwriter and rock musician, member of U2"
+  ],
+  "snacArkId": [
+    "w6z92jhq"
+  ],
+  "viafClusterId": [
+    "93710720"
+  ],
+  "familyName": [
+    "Hewson"
+  ],
+  "givenName": [
+    "Paul",
+    "David"
+  ],
+  "qNumber": [
+    "Q834621"
+  ],
+  "alias": [
+    "Paul Hewson",
+    "Bono Vox",
+    "Paul David Hewson"
+  ],
+  "label": [
+    "Bono"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

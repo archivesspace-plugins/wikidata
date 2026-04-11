@@ -1,0 +1,20 @@
+{
+  "label": [
+    "Berenberg family"
+  ],
+  "description": [
+    "banking family"
+  ],
+  "qNumber": [
+    "Q818989"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

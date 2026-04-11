@@ -1,0 +1,44 @@
+{
+  "inception": [
+    "1636-09-08T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q13371"
+  ],
+  "snacArkId": [
+    "w6301wj2"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n78096930"
+  ],
+  "viafClusterId": [
+    "128987800"
+  ],
+  "description": [
+    "private university in Cambridge, Massachusetts"
+  ],
+  "label": [
+    "Harvard University"
+  ],
+  "instanceOf": [
+    "private not-for-profit educational institution",
+    "private university",
+    "Colonial Colleges",
+    "research university"
+  ],
+  "alias": [
+    "Harvard",
+    "Harvard Graduate School",
+    "Harvard U.",
+    "Harvard Univ.",
+    "Harvard university",
+    "harvard.edu",
+    "Harvard.edu",
+    "Kremlin on the Charles",
+    "New College, Cambridge, Massachusetts",
+    "University of Harvard"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

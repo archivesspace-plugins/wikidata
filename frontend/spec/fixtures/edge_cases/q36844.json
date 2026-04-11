@@ -1,0 +1,38 @@
+{
+  "dateOfBirth": [
+    "1988-02-20T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q36844"
+  ],
+  "viafClusterId": [
+    "85585035",
+    "157145970245532251899"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no2005081843"
+  ],
+  "givenName": [
+    "Rihanna",
+    "Robyn"
+  ],
+  "label": [
+    "Rihanna"
+  ],
+  "alias": [
+    "Robyn Fenty",
+    "Robyn Rihanna Fenty"
+  ],
+  "description": [
+    "Barbadian singer (born 1988)"
+  ],
+  "familyName": [
+    "Fenty"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

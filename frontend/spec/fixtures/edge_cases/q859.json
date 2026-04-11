@@ -1,0 +1,39 @@
+{
+  "givenName": [
+    "Platon"
+  ],
+  "dateOfBirth": [
+    "-0428-01-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q859"
+  ],
+  "dateOfDeath": [
+    "-0348-01-01T00:00:00Z"
+  ],
+  "snacArkId": [
+    "w6715dwv"
+  ],
+  "label": [
+    "Plato"
+  ],
+  "viafClusterId": [
+    "108159964",
+    "123158790754138852978",
+    "192168048973138410001",
+    "276159474047727660458",
+    "4044156811375145390005"
+  ],
+  "description": [
+    "4th-century BCE Greek philosopher"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79139459"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

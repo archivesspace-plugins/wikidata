@@ -92,11 +92,10 @@ class WikidataSparqlQueryTest < Minitest::Test
   def test_includes_entity_type_detection
     query = WikidataSparqlQuery.query_for('Q42')
     assert_match(/wd:Q5/, query, 'Missing human detection (Q5)')
-    assert_match(/wd:Q131085629/, query, 'Missing collective agent detection')
     assert_match(/wd:Q8436/, query, 'Missing family detection (Q8436)')
     assert_match(/"isHuman"/, query)
-    assert_match(/"isCollectiveAgent"/, query)
     assert_match(/"isFamily"/, query)
+    assert_match(/"instanceQid"/, query, 'Missing instanceQid block for org type fallback')
   end
 
   # Regression: type detection must use p:P31/ps:P31 (all statement ranks) not wdt:P31
@@ -104,7 +103,13 @@ class WikidataSparqlQueryTest < Minitest::Test
   def test_type_detection_uses_all_statement_ranks
     query = WikidataSparqlQuery.query_for('Q42')
     assert_match(/p:P31\/ps:P31/, query, 'Type detection must use p:P31/ps:P31 to cover non-preferred rank statements')
-    refute_match(/wdt:P31\/wdt:P279\*\s+wd:Q5/, query, 'Should not use wdt:P31 for type detection (misses non-preferred rank)')
+  end
+
+  # The query should NOT use wdt:P279* property paths for corporate detection
+  # (they cause timeouts for popular entities like Apple, Google)
+  def test_no_property_path_for_corporate_detection
+    query = WikidataSparqlQuery.query_for('Q42')
+    refute_match(/P279\*\s+wd:Q131085629/, query, 'Should not use P279* for corporate detection (causes timeouts)')
   end
 
   def test_includes_alias_block

@@ -1,0 +1,40 @@
+{
+  "inception": [
+    "1985-01-01T00:00:00Z"
+  ],
+  "dissolvedDate": [
+    "2001-01-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q327646"
+  ],
+  "description": [
+    "American energy company"
+  ],
+  "label": [
+    "Enron"
+  ],
+  "viafClusterId": [
+    "142338268"
+  ],
+  "alias": [
+    "Enron Corp.",
+    "Enron Corporation",
+    "Enron Creditors Recovery Corp."
+  ],
+  "libraryOfCongressAuthorityId": [
+    "nr94001830"
+  ],
+  "instanceQid": [
+    "Q891723",
+    "Q1788992",
+    "Q4830453",
+    "Q6881511"
+  ],
+  "instanceOf": [
+    "public company",
+    "criminal organization",
+    "business",
+    "enterprise"
+  ]
+}

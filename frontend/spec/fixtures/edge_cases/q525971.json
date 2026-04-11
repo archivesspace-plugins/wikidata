@@ -1,0 +1,23 @@
+{
+  "description": [
+    "family"
+  ],
+  "label": [
+    "Strauss family"
+  ],
+  "viafClusterId": [
+    "84356910"
+  ],
+  "qNumber": [
+    "Q525971"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

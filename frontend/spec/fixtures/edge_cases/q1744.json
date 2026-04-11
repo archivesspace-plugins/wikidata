@@ -1,0 +1,58 @@
+{
+  "dateOfBirth": [
+    "1958-08-16T00:00:00Z"
+  ],
+  "pseudonym": [
+    "M",
+    "Madonna",
+    "Mo",
+    "Louise Ciccone",
+    "Boy Toy",
+    "Dita",
+    "Maddy",
+    "Veronica Electronica",
+    "Madge",
+    "M-Dolla",
+    "Madame X",
+    "Madonna Ritchie",
+    "Nonnie",
+    "Queen of Pop",
+    "The Material Girl"
+  ],
+  "qNumber": [
+    "Q1744"
+  ],
+  "snacArkId": [
+    "w6474sn1"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n84156128"
+  ],
+  "givenName": [
+    "Veronica",
+    "Louise"
+  ],
+  "viafClusterId": [
+    "59270244"
+  ],
+  "label": [
+    "Madonna"
+  ],
+  "familyName": [
+    "Ciccone"
+  ],
+  "description": [
+    "American singer, songwriter, and actress (born 1958)"
+  ],
+  "alias": [
+    "Madonna Ciccone",
+    "Madonna L. Ciccone",
+    "Madonna Louise Veronica Ciccone"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

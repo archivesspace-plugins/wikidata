@@ -1,0 +1,23 @@
+{
+  "qNumber": [
+    "Q276014"
+  ],
+  "label": [
+    "Delano family"
+  ],
+  "description": [
+    "family"
+  ],
+  "alias": [
+    "Delano"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

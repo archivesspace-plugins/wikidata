@@ -1,0 +1,29 @@
+{
+  "inception": [
+    "1993-11-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q458"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n2004153355"
+  ],
+  "viafClusterId": [
+    "207634635"
+  ],
+  "label": [
+    "European Union"
+  ],
+  "instanceOf": [
+    "confederation",
+    "political economic union",
+    "supranational union",
+    "regional organization"
+  ],
+  "description": [
+    "political and economic union of 27 European states"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "inception": [
+    "1450-01-01T00:00:00Z",
+    "1475-06-24T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q213678"
+  ],
+  "viafClusterId": [
+    "146085455"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80050101"
+  ],
+  "snacArkId": [
+    "w6fs0nz6"
+  ],
+  "label": [
+    "Vatican Library"
+  ],
+  "description": [
+    "library of the Holy See"
+  ],
+  "alias": [
+    "BAV",
+    "Biblioteca apostolica vaticana",
+    "Biblioteca Apostolica Vaticana",
+    "Biblioteca vaticana",
+    "The Vatican Library",
+    "Vatican. Biblioteca vaticana"
+  ],
+  "instanceOf": [
+    "office of the Roman Curia",
+    "Departments of the Roman Curia",
+    "national library"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}
