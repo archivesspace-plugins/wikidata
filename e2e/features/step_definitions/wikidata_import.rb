@@ -55,3 +55,31 @@ Then 'the agent has no date expression for the birth date' do
   expect(page).not_to have_text '1879-03-14 (expression)'
 end
 
+Then 'the agent has given name {string}' do |given_name|
+  # Given name appears in the name form details, typically in a "Rest of Name" or similar field
+  expect(page).to have_text given_name, wait: 5
+end
+
+Then 'the agent has alternative name {string}' do |alt_name|
+  # Alternative names (pseudonyms/aliases) appear as separate name forms on the agent page
+  expect(page).to have_text alt_name, wait: 5
+end
+
+Then 'the agent has a biography containing {string}' do |biography_text|
+  # Biography appears in a note section (Biographical note, Historical note, etc.)
+  expect(page).to have_text biography_text, wait: 5
+end
+
+Then 'the agent has a Library of Congress ID {string}' do |lc_id|
+  # Library of Congress identifiers appear in the record identifiers section
+  # Look for the ID with the LC source label
+  expect(page).to have_text(lc_id, wait: 5)
+  expect(page).to have_text('Library of Congress', wait: 5)
+end
+
+Then 'the agent has a VIAF ID {string}' do |viaf_id|
+  # VIAF identifiers appear in the record identifiers section
+  expect(page).to have_text(viaf_id, wait: 5)
+  expect(page).to have_text('viaf', wait: 5)
+end
+
