@@ -3,9 +3,7 @@
 > [!CAUTION]
 > This is work in progress!
 > 
-> There is no functioning version of this plugin available yet.
-> 
-> This warning will be removed as soon as there is a first version that can be tested available.
+> This is the first working verions of this plugin, ready to be tested.
 
 
 
