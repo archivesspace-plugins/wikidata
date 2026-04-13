@@ -54,8 +54,12 @@ class WikidataController < ApplicationController
       created = []
 
       # Pre-populate with agents already indexed in Solr (avoids a redundant save attempt).
+      # Validate that each Solr hit actually exists in the database (handles deletion + index lag).
       find_existing_agents(qids).each do |hit|
-        created << { 'qid' => hit['qid'], 'uri' => frontend_uri_from_json_uri(hit['uri']) }
+        agent_info = JSONModel::HTTP.get_json(hit['uri']) rescue nil
+        if agent_info
+          created << { 'qid' => hit['qid'], 'uri' => frontend_uri_from_json_uri(hit['uri']) }
+        end
       end
 
       already_found = created.map { |c| c['qid'] }.to_set
@@ -70,12 +74,20 @@ class WikidataController < ApplicationController
           agent_model.save
           created << { 'qid' => entry[:qid], 'uri' => frontend_agent_url(agent_model) }
         rescue JSONModel::ValidationException => ve
-          # Uniqueness conflict when Solr index lags behind the database.
-          # Redirect to the existing record just like a successful import.
+          # Uniqueness conflict from the backend database.
+          # Verify the conflicting record still exists (may have been deleted with Solr lag).
           exceptions = (ve.invalid_object._exceptions rescue {})
           conflicts  = Array(exceptions['conflicting_record'])
           if conflicts.any?
-            created << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(conflicts.first) }
+            agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
+            if agent_info
+              # Conflicting record exists; redirect to it.
+              created << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(conflicts.first) }
+            else
+              # Record was deleted but backend DB still enforces uniqueness on the deleted row.
+              # This is a database consistency issue; re-raise to let admins handle it.
+              raise
+            end
           else
             raise
           end
