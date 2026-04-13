@@ -1,0 +1,12 @@
+{
+  "results": {
+    "bindings": [
+      { "propertyName": { "type": "literal", "value": "label" }, "value": { "type": "literal", "xml:lang": "en", "value": "John Smith" } },
+      { "propertyName": { "type": "literal", "value": "description" }, "value": { "type": "literal", "xml:lang": "en", "value": "example person without given/family name properties" } },
+      { "propertyName": { "type": "literal", "value": "qNumber" }, "value": { "type": "literal", "value": "Q99999" } },
+      { "propertyName": { "type": "literal", "value": "dateOfBirth" }, "value": { "type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "value": "+1980-06-15T00:00:00Z" } },
+      { "propertyName": { "type": "literal", "value": "instanceOf" }, "value": { "type": "literal", "xml:lang": "en", "value": "human" } },
+      { "propertyName": { "type": "literal", "value": "isHuman" }, "value": { "type": "literal", "value": "true" } }
+    ]
+  }
+}

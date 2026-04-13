@@ -1,0 +1,42 @@
+{
+  "qNumber": [
+    "Q83164"
+  ],
+  "inception": [
+    "1600-12-31T00:00:00Z"
+  ],
+  "dissolvedDate": [
+    "1874-06-01T00:00:00Z"
+  ],
+  "viafClusterId": [
+    "239176400"
+  ],
+  "instanceQid": [
+    "Q1700154",
+    "Q4830453",
+    "Q6881511",
+    "Q26236686"
+  ],
+  "alias": [
+    "EIC",
+    "John Company",
+    "British East India Company",
+    "English East India Company",
+    "United Company of Merchants of England, Trading to the East Indies"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79118917"
+  ],
+  "description": [
+    "British trading company (1600\u20131874)"
+  ],
+  "instanceOf": [
+    "colonial society",
+    "business",
+    "East India company",
+    "enterprise"
+  ],
+  "label": [
+    "East India Company"
+  ]
+}

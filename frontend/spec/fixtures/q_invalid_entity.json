@@ -1,0 +1,10 @@
+{
+  "results": {
+    "bindings": [
+      { "propertyName": { "type": "literal", "value": "label" }, "value": { "type": "literal", "xml:lang": "en", "value": "philosophy" } },
+      { "propertyName": { "type": "literal", "value": "description" }, "value": { "type": "literal", "xml:lang": "en", "value": "study of general and fundamental questions" } },
+      { "propertyName": { "type": "literal", "value": "qNumber" }, "value": { "type": "literal", "value": "Q5891" } },
+      { "propertyName": { "type": "literal", "value": "instanceOf" }, "value": { "type": "literal", "xml:lang": "en", "value": "branch of philosophy" } }
+    ]
+  }
+}

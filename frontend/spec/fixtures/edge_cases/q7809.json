@@ -1,0 +1,35 @@
+{
+  "inception": [
+    "1945-11-16T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q7809"
+  ],
+  "viafClusterId": [
+    "139500314"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79054523"
+  ],
+  "snacArkId": [
+    "w6wj938n"
+  ],
+  "label": [
+    "UNESCO"
+  ],
+  "description": [
+    "specialised agency of the United Nations for education, sciences, and culture"
+  ],
+  "alias": [
+    "United Nations Educational, Scientific and Cultural Organization",
+    "Unesco",
+    "United Nations Educational, Scientific and Cultural Organization (UNESCO)"
+  ],
+  "instanceOf": [
+    "specialized agency of the United Nations",
+    "intergovernmental organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "qNumber": [
+    "Q813703"
+  ],
+  "description": [
+    "family of painters"
+  ],
+  "label": [
+    "Becker"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

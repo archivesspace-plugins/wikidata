@@ -1,0 +1,54 @@
+{
+  "dateOfBirth": [
+    "1819-05-24T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q9439"
+  ],
+  "dateOfDeath": [
+    "1901-01-22T00:00:00Z"
+  ],
+  "snacArkId": [
+    "w66z0061",
+    "w66n3wvb"
+  ],
+  "givenName": [
+    "Victoria",
+    "Alexandrina"
+  ],
+  "alias": [
+    "Queen Victoria",
+    "Victoria of the United Kingdom",
+    "Alexandrina Hanover",
+    "Alexandrina Victoria",
+    "Alexandrina Victoria von Hannover",
+    "Princess Victoria of Kent",
+    "Queen of Great Britain Victoria",
+    "Queen Victoria, Queen of the United Kingdom",
+    "Victoria Alexandrina",
+    "Victoria Hanover",
+    "Victoria, Queen of Great Britain"
+  ],
+  "honorificPrefix": [
+    "Majesty",
+    "Royal Highness"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "viafClusterId": [
+    "95738652"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79017983"
+  ],
+  "label": [
+    "Victoria"
+  ],
+  "description": [
+    "Queen of the United Kingdom from 1837 to 1901, Empress of India from 1876 to 1901 (1819\u20131901)"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "dateOfBirth": [
+    "1942-01-17T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "2016-06-03T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79054611"
+  ],
+  "qNumber": [
+    "Q36107"
+  ],
+  "viafClusterId": [
+    "36972485",
+    "256577938"
+  ],
+  "snacArkId": [
+    "w6rr26h6"
+  ],
+  "familyName": [
+    "Ali"
+  ],
+  "givenName": [
+    "Muhammad"
+  ],
+  "label": [
+    "Muhammad Ali"
+  ],
+  "description": [
+    "American boxer (1942\u20132016)"
+  ],
+  "alias": [
+    "The Greatest",
+    "Cassius Clay",
+    "Cassius Marcellus Clay Jr.",
+    "Muhammad Ali Clay"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

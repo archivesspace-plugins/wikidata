@@ -1,0 +1,33 @@
+{
+  "inception": [
+    "1954-09-29T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q42944"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80098692"
+  ],
+  "viafClusterId": [
+    "1151110521237060868",
+    "234145033",
+    "129636866"
+  ],
+  "description": [
+    "international organization which operates the world's largest particle physics laboratory"
+  ],
+  "label": [
+    "CERN"
+  ],
+  "alias": [
+    "European Organization for Nuclear Research",
+    "home.cern"
+  ],
+  "instanceOf": [
+    "nuclear research institute",
+    "international organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

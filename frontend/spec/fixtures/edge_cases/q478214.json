@@ -1,0 +1,32 @@
+{
+  "inception": [
+    "2003-07-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n2014027514"
+  ],
+  "qNumber": [
+    "Q478214"
+  ],
+  "viafClusterId": [
+    "128492563"
+  ],
+  "alias": [
+    "Tesla Inc.",
+    "Tesla, Inc."
+  ],
+  "description": [
+    "American automotive, energy storage and solar power company"
+  ],
+  "label": [
+    "Tesla"
+  ],
+  "instanceOf": [
+    "enterprise",
+    "corporation",
+    "business"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

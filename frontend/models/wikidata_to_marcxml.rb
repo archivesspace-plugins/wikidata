@@ -2,8 +2,10 @@
 # for import via marcxml_auth_agent. Handles person, family, and corporate entity types.
 require 'rexml/document'
 require 'cgi'
+require_relative 'wikidata_date_parser'
 
 class WikidataToMarcxml
+  include WikidataDateParser
   SOURCE_MAP = {
     'libraryOfCongressAuthorityId' => 'Library of Congress Name Authority File',
     'snacArkId' => 'SNAC',
@@ -31,10 +33,20 @@ class WikidataToMarcxml
     doc.to_s
   end
 
+  # Known Wikidata types that are subclasses of Q131085629 (collective agent).
+  KNOWN_ORG_TYPES = WikidataResultSet::KNOWN_ORG_TYPES
+
   def agent_type
     return 'agent_family' if get_value('isFamily') == 'true'
-    return 'agent_corporate_entity' if get_value('isCollectiveAgent') == 'true'
     return 'agent_person' if get_value('isHuman') == 'true'
+    # Fallback: check instanceQid against known org types (handles SPARQL timeout)
+    instance_qids = get_values('instanceQid')
+    if instance_qids.any? { |qid| KNOWN_ORG_TYPES.include?(qid) }
+      return 'agent_family' if instance_qids.include?('Q8436')
+      return 'agent_corporate_entity'
+    end
+    # Legacy fallback for older SPARQL responses
+    return 'agent_corporate_entity' if get_value('isCollectiveAgent') == 'true'
     'agent_person' # default
   end
 
@@ -127,15 +139,20 @@ class WikidataToMarcxml
   def parse_wikidata_date(val)
     return nil if val.nil? || val.to_s.strip.empty?
     s = val.to_s.strip
-    # Wikidata dates: "1952-03-11T00:00:00Z", "+1952-03-11T00:00:00Z", "1952-03-11", "1952", "+1952-00-00T00:00:00Z"
-    if m = s.match(/^\+?(\d{4})-(\d{2})-(\d{2})/)
-      y, mo, d = m[1], m[2], m[3]
-      return "#{y}#{mo}#{d}" if mo != '00' && d != '00'
-      return "#{y}#{mo}01" if mo != '00'
-      return "#{y}0101"
+    # Wikidata dates: "+1952-03-11T00:00:00Z", "-0550-01-01T00:00:00Z" (BCE), "1952"
+    # Preserve precision: year-only → "1960", year-month → "196006", full → "19520311"
+    # BCE dates: "-0550" → "-0550"
+    if m = s.match(/^([+-]?)(\d{4})-(\d{2})-(\d{2})/)
+      sign, y, mo, d = m[1], m[2], m[3], m[4]
+      prefix = (sign == '-') ? '-' : ''
+      return "#{prefix}#{y}#{mo}#{d}" if mo != '00' && d != '00'
+      return "#{prefix}#{y}#{mo}" if mo != '00'
+      return "#{prefix}#{y}"
     end
-    if m = s.match(/^\+?(\d{4})/)
-      return "#{m[1]}0101"
+    if m = s.match(/^([+-]?)(\d{4})/)
+      sign, y = m[1], m[2]
+      prefix = (sign == '-') ? '-' : ''
+      return "#{prefix}#{y}"
     end
     nil
   end
@@ -190,9 +207,10 @@ class WikidataToMarcxml
 
     add_datafield(record, '100', ind1, ' ', *subfields) if primary
 
-    # Aliases (pseudonyms) as 400
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '400', ind1, ' ', ['a', pseudo])
+    # Aliases and pseudonyms as 400 (additional name forms, direct order)
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '400', '0', ' ', ['a', alias_name])
     end
   end
 
@@ -201,8 +219,9 @@ class WikidataToMarcxml
     primary = label || @qid
     add_datafield(record, '100', '3', ' ', ['a', primary]) if primary
 
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '400', '3', ' ', ['a', pseudo])
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '400', '3', ' ', ['a', alias_name])
     end
   end
 
@@ -211,8 +230,9 @@ class WikidataToMarcxml
     primary = label || @qid
     add_datafield(record, '110', '2', ' ', ['a', primary]) if primary
 
-    get_values('pseudonym').each do |pseudo|
-      add_datafield(record, '410', '2', ' ', ['a', pseudo])
+    all_aliases = get_values('alias') + get_values('pseudonym')
+    all_aliases.uniq.each do |alias_name|
+      add_datafield(record, '410', '2', ' ', ['a', alias_name])
     end
   end
 

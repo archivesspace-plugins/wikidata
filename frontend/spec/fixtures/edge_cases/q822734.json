@@ -1,0 +1,27 @@
+{
+  "libraryOfCongressAuthorityId": [
+    "sh85010903"
+  ],
+  "label": [
+    "House of Baden"
+  ],
+  "viafClusterId": [
+    "18028502"
+  ],
+  "qNumber": [
+    "Q822734"
+  ],
+  "description": [
+    "former noble family"
+  ],
+  "instanceOf": [
+    "family",
+    "German noble family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

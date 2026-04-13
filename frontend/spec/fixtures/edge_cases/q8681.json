@@ -1,0 +1,38 @@
+{
+  "inception": [
+    "1927-03-14T00:00:00Z"
+  ],
+  "dissolvedDate": [
+    "1991-12-04T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n81009272"
+  ],
+  "viafClusterId": [
+    "144283685"
+  ],
+  "qNumber": [
+    "Q8681"
+  ],
+  "alias": [
+    "PAA",
+    "PanAm",
+    "Pan American Airways",
+    "Pan-Am",
+    "Pan American World",
+    "Pan American World Airways Inc."
+  ],
+  "description": [
+    "1927\u20132025 airline in the United States, former primary international carrier"
+  ],
+  "label": [
+    "Pan Am"
+  ],
+  "instanceOf": [
+    "business",
+    "airline"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

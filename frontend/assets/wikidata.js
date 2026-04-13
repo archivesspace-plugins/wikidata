@@ -129,14 +129,15 @@ $(function () {
     },
     success: function (json) {
       $('#import-selected').removeClass('busy');
-      if (json.job_uri) {
+      if (json.created && json.created.length > 0) {
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_success_title'),
           AS.renderTemplate('template_wikidata_import_success_message')
         );
+        // Redirect to the first created agent after a short delay
         setTimeout(function () {
-          window.location = json.job_uri;
-        }, 2000);
+          window.location = json.created[0].uri;
+        }, 1500);
       } else if (json.error) {
         $('#import-selected').removeAttr('disabled').removeClass('busy');
         AS.openQuickModal(
@@ -146,14 +147,20 @@ $(function () {
       }
     },
     error: function (err) {
-      $('.btn', $importForm)
-        .removeAttr('disabled')
-        .removeClass('disabled')
-        .removeClass('busy');
-      AS.openQuickModal(
-        AS.renderTemplate('template_wikidata_import_error_title'),
-        err.responseText || 'Import failed'
-      );
+      var errJson = err.responseJSON || {};
+      $('#import-selected').removeAttr('disabled').removeClass('disabled').removeClass('busy');
+      if (errJson.already_imported && errJson.already_imported.length > 0) {
+        var body = AS.renderTemplate('template_wikidata_already_imported', { agents: errJson.already_imported });
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_already_imported_title'),
+          body
+        );
+      } else {
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_import_error_title'),
+          errJson.error || err.responseText || 'Import failed'
+        );
+      }
     }
   });
 

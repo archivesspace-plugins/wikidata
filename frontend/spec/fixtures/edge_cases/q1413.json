@@ -1,0 +1,40 @@
+{
+  "dateOfDeath": [
+    "0068-06-07T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "0037-12-13T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q1413"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n50065376"
+  ],
+  "snacArkId": [
+    "w6bp7kt8"
+  ],
+  "viafClusterId": [
+    "84036175",
+    "851151247977144270004"
+  ],
+  "label": [
+    "Nero"
+  ],
+  "description": [
+    "fifth and last Roman Emperor of Julio-Claudian dynasty (54\u201368)"
+  ],
+  "alias": [
+    "Emperor of Rome Nero",
+    "Nero Claudius Caesar Augustus Germanicus",
+    "Nero Claudius Caesar Drusus Germanicus",
+    "Nero Claudius Drusus Germanicus",
+    "Nero Claudius Drusus Germanicus Caesar"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

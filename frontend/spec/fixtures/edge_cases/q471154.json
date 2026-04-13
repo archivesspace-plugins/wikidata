@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1842-01-01T00:00:00Z"
+  ],
+  "viafClusterId": [
+    "158417649"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n81139912"
+  ],
+  "snacArkId": [
+    "w6tq9sxj"
+  ],
+  "qNumber": [
+    "Q471154"
+  ],
+  "description": [
+    "American symphony orchestra in New York City"
+  ],
+  "label": [
+    "New York Philharmonic"
+  ],
+  "alias": [
+    "NYPO",
+    "New York Philharmonic Orchestra",
+    "New York Philharmonic-Symphony Orchestra",
+    "Philharmonic-Symphony Society of New York, Inc."
+  ],
+  "instanceOf": [
+    "nonprofit organization",
+    "orchestra",
+    "symphony orchestra"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

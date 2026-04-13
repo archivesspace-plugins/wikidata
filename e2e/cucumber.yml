@@ -1,0 +1,7 @@
+default: |
+  features
+  --publish-quiet
+  --format pretty
+  --color
+  --require support
+  --require features

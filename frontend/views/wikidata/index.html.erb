@@ -88,6 +88,24 @@
   </div>
 --></div>
 
+<div id="template_wikidata_already_imported_title"><!--
+  <%= I18n.t("plugins.wikidata.messages.already_imported_title") %>
+--></div>
+
+<div id="template_wikidata_already_imported"><!--
+  <div class="alert alert-warning">
+    <%= I18n.t("plugins.wikidata.messages.already_imported_message") %>
+  </div>
+  <ul class="list-unstyled mt-2">
+    {for agent in agents}
+    <li class="mb-1">
+      <strong>${agent.qid}</strong> &mdash;
+      <a href="<%= AppConfig[:frontend_proxy_prefix] %>${agent.uri}" target="_blank">${agent.title}</a>
+    </li>
+    {/for}
+  </ul>
+--></div>
+
 <div id="template_wikidata_import_error_title"><!--
   <%= I18n.t("plugins.wikidata.messages.import_error") %>
 --></div>

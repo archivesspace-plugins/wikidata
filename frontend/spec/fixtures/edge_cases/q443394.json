@@ -1,0 +1,27 @@
+{
+  "inception": [
+    "1989-01-01T00:00:00Z"
+  ],
+  "description": [
+    "Canadian musical family group"
+  ],
+  "label": [
+    "The Rankin Family"
+  ],
+  "qNumber": [
+    "Q443394"
+  ],
+  "alias": [
+    "The Rankins"
+  ],
+  "instanceOf": [
+    "family",
+    "musical group"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

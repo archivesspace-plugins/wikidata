@@ -1,0 +1,56 @@
+{
+  "dateOfBirth": [
+    "1907-07-06T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "1954-07-13T00:00:00Z"
+  ],
+  "givenName": [
+    "Magdalena",
+    "Frida",
+    "Carmen"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n82031966"
+  ],
+  "qNumber": [
+    "Q5588"
+  ],
+  "snacArkId": [
+    "w6md9pkv"
+  ],
+  "label": [
+    "Frida Kahlo"
+  ],
+  "description": [
+    "Mexican painter (1907\u20131954)"
+  ],
+  "viafClusterId": [
+    "110981647"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "alias": [
+    "De Rivera Kahlo",
+    "Frida Kahlo Calderon",
+    "Frida Kahlo Calder\u00f3n",
+    "Frida Kahlo de Rivera",
+    "Frida Kahlo De Rivera",
+    "Frida Khalo",
+    "Frida Rivera",
+    "Frida Rivera-Kahlo",
+    "Magdalena Carmen Frida Kahlo Calderon",
+    "Magdalena Carmen Frida Kahlo Calder\u00f3n",
+    "Magdalena Carmen Frida Kahlo y Calderon",
+    "Magdalena Carmen Frida Kahlo y Calder\u00f3n",
+    "Magdalena Carmen Frieda Kahlo y Calderon",
+    "Mrs. Diego Rivera"
+  ],
+  "familyName": [
+    "Kahlo"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

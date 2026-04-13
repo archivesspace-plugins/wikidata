@@ -1,0 +1,38 @@
+{
+  "pseudonym": [
+    "Banksy"
+  ],
+  "dateOfBirth": [
+    "1973-01-01T00:00:00Z"
+  ],
+  "givenName": [
+    "Robin"
+  ],
+  "description": [
+    "English graffiti artist, political activist, and painter"
+  ],
+  "label": [
+    "Banksy"
+  ],
+  "qNumber": [
+    "Q133600"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "no2003094902"
+  ],
+  "viafClusterId": [
+    "51384525"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "alias": [
+    "Robin Gunningham"
+  ],
+  "isHuman": [
+    "true"
+  ],
+  "snacArkId": [
+    "w64471b0"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "dateOfBirth": [
+    "1749-08-28T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "1832-03-22T00:00:00Z"
+  ],
+  "viafClusterId": [
+    "24602065"
+  ],
+  "qNumber": [
+    "Q5879"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79003362"
+  ],
+  "snacArkId": [
+    "w6cd1pv7"
+  ],
+  "givenName": [
+    "Wolfgang",
+    "Johann"
+  ],
+  "description": [
+    "German writer, artist, natural scientist and politician (1749\u20131832)"
+  ],
+  "familyName": [
+    "Goethe",
+    "von Goethe"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

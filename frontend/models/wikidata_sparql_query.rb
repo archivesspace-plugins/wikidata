@@ -90,6 +90,12 @@ module WikidataSparqlQuery
       }
       UNION
       {
+        wd:Q_PLACEHOLDER skos:altLabel ?value .
+        FILTER(LANG(?value) = "en")
+        BIND("alias" as ?propertyName)
+      }
+      UNION
+      {
         wd:Q_PLACEHOLDER wdt:P31 ?instanceOfEntity .
         ?instanceOfEntity rdfs:label ?value .
         FILTER(LANG(?value) = "en")
@@ -97,21 +103,28 @@ module WikidataSparqlQuery
       }
       UNION
       {
-        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q5 .
-        BIND("true" as ?value)
-        BIND("isHuman" as ?propertyName)
+        wd:Q_PLACEHOLDER wdt:P31 ?instanceQidEntity .
+        BIND(REPLACE(STR(?instanceQidEntity), "^.*/", "") as ?value)
+        BIND("instanceQid" as ?propertyName)
       }
       UNION
       {
-        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q131085629 .
+        wd:Q_PLACEHOLDER p:P31/ps:P31 wd:Q5 .
         BIND("true" as ?value)
-        BIND("isCollectiveAgent" as ?propertyName)
+        BIND("isHuman" as ?propertyName)
       }
       UNION
       {
         wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q8436 .
         BIND("true" as ?value)
         BIND("isFamily" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER schema:url ?url .
+        FILTER(CONTAINS(STR(?url), "en.wikipedia.org"))
+        BIND(?url as ?value)
+        BIND("wikipediaUrl" as ?propertyName)
       }
     }
   SPARQL

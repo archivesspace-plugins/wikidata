@@ -1,0 +1,46 @@
+{
+  "pseudonym": [
+    "Pel\u00e9"
+  ],
+  "dateOfBirth": [
+    "1940-10-23T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "2022-12-29T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q12897"
+  ],
+  "givenName": [
+    "Edson"
+  ],
+  "snacArkId": [
+    "w67v05rj"
+  ],
+  "familyName": [
+    "do Nascimento"
+  ],
+  "viafClusterId": [
+    "59087501"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80145774"
+  ],
+  "label": [
+    "Pel\u00e9"
+  ],
+  "alias": [
+    "Pele",
+    "O Rei",
+    "Edson Arantes do Nascimento"
+  ],
+  "description": [
+    "Brazilian footballer (1940\u20132022)"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

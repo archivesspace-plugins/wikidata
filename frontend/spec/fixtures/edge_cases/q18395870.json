@@ -1,0 +1,33 @@
+{
+  "inception": [
+    "1951-01-01T00:00:00Z"
+  ],
+  "description": [
+    "public broadcasting organization in Boston"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n50052713"
+  ],
+  "viafClusterId": [
+    "138343004"
+  ],
+  "label": [
+    "WGBH Educational Foundation"
+  ],
+  "qNumber": [
+    "Q18395870"
+  ],
+  "alias": [
+    "GBH",
+    "GBH Educational Foundation",
+    "WGBH"
+  ],
+  "instanceOf": [
+    "production company",
+    "public broadcasting",
+    "nonprofit organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

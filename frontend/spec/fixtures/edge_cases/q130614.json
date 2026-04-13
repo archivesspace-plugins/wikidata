@@ -1,0 +1,31 @@
+{
+  "libraryOfCongressAuthorityId": [
+    "n79133788"
+  ],
+  "qNumber": [
+    "Q130614"
+  ],
+  "viafClusterId": [
+    "239895420"
+  ],
+  "description": [
+    "political institution in ancient Rome"
+  ],
+  "alias": [
+    "Senate",
+    "Senate of ancient Rome",
+    "Senate of Rome",
+    "Senatus"
+  ],
+  "label": [
+    "Roman Senate"
+  ],
+  "instanceOf": [
+    "legislature",
+    "senate",
+    "aristocracy"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

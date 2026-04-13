@@ -1,0 +1,38 @@
+{
+  "dateOfBirth": [
+    "-0005-01-01T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "0030-01-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q40662"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n78095804"
+  ],
+  "viafClusterId": [
+    "27863229"
+  ],
+  "givenName": [
+    "Yohanan"
+  ],
+  "description": [
+    "1st-century Jewish itinerant preacher (Bible)"
+  ],
+  "label": [
+    "John the Baptist"
+  ],
+  "alias": [
+    "Saint John the Baptist",
+    "St John the Baptist",
+    "St. John the Baptist",
+    "Ioannes Baptista"
+  ],
+  "instanceOf": [
+    "human biblical figure"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

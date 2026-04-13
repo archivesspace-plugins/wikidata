@@ -1,0 +1,27 @@
+{
+  "inception": [
+    "2003-06-20T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q180"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n2005070272"
+  ],
+  "viafClusterId": [
+    "137022054"
+  ],
+  "label": [
+    "Wikimedia Foundation"
+  ],
+  "description": [
+    "American charitable organization"
+  ],
+  "instanceOf": [
+    "nonprofit organization",
+    "charitable organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

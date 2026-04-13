@@ -1,0 +1,33 @@
+{
+  "inception": [
+    "1971-12-21T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q49330"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80059486"
+  ],
+  "viafClusterId": [
+    "1244149296185480670001"
+  ],
+  "label": [
+    "Doctors Without Borders International"
+  ],
+  "description": [
+    "international humanitarian medical non-governmental organisation"
+  ],
+  "alias": [
+    "MSF",
+    "Medecins Sans Frontieres",
+    "M\u00e9decins Sans Fronti\u00e8res (Doctors Without Borders)"
+  ],
+  "instanceOf": [
+    "voluntary health agencies",
+    "charitable organization",
+    "international non-governmental organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

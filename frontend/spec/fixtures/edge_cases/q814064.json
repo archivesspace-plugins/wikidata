@@ -1,0 +1,23 @@
+{
+  "description": [
+    "family"
+  ],
+  "qNumber": [
+    "Q814064"
+  ],
+  "label": [
+    "Beer"
+  ],
+  "viafClusterId": [
+    "40509552"
+  ],
+  "instanceOf": [
+    "family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

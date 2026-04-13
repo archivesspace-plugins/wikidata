@@ -1,0 +1,44 @@
+{
+  "dateOfBirth": [
+    "-0550-01-01T00:00:00Z"
+  ],
+  "givenName": [
+    "Qiu"
+  ],
+  "dateOfDeath": [
+    "-0478-01-01T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q4604"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80050515"
+  ],
+  "familyName": [
+    "Kong"
+  ],
+  "snacArkId": [
+    "w63j3v50"
+  ],
+  "label": [
+    "Confucius"
+  ],
+  "viafClusterId": [
+    "89664672",
+    "73158790619838851517",
+    "108389263"
+  ],
+  "description": [
+    "5th-century BCE Chinese philosopher and politician"
+  ],
+  "alias": [
+    "Konfuzius",
+    "Confucio"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

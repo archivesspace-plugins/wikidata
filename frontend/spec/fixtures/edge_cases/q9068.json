@@ -1,0 +1,39 @@
+{
+  "pseudonym": [
+    "Voltaire",
+    "B\u00e9n\u00e9dictin"
+  ],
+  "dateOfBirth": [
+    "1694-11-21T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "1778-05-30T00:00:00Z"
+  ],
+  "givenName": [
+    "Fran\u00e7ois-Marie"
+  ],
+  "qNumber": [
+    "Q9068"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80126267"
+  ],
+  "snacArkId": [
+    "w6xs5t6n"
+  ],
+  "viafClusterId": [
+    "36925746"
+  ],
+  "label": [
+    "Voltaire"
+  ],
+  "description": [
+    "French writer, historian and philosopher (1694\u20131778)"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "qNumber": [
+    "Q130912"
+  ],
+  "description": [
+    "agricultural hand tool for mowing grass or reaping crops, with a wide, curved blade, which is wielded with a broad side movement and a twist of the torso to cut the ears gathered in the movement"
+  ],
+  "label": [
+    "scythe"
+  ],
+  "instanceOf": [
+    "agricultural tool",
+    "weapon family"
+  ]
+}

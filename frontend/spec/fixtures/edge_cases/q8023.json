@@ -1,0 +1,47 @@
+{
+  "dateOfBirth": [
+    "1918-07-18T00:00:00Z"
+  ],
+  "dateOfDeath": [
+    "2013-12-05T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n85153068"
+  ],
+  "familyName": [
+    "Mandela"
+  ],
+  "givenName": [
+    "Nelson"
+  ],
+  "label": [
+    "Nelson Mandela"
+  ],
+  "snacArkId": [
+    "w6cs6hck"
+  ],
+  "viafClusterId": [
+    "98029748"
+  ],
+  "qNumber": [
+    "Q8023"
+  ],
+  "alias": [
+    "Father of the Nation",
+    "Mandela",
+    "Madiba",
+    "Nelson Rolihlahla Mandela",
+    "Prisoner 46664",
+    "Rolihllahla",
+    "Rolihllahla Mandela"
+  ],
+  "description": [
+    "First President of South Africa and anti-apartheid activist (1918\u20132013)"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

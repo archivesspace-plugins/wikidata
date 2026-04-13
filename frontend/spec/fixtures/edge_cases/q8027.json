@@ -1,0 +1,42 @@
+{
+  "dateOfDeath": [
+    "1968-04-04T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "1929-01-15T00:00:00Z"
+  ],
+  "honorificPrefix": [
+    "Reverend Doctor"
+  ],
+  "snacArkId": [
+    "w6qs5m3z"
+  ],
+  "label": [
+    "Martin Luther King Jr."
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79084324"
+  ],
+  "viafClusterId": [
+    "100170140"
+  ],
+  "qNumber": [
+    "Q8027"
+  ],
+  "givenName": [
+    "Luther",
+    "Martin"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "description": [
+    "American Baptist minister and civil rights leader (1929\u20131968)"
+  ],
+  "familyName": [
+    "King"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

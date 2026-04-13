@@ -1,0 +1,43 @@
+{
+  "inception": [
+    "1844-06-06T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n80044742"
+  ],
+  "viafClusterId": [
+    "315945386"
+  ],
+  "qNumber": [
+    "Q157169"
+  ],
+  "description": [
+    "worldwide organization"
+  ],
+  "label": [
+    "World Alliance of YMCAs"
+  ],
+  "snacArkId": [
+    "w6gb64h8"
+  ],
+  "alias": [
+    "YMCA",
+    "The Y",
+    "Young Men's Christian Association",
+    "World Alliance of Y.M.C.As",
+    "World Alliance of Young Men's Christian Associations",
+    "World YMCA",
+    "World's Alliance of Young Men's Christian Associations",
+    "YMCA Worldwide"
+  ],
+  "instanceOf": [
+    "Christian mission",
+    "organization",
+    "men's organization",
+    "international organization",
+    "nonprofit organization"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ]
+}

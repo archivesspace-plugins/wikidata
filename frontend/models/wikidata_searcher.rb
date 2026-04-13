@@ -6,6 +6,7 @@ require 'nokogiri'
 require_relative 'wikidata_sparql_query'
 require_relative 'wikidata_result_set'
 require_relative 'wikidata_to_marcxml'
+require_relative 'wikidata_to_agent'
 require 'asutils'
 
 class WikidataSearcher
@@ -24,7 +25,7 @@ class WikidataSearcher
     if m = s.match(%r{wikidata\.org/wiki/(Q\d+)}i)
       return m[1].upcase
     end
-    if m = s.match(/\b(Q?\d+)\b/)
+    if m = s.match(/\b(Q?\d+)\b/i)
       q = m[1].upcase
       q = "Q#{q}" unless q.start_with?('Q')
       return q
@@ -74,6 +75,21 @@ class WikidataSearcher
       at_end: true,
       query: query
     }
+  end
+
+  # Convert selected Q IDs directly to ArchivesSpace agent JSON hashes.
+  # Returns an array of { qid:, agent_hash: } objects for API creation.
+  def results_to_agents(qids)
+    Array(qids).compact.filter_map do |qid_param|
+      qid = self.class.extract_qid(qid_param)
+      next if qid.nil?
+
+      result_set = fetch_entity(qid)
+      next if result_set.nil? || !result_set.valid? || !result_set.agent_type_valid?
+
+      converter = WikidataToAgent.new(result_set.data, qid)
+      { qid: qid, agent_hash: converter.to_agent_hash }
+    end
   end
 
   # Convert selected Q IDs to MARCXML file for import.

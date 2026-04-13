@@ -1,0 +1,21 @@
+{
+  "results": {
+    "bindings": [
+      { "propertyName": { "type": "literal", "value": "givenName" }, "value": { "type": "literal", "xml:lang": "en", "value": "Douglas" } },
+      { "propertyName": { "type": "literal", "value": "familyName" }, "value": { "type": "literal", "xml:lang": "en", "value": "Adams" } },
+      { "propertyName": { "type": "literal", "value": "dateOfBirth" }, "value": { "type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "value": "+1952-03-11T00:00:00Z" } },
+      { "propertyName": { "type": "literal", "value": "dateOfDeath" }, "value": { "type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "value": "+2001-05-11T00:00:00Z" } },
+      { "propertyName": { "type": "literal", "value": "label" }, "value": { "type": "literal", "xml:lang": "en", "value": "Douglas Adams" } },
+      { "propertyName": { "type": "literal", "value": "description" }, "value": { "type": "literal", "xml:lang": "en", "value": "English science fiction writer and humorist (1952\u20132001)" } },
+      { "propertyName": { "type": "literal", "value": "qNumber" }, "value": { "type": "literal", "value": "Q42" } },
+      { "propertyName": { "type": "literal", "value": "libraryOfCongressAuthorityId" }, "value": { "type": "literal", "value": "n80076765" } },
+      { "propertyName": { "type": "literal", "value": "snacArkId" }, "value": { "type": "literal", "value": "w65h7md1" } },
+      { "propertyName": { "type": "literal", "value": "viafClusterId" }, "value": { "type": "literal", "value": "113230702" } },
+      { "propertyName": { "type": "literal", "value": "instanceOf" }, "value": { "type": "literal", "xml:lang": "en", "value": "human" } },
+      { "propertyName": { "type": "literal", "value": "isHuman" }, "value": { "type": "literal", "value": "true" } },
+      { "propertyName": { "type": "literal", "value": "alias" }, "value": { "type": "literal", "xml:lang": "en", "value": "Douglas Noel Adams" } },
+      { "propertyName": { "type": "literal", "value": "alias" }, "value": { "type": "literal", "xml:lang": "en", "value": "Douglas N. Adams" } },
+      { "propertyName": { "type": "literal", "value": "alias" }, "value": { "type": "literal", "xml:lang": "en", "value": "DNA" } }
+    ]
+  }
+}

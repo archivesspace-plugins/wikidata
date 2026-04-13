@@ -1,0 +1,45 @@
+{
+  "dateOfDeath": [
+    "2011-10-05T00:00:00Z"
+  ],
+  "dateOfBirth": [
+    "1955-02-24T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q19837"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n87883336"
+  ],
+  "snacArkId": [
+    "w64t785j"
+  ],
+  "givenName": [
+    "Paul",
+    "Steven"
+  ],
+  "viafClusterId": [
+    "84237107"
+  ],
+  "label": [
+    "Steve Jobs"
+  ],
+  "description": [
+    "American entrepreneur; co-founder of Apple Inc. (1955\u20132011)"
+  ],
+  "familyName": [
+    "Jobs"
+  ],
+  "alias": [
+    "Abdul Lateef Jandali",
+    "Steven Jobs",
+    "Steven Paul Jobs",
+    "T. Lateef"
+  ],
+  "instanceOf": [
+    "human"
+  ],
+  "isHuman": [
+    "true"
+  ]
+}

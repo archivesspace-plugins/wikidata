@@ -38,10 +38,11 @@ https://query.wikidata.org/sparql?query={URL_ENCODED_SPARQL}&format=json
 The plugin uses a unified SPARQL query template that fetches all relevant properties for agent import. The query uses `UNION` blocks to retrieve:
 
 - **Name components**: given name (P735), family name (P734), generational suffix (P8017), honorific prefix (P511)
-- **Aliases**: pseudonym (P742)
+- **Aliases**: pseudonym (P742), alternative labels (skos:altLabel)
 - **Dates**: date of birth (P569), date of death (P570), inception (P571), dissolved date (P576)
 - **Labels**: rdfs:label, schema:description
 - **Identifiers**: qNumber, Library of Congress (P244), SNAC (P3430), VIAF (P214)
+- **External resources**: Wikidata URL (always), Wikipedia article URL (if available via schema:url)
 - **Type detection**: instance of (P31), isHuman (Q5), isCollectiveAgent (Q131085629), isFamily (Q8436)
 
 The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extracted_id}`) so the same query template works for any Wikidata entity.
@@ -65,6 +66,7 @@ The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extract
 | P8017 (generational suffix) | generationalSuffix | Name Forms → Suffix |
 | P511 (honorific prefix) | honorificPrefix | Name Forms → Prefix |
 | P742 (pseudonym) | pseudonym | Name Forms (alias, authorized: false) |
+| skos:altLabel | alias | Name Forms (alias, authorized: false) |
 | rdfs:label | label | Name Forms (fallback if no given/family) |
 | P569 (date of birth) | dateOfBirth | Dates of Existence → Begin |
 | P570 (date of death) | dateOfDeath | Dates of Existence → End |
@@ -82,6 +84,7 @@ The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extract
 |------------------|-------------------|----------------------|
 | rdfs:label | label | Name Forms → Family Name |
 | P742 (pseudonym) | pseudonym | Name Forms (alias) |
+| skos:altLabel | alias | Name Forms (alias) |
 | schema:description | description | Biography/Historical Note |
 | P569, P570, P571, P576 | dates | Dates of Existence |
 | Identifiers | same as person | Record Identifiers |
@@ -92,6 +95,7 @@ The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extract
 |------------------|-------------------|----------------------|
 | rdfs:label | label | Name Forms → Primary Part of Name |
 | P742 (pseudonym) | pseudonym | Name Forms (alias) |
+| skos:altLabel | alias | Name Forms (alias) |
 | P571 (inception) | inception | Dates of Existence → Begin |
 | P576 (dissolved) | dissolvedDate | Dates of Existence → End |
 | schema:description | description | Biography/Historical Note |
@@ -106,9 +110,29 @@ Users provide a Wikidata URL or Q ID:
 
 The plugin extracts the Q number (e.g., `Q42`) and substitutes it into the SPARQL query.
 
+## External Documents
+
+When importing an agent, the plugin automatically creates related external resource links:
+
+| Resource | URL | Always present? |
+|----------|-----|-----------------|
+| **Wikidata** | `https://www.wikidata.org/wiki/{Q_ID}` | Yes |
+| **Wikipedia** | `https://en.wikipedia.org/wiki/...` | Only if the Wikidata entity links to a Wikipedia article |
+
+These appear in ArchivesSpace as "Related External Resources" on the agent record view.
+
 ## Date Handling
 
-Wikidata dates may have varying precision. See [Wikidata Help:Dates](https://www.wikidata.org/wiki/Help:Dates) and [Help:Dates#Precision](https://www.wikidata.org/wiki/Help:Dates#Precision). When the date can be parsed to ISO format (YYYY-MM-DD), use the standardized date field; otherwise use the expression field.
+Wikidata dates may have varying precision. See [Wikidata Help:Dates](https://www.wikidata.org/wiki/Help:Dates) and [Help:Dates#Precision](https://www.wikidata.org/wiki/Help:Dates#Precision).
+
+| Date precision | ArchivesSpace field | Example |
+|----------------|---------------------|---------|
+| Full date (YYYY-MM-DD) | `date_standardized` | `1879-03-14` |
+| Year only | `date_expression` | `1879` |
+| BCE / negative year | `date_expression` | `-0550` |
+| Unparseable | `date_expression` | `19th Century` |
+
+The two fields are **never set simultaneously** for the same date endpoint. This avoids the double-display issue present in the MARCXML importer (see [Workarounds](#workarounds) in README).
 
 ## References
 

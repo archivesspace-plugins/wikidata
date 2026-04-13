@@ -1,0 +1,37 @@
+{
+  "inception": [
+    "1948-04-07T00:00:00Z"
+  ],
+  "qNumber": [
+    "Q7817"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n79059041"
+  ],
+  "viafClusterId": [
+    "135618969",
+    "158845049"
+  ],
+  "label": [
+    "World Health Organization"
+  ],
+  "description": [
+    "United Nations agency concerned with international public health"
+  ],
+  "alias": [
+    "World Health Organisation",
+    "World Health Organization (WHO)"
+  ],
+  "instanceQid": [
+    "Q484652",
+    "Q15925165",
+    "Q45400320",
+    "Q96888669"
+  ],
+  "instanceOf": [
+    "academic publisher",
+    "specialized agency of the United Nations",
+    "open-access publisher",
+    "international organization"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "description": [
+    "noble family"
+  ],
+  "label": [
+    "Clifford family"
+  ],
+  "qNumber": [
+    "Q525617"
+  ],
+  "viafClusterId": [
+    "106144782961772522469"
+  ],
+  "instanceOf": [
+    "family",
+    "nobility"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

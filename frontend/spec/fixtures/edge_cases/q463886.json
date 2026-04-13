@@ -1,0 +1,30 @@
+{
+  "inception": [
+    "1258-01-01T00:00:00Z"
+  ],
+  "libraryOfCongressAuthorityId": [
+    "n2018015114"
+  ],
+  "dissolvedDate": [
+    "1806-01-01T00:00:00Z"
+  ],
+  "label": [
+    "Solms-Braunfels"
+  ],
+  "qNumber": [
+    "Q463886"
+  ],
+  "description": [
+    "nobility lineage in Hesse, Germany"
+  ],
+  "instanceOf": [
+    "family",
+    "German noble family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

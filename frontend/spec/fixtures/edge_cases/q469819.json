@@ -1,0 +1,33 @@
+{
+  "inception": [
+    "1607-01-01T00:00:00Z"
+  ],
+  "dissolvedDate": [
+    "1648-01-01T00:00:00Z"
+  ],
+  "description": [
+    "German noble family"
+  ],
+  "viafClusterId": [
+    "32793994"
+  ],
+  "label": [
+    "Sayn-Wittgenstein-Sayn"
+  ],
+  "qNumber": [
+    "Q469819"
+  ],
+  "alias": [
+    "Haus Sayn-Wittgenstein-Sayn"
+  ],
+  "instanceOf": [
+    "family",
+    "German noble family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}

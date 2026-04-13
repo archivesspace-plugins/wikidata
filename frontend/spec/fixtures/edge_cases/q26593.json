@@ -1,0 +1,29 @@
+{
+  "qNumber": [
+    "Q26593"
+  ],
+  "description": [
+    "noble family"
+  ],
+  "viafClusterId": [
+    "52820282"
+  ],
+  "label": [
+    "Tiesenhausen"
+  ],
+  "alias": [
+    "House of Tiesenhausen",
+    "Tyzenhaus"
+  ],
+  "instanceOf": [
+    "family",
+    "Szlachta family",
+    "German noble family"
+  ],
+  "isCollectiveAgent": [
+    "true"
+  ],
+  "isFamily": [
+    "true"
+  ]
+}
