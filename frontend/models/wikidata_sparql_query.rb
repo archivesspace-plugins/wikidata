@@ -119,6 +119,13 @@ module WikidataSparqlQuery
         BIND("true" as ?value)
         BIND("isFamily" as ?propertyName)
       }
+      UNION
+      {
+        wd:Q_PLACEHOLDER schema:url ?url .
+        FILTER(CONTAINS(STR(?url), "en.wikipedia.org"))
+        BIND(?url as ?value)
+        BIND("wikipediaUrl" as ?propertyName)
+      }
     }
   SPARQL
 

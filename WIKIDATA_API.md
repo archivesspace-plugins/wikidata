@@ -42,6 +42,7 @@ The plugin uses a unified SPARQL query template that fetches all relevant proper
 - **Dates**: date of birth (P569), date of death (P570), inception (P571), dissolved date (P576)
 - **Labels**: rdfs:label, schema:description
 - **Identifiers**: qNumber, Library of Congress (P244), SNAC (P3430), VIAF (P214)
+- **External resources**: Wikidata URL (always), Wikipedia article URL (if available via schema:url)
 - **Type detection**: instance of (P31), isHuman (Q5), isCollectiveAgent (Q131085629), isFamily (Q8436)
 
 The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extracted_id}`) so the same query template works for any Wikidata entity.
@@ -108,6 +109,17 @@ Users provide a Wikidata URL or Q ID:
 - **Q ID**: `Q42` (extracted from URL or entered directly)
 
 The plugin extracts the Q number (e.g., `Q42`) and substitutes it into the SPARQL query.
+
+## External Documents
+
+When importing an agent, the plugin automatically creates related external resource links:
+
+| Resource | URL | Always present? |
+|----------|-----|-----------------|
+| **Wikidata** | `https://www.wikidata.org/wiki/{Q_ID}` | Yes |
+| **Wikipedia** | `https://en.wikipedia.org/wiki/...` | Only if the Wikidata entity links to a Wikipedia article |
+
+These appear in ArchivesSpace as "Related External Resources" on the agent record view.
 
 ## Date Handling
 

@@ -78,7 +78,8 @@ class WikidataToAgent
       agent_record_identifiers: build_identifiers,
       names:                    [name] + aliases,
       dates_of_existence:       build_dates(parse_date(get('dateOfBirth')), parse_date(get('dateOfDeath'))),
-      notes:                    build_notes
+      notes:                    build_notes,
+      external_documents:       build_external_documents
     }
   end
 
@@ -101,7 +102,8 @@ class WikidataToAgent
       agent_record_identifiers: build_identifiers,
       names:                    [name] + aliases,
       dates_of_existence:       build_dates(begin_date, end_date),
-      notes:                    build_notes
+      notes:                    build_notes,
+      external_documents:       build_external_documents
     }
   end
 
@@ -122,7 +124,8 @@ class WikidataToAgent
       names:                    [name] + aliases,
       dates_of_existence:       build_dates(parse_date(get('inception')),
                                              parse_date(get('dissolvedDate'))),
-      notes:                    build_notes
+      notes:                    build_notes,
+      external_documents:       build_external_documents
     }
   end
 
@@ -213,6 +216,33 @@ class WikidataToAgent
     return nil unless m
     return nil if m[2] == '00' || m[3] == '00'
     "#{m[1]}-#{m[2]}-#{m[3]}"
+  end
+
+  # ── external documents ─────────────────────────────────────────────────────
+
+  def build_external_documents
+    docs = []
+
+    # Always add Wikidata URL
+    docs << {
+      jsonmodel_type: 'external_document',
+      title:          'Wikidata',
+      location:       "https://www.wikidata.org/wiki/#{@qid}",
+      publish:        true
+    }
+
+    # Add Wikipedia URL if available
+    wiki_url = get('wikipediaUrl')
+    if wiki_url && !wiki_url.strip.empty?
+      docs << {
+        jsonmodel_type: 'external_document',
+        title:          'Wikipedia',
+        location:       wiki_url.strip,
+        publish:        true
+      }
+    end
+
+    docs
   end
 
   # ── notes ──────────────────────────────────────────────────────────────────

@@ -13,7 +13,16 @@
 
 The Wikidata plugin lets ArchivesSpace users import [Wikidata](https://www.wikidata.org/) entities as agent records. Users provide a Wikidata URL (e.g. `https://www.wikidata.org/wiki/Q42`) or Q ID, and the plugin fetches entity data via the [Wikidata SPARQL Query API](https://query.wikidata.org/) and creates agent records directly through the ArchivesSpace JSONModel API.
 
-Supported agent types: **Person** (Q5), **Family** (Q8436), **Corporate** (Q131085629 and subclasses). See [WIKIDATA_API.md](WIKIDATA_API.md) for API documentation and field mappings.
+Supported agent types: **Person** (Q5), **Family** (Q8436), **Corporate** (Q131085629 and subclasses).
+
+Imported records include:
+- Names (given name, family name, pseudonyms, aliases)
+- Birth/death dates (or inception/dissolved for organizations)
+- Biography/description
+- External authority identifiers (Library of Congress, VIAF, SNAC)
+- Related external resources (Wikidata URL + Wikipedia article link, if available)
+
+See [WIKIDATA_API.md](WIKIDATA_API.md) for API documentation and field mappings.
 
 ## Installation
 
@@ -75,7 +84,7 @@ HEADLESS= bundle exec cucumber
 
 ### Direct JSON agent creation instead of MARCXML import
 
-The ArchivesSpace MARCXML auth agent importer (`marcxml_auth_agent`) always populates **both** `date_standardized` and `date_expression` from the same MARC 046 subfield. This causes dates to display twice on the agent page (e.g. `1879-03-14` as the standardized date and `18790314` as the expression).
+The ArchivesSpace MARCXML auth agent importer (`marcxml_auth_agent`) reads each MARC 046 subfield twice: once through `structured_date_for` (which attempts `DateTime.parse` for `date_standardized`) and once through `expression_date_for` (which copies the raw text into `date_expression`). Both fields are always set on the resulting structured date object (see `marcxml_auth_agent_base_map.rb`, lines 594-636). This causes dates to display twice on the agent page — for example, `1879-03-14` appears as both the standardized date and the expression.
 
 To avoid this, the plugin bypasses the MARCXML importer and creates agents directly via the JSONModel API (`WikidataToAgent`). This allows precise control: full-precision dates (YYYY-MM-DD) are stored only as `date_standardized`, while year-only, BCE, and unparseable dates are stored only as `date_expression`.
 
