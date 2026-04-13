@@ -115,7 +115,7 @@ module WikidataSparqlQuery
       }
       UNION
       {
-        wd:Q_PLACEHOLDER p:P31/ps:P31 wd:Q8436 .
+        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q8436 .
         BIND("true" as ?value)
         BIND("isFamily" as ?propertyName)
       }
