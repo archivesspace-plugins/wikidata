@@ -76,8 +76,16 @@ class WikidataController < ApplicationController
         rescue JSONModel::ValidationException => ve
           # Uniqueness conflict from the backend database.
           # Verify the conflicting record still exists (may have been deleted with Solr lag).
-          exceptions = (ve.invalid_object._exceptions rescue {})
-          conflicts  = Array(exceptions['conflicting_record'])
+          conflicts = []
+          
+          # Try different ways to access conflicting_record from the exception
+          if ve.respond_to?(:errors) && ve.errors.is_a?(Hash) && ve.errors['conflicting_record']
+            conflicts = Array(ve.errors['conflicting_record'])
+          elsif ve.invalid_object && ve.invalid_object.respond_to?(:_exceptions) && ve.invalid_object._exceptions.is_a?(Hash)
+            conflicts = Array(ve.invalid_object._exceptions['conflicting_record'])
+          elsif ve.message =~ /conflicting_record.*?\[([^\]]+)\]/
+            conflicts = [$1]
+          end
           if conflicts.any?
             agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
             if agent_info

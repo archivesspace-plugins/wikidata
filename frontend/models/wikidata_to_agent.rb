@@ -177,7 +177,7 @@ class WikidataToAgent
                date_standardized: std, date_standardized_type: 'standard' }
            else
              { jsonmodel_type: 'structured_date_single', date_role: role,
-               date_expression: val.to_s }
+               date_expression: format_date_for_display(val) }
            end
     else
       sd = { jsonmodel_type: 'structured_date_range' }
@@ -186,14 +186,14 @@ class WikidataToAgent
         sd[:begin_date_standardized]      = begin_std
         sd[:begin_date_standardized_type] = 'standard'
       elsif begin_val
-        sd[:begin_date_expression] = begin_val.to_s
+        sd[:begin_date_expression] = format_date_for_display(begin_val)
       end
 
       if end_std
         sd[:end_date_standardized]      = end_std
         sd[:end_date_standardized_type] = 'standard'
       elsif end_val
-        sd[:end_date_expression] = end_val.to_s
+        sd[:end_date_expression] = format_date_for_display(end_val)
       end
     end
 

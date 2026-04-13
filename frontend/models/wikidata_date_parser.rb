@@ -16,6 +16,8 @@ module WikidataDateParser
     if m = s.match(/^([+-]?)(\d{4})-(\d{2})-(\d{2})/)
       sign, y, mo, d = m[1], m[2], m[3], m[4]
       prefix = (sign == '-') ? '-' : ''
+      # For BCE dates, always return year-only since full dates are usually approximate
+      return "#{prefix}#{y}" if sign == '-'
       return "#{prefix}#{y}#{mo}#{d}" if mo != '00' && d != '00'
       return "#{prefix}#{y}#{mo}" if mo != '00'
       return "#{prefix}#{y}"
@@ -26,5 +28,45 @@ module WikidataDateParser
       return "#{prefix}#{y}"
     end
     nil
+  end
+
+  # Format a parsed date value for display in date_expression.
+  # Converts compact forms to human-readable strings:
+  #   "19520311" → "1952-03-11"
+  #   "196006"   → "1960-06"
+  #   "1960"     → "1960"
+  #   "-0550"    → "550 BCE"
+  # Returns the original value if unparseable.
+  def format_date_for_display(val)
+    return val if val.nil?
+    s = val.to_s.strip
+    return s if s.empty?
+
+    # BCE dates
+    if s.start_with?('-')
+      year_str = s[1..-1]  # Remove the minus sign
+      if year_str.match?(/^\d{4}$/)
+        # Remove leading zeros for BCE years
+        year_num = year_str.to_i
+        return "#{year_num} BCE"
+      end
+    end
+
+    # CE dates
+    if s.match?(/^\d{8}$/)  # YYYYMMDD
+      y = s[0..3]
+      m = s[4..5]
+      d = s[6..7]
+      return "#{y}-#{m}-#{d}"
+    elsif s.match?(/^\d{6}$/)  # YYYYMM
+      y = s[0..3]
+      m = s[4..5]
+      return "#{y}-#{m}"
+    elsif s.match?(/^\d{4}$/)  # YYYY
+      return s
+    end
+
+    # Fallback
+    s
   end
 end
