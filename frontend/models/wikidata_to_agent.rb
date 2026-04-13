@@ -4,7 +4,10 @@
 # Dates: standardized (YYYY-MM-DD) only when we have full-date precision.
 # Year-only and BCE dates are stored as expressions, never as standardized.
 
+require_relative 'wikidata_date_parser'
+
 class WikidataToAgent
+  include WikidataDateParser
 
   SOURCE_MAP = WikidataToMarcxml::SOURCE_MAP
 
@@ -230,10 +233,8 @@ class WikidataToAgent
 
   # ── helpers ─────────────────────────────────────────────────────────────
 
-  # Re-use parse_wikidata_date from WikidataToMarcxml to normalise dates.
-  # For a family we accept both birth/inception and store the result.
   def parse_date(val)
-    WikidataToMarcxml.new(@data, @qid).__send__(:parse_wikidata_date, val)
+    parse_wikidata_date(val)
   end
 
   def get(key)

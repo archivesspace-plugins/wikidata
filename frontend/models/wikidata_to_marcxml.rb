@@ -2,8 +2,10 @@
 # for import via marcxml_auth_agent. Handles person, family, and corporate entity types.
 require 'rexml/document'
 require 'cgi'
+require_relative 'wikidata_date_parser'
 
 class WikidataToMarcxml
+  include WikidataDateParser
   SOURCE_MAP = {
     'libraryOfCongressAuthorityId' => 'Library of Congress Name Authority File',
     'snacArkId' => 'SNAC',

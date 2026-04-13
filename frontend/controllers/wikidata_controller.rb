@@ -3,6 +3,8 @@ require 'securerandom'
 
 class WikidataController < ApplicationController
 
+  MAX_IMPORT_QIDS = 25
+
   set_access_control "update_agent_record" => [:search, :index, :import]
 
   def index
@@ -28,8 +30,16 @@ class WikidataController < ApplicationController
     qids = params[:qid] || []
     qids = [qids] unless qids.is_a?(Array)
 
+    # Normalise and validate each QID to a strict Q\d+ format.
+    qids = qids.map { |q| WikidataSearcher.extract_qid(q.to_s) }.compact.uniq
+
     if qids.empty?
       render :json => { 'error' => I18n.t("plugins.wikidata.messages.none_selected") }, :status => 422
+      return
+    end
+
+    if qids.length > MAX_IMPORT_QIDS
+      render :json => { 'error' => "Cannot import more than #{MAX_IMPORT_QIDS} entities at once." }, :status => 422
       return
     end
 
@@ -128,6 +138,7 @@ class WikidataController < ApplicationController
     qids.each do |qid|
       qid = qid.to_s.strip.upcase
       qid = "Q#{qid}" unless qid.start_with?('Q')
+      next unless qid.match?(/\AQ\d+\z/)
 
       results = JSONModel::HTTP.get_json('/search', {
         'q' => "authority_id:#{qid}",
