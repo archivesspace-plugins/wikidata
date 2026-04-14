@@ -9,7 +9,13 @@ require_relative 'wikidata_date_parser'
 class WikidataToAgent
   include WikidataDateParser
 
-  SOURCE_MAP = WikidataToMarcxml::SOURCE_MAP
+  # Maps Wikidata field names to valid ArchivesSpace agent_record_identifiers/source enum values.
+  # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac
+  AGENT_SOURCE_MAP = {
+    'libraryOfCongressAuthorityId' => 'naf',   # Library of Congress Name Authority File
+    'snacArkId'                    => 'snac',  # Social Networks and Archival Context
+    'viafClusterId'                => 'local'  # VIAF has no dedicated ArchivesSpace enum; store as local
+  }.freeze
 
   def initialize(data, qid)
     @data = data
@@ -135,11 +141,11 @@ class WikidataToAgent
     ids = [{
       primary_identifier: true,
       record_identifier:  @qid,
-      source:             'wikidata',
+      source:             'local',
       identifier_type:    'local'
     }]
 
-    SOURCE_MAP.each do |field, source_name|
+    AGENT_SOURCE_MAP.each do |field, source_name|
       val = get(field)
       next if val.nil? || val.strip.empty?
       ids << {
