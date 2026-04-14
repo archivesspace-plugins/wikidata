@@ -73,19 +73,21 @@ class WikidataController < ApplicationController
         begin
           agent_model.save
           created << { 'qid' => entry[:qid], 'uri' => frontend_agent_url(agent_model) }
-        rescue JSONModel::ValidationException => ve
+        rescue JSONModel::ValidationException, JSON::ValidationException => ve
           # Uniqueness conflict from the backend database.
           # Verify the conflicting record still exists (may have been deleted with Solr lag).
           conflicts = []
-          
+
           # Try different ways to access conflicting_record from the exception
           if ve.respond_to?(:errors) && ve.errors.is_a?(Hash) && ve.errors['conflicting_record']
             conflicts = Array(ve.errors['conflicting_record'])
-          elsif ve.invalid_object && ve.invalid_object.respond_to?(:_exceptions) && ve.invalid_object._exceptions.is_a?(Hash)
-            conflicts = Array(ve.invalid_object._exceptions['conflicting_record'])
-          elsif ve.message =~ /conflicting_record.*?\[([^\]]+)\]/
+          elsif ve.respond_to?(:invalid_object) && ve.invalid_object && ve.invalid_object.respond_to?(:_exceptions)
+            exceptions_data = ve.invalid_object._exceptions rescue {}
+            conflicts = Array(exceptions_data['conflicting_record']) if exceptions_data.is_a?(Hash)
+          elsif ve.to_s =~ /conflicting_record["\]]*\s*[:=>\s]*["\/]*(\/agents\/[^"\/\s]+\/\d+)/
             conflicts = [$1]
           end
+
           if conflicts.any?
             agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
             if agent_info
@@ -93,10 +95,11 @@ class WikidataController < ApplicationController
               created << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(conflicts.first) }
             else
               # Record was deleted but backend DB still enforces uniqueness on the deleted row.
-              # This is a database consistency issue; re-raise to let admins handle it.
-              raise
+              # Continue with next agent; don't re-raise.
+              Rails.logger.warn("Wikidata import: record #{conflicts.first} was deleted but uniqueness is still enforced")
             end
           else
+            # No clear conflicting record found; re-raise the full exception
             raise
           end
         end
@@ -110,8 +113,20 @@ class WikidataController < ApplicationController
     rescue WikidataSearcher::WikidataError => e
       render :json => { 'error' => e.message }, :status => 422
     rescue => e
-      Rails.logger.error("Wikidata import error: #{e.message}\n#{e.backtrace.join("\n")}")
-      render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_error") + ": #{e.message}" }, :status => 500
+      Rails.logger.error("Wikidata import error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}")
+
+      # Try to extract conflicting_record from error message for duplicate agents
+      if e.to_s.include?('conflicting_record') && e.to_s.match(/\/agents\/(people|families|corporate_entities)\/\d+/)
+        uri_match = e.to_s.match(/\/agents\/(people|families|corporate_entities)\/\d+/)
+        if uri_match && created.any?
+          # At least some agents were created, include them in response
+          render :json => { 'created' => created }
+        else
+          render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_duplicate_agent_generic") }, :status => 422
+        end
+      else
+        render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_error") + ": #{e.message}" }, :status => 500
+      end
     end
   end
 
