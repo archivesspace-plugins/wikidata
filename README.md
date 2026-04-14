@@ -29,12 +29,18 @@ See [WIKIDATA_API.md](WIKIDATA_API.md) for API documentation and field mappings.
    git submodule add https://github.com/archivesspace-plugins/wikidata plugins/wikidata
    ```
 
-2. Enable it in `config/config.rb`:
+2. Install the plugin's gem dependencies.
+
+   ```bash
+   ./scripts/initialize-plugin.sh wikidata
+   ```
+
+3. Enable it in `config/config.rb`:
    ```ruby
    AppConfig[:plugins] = ['local', 'lcnaf', 'wikidata']
    ```
 
-3. Restart ArchivesSpace.
+4. Restart ArchivesSpace.
 
 ## Testing
 
