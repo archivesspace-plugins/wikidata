@@ -5,9 +5,12 @@
 # Year-only and BCE dates are stored as expressions, never as standardized.
 
 require_relative 'wikidata_date_parser'
+require_relative 'wikidata_result_set'
 
 class WikidataToAgent
   include WikidataDateParser
+
+  KNOWN_ORG_TYPES = WikidataResultSet::KNOWN_ORG_TYPES
 
   # Maps Wikidata field names to valid ArchivesSpace agent_record_identifiers/source enum values.
   # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac
@@ -25,8 +28,15 @@ class WikidataToAgent
 
   def agent_type
     @agent_type ||= begin
-      tmp = WikidataToMarcxml.new(@data, @qid)
-      tmp.agent_type
+      return 'agent_family' if get('isFamily') == 'true'
+      return 'agent_person' if get('isHuman') == 'true'
+      instance_qids = get_values('instanceQid')
+      if instance_qids.any? { |q| KNOWN_ORG_TYPES.include?(q) }
+        return 'agent_family' if instance_qids.include?('Q8436')
+        return 'agent_corporate_entity'
+      end
+      return 'agent_corporate_entity' if get('isCollectiveAgent') == 'true'
+      'agent_person'
     end
   end
 

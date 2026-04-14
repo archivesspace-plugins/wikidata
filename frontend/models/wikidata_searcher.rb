@@ -1,11 +1,9 @@
 # Wikidata entity lookup via SPARQL API.
 # User input: URL (https://www.wikidata.org/wiki/Q42) or Q ID (Q42).
-# Fetches entity data and converts to MARCXML for ArchivesSpace import.
+# Fetches entity data and converts to ArchivesSpace agent JSON for import.
 require 'ashttp'
-require 'nokogiri'
 require_relative 'wikidata_sparql_query'
 require_relative 'wikidata_result_set'
-require_relative 'wikidata_to_marcxml'
 require_relative 'wikidata_to_agent'
 require 'asutils'
 
@@ -90,41 +88,6 @@ class WikidataSearcher
       converter = WikidataToAgent.new(result_set.data, qid)
       { qid: qid, agent_hash: converter.to_agent_hash }
     end
-  end
-
-  # Convert selected Q IDs to MARCXML file for import.
-  # Returns { agents: { count: N, file: Tempfile } } - agents only (no subjects per PRD).
-  def results_to_marcxml_file(qids)
-    agent_tempfile = ASUtils.tempfile('wikidata_import_agent')
-    agents_count = 0
-
-    agent_tempfile.write("<collection>\n")
-
-    Array(qids).compact.each do |qid_param|
-      qid = self.class.extract_qid(qid_param)
-      next if qid.nil?
-
-      result_set = fetch_entity(qid)
-      next if result_set.nil? || !result_set.valid? || !result_set.agent_type_valid?
-
-      converter = WikidataToMarcxml.new(result_set.data, qid)
-      marcxml = converter.to_marcxml
-
-      # Wrap in record element if not already
-      doc = Nokogiri::XML(marcxml)
-      record = doc.at_xpath('//record') || doc.root
-      agent_tempfile.write(record.to_xml)
-      agents_count += 1
-    end
-
-    agent_tempfile.write("\n</collection>")
-    agent_tempfile.flush
-    agent_tempfile.rewind
-
-    {
-      agents: { count: agents_count, file: agent_tempfile },
-      subjects: { count: 0, file: nil }
-    }
   end
 
   private

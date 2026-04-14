@@ -1,7 +1,5 @@
 require 'minitest/autorun'
 require 'json'
-require 'rexml/document'
-require 'cgi'
 
 # Load plugin models without requiring the full ArchivesSpace stack.
 # Models that depend on ASpace libs (ashttp, asutils) are stubbed here.
@@ -42,15 +40,9 @@ $LOAD_PATH.unshift(STUBS_DIR)
 # Load models in dependency order
 require File.join(MODELS_DIR, 'wikidata_sparql_query')
 require File.join(MODELS_DIR, 'wikidata_result_set')
-require File.join(MODELS_DIR, 'wikidata_to_marcxml')
+require File.join(MODELS_DIR, 'wikidata_to_agent')
 
-# WikidataSearcher depends on nokogiri at load time.
 def require_searcher
-  begin
-    require 'nokogiri'
-  rescue LoadError
-    # Skip nokogiri-dependent tests if not installed
-  end
   require File.join(MODELS_DIR, 'wikidata_searcher')
 end
 
@@ -63,20 +55,4 @@ end
 # Helper: load a fixture as raw JSON string
 def load_fixture_raw(name)
   File.read(File.join(FIXTURES_DIR, name))
-end
-
-# Helper: parse MARCXML string and return REXML document
-def parse_marcxml(xml_string)
-  REXML::Document.new(xml_string)
-end
-
-# Helper: find all datafields with a given tag in a MARCXML document
-def find_datafields(doc, tag)
-  REXML::XPath.match(doc, "//datafield[@tag='#{tag}']")
-end
-
-# Helper: get subfield value from a datafield element
-def subfield_value(datafield, code)
-  sf = REXML::XPath.first(datafield, "subfield[@code='#{code}']")
-  sf&.text
 end

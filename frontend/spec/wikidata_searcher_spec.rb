@@ -1,8 +1,7 @@
 require_relative 'spec_helper'
 
-# WikidataSearcher depends on ashttp/nokogiri at load time.
 # We only test the class methods and static logic here.
-# Network-dependent methods (fetch_entity, search, results_to_marcxml_file)
+# Network-dependent methods (fetch_entity, search, results_to_agents)
 # are tested via integration tests with mocked HTTP.
 
 class WikidataSearcherExtractQidTest < Minitest::Test

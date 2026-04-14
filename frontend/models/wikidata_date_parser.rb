@@ -1,5 +1,4 @@
 # Shared date parsing for Wikidata date values.
-# Used by both WikidataToMarcxml and WikidataToAgent.
 module WikidataDateParser
   module_function
 
