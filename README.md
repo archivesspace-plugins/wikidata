@@ -3,7 +3,7 @@
 > [!CAUTION]
 > This is work in progress!
 > 
-> This is the first working verions of this plugin, ready to be tested.
+> This is the first working version of the plugin, ready to be tested.
 
 
 
