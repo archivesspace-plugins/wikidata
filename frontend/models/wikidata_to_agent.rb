@@ -12,6 +12,10 @@ class WikidataToAgent
 
   KNOWN_ORG_TYPES = WikidataResultSet::KNOWN_ORG_TYPES
 
+  # name_source enum value attributing imported records to Wikidata.
+  # Seeded by plugins/wikidata/migrations/001_add_wikidata_name_source.rb.
+  WIKIDATA_SOURCE = 'wikidata'.freeze
+
   # Maps Wikidata field names to valid ArchivesSpace agent_record_identifiers/source enum values.
   # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac
   AGENT_SOURCE_MAP = {
@@ -79,7 +83,7 @@ class WikidataToAgent
       prefix:         prefix,
       suffix:         suffix,
       name_order:     order,
-      source:         'local',
+      source:         WIKIDATA_SOURCE,
       rules:          'local',
       sort_name:      sort_key,
       authority_id:   @qid
@@ -87,7 +91,7 @@ class WikidataToAgent
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_person', primary_name: a,
-        name_order: 'direct', source: 'local', rules: 'local', sort_name: a }
+        name_order: 'direct', source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     {
@@ -103,12 +107,12 @@ class WikidataToAgent
   def build_family
     label = get('label') || @qid
     name  = { jsonmodel_type: 'name_family', family_name: label,
-               source: 'local', rules: 'local', sort_name: label,
+               source: WIKIDATA_SOURCE, rules: 'local', sort_name: label,
                authority_id: @qid }
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_family', family_name: a,
-        source: 'local', rules: 'local', sort_name: a }
+        source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     begin_date = parse_date(get('dateOfBirth')) || parse_date(get('inception'))
@@ -127,12 +131,12 @@ class WikidataToAgent
   def build_corporate
     label = get('label') || @qid
     name  = { jsonmodel_type: 'name_corporate_entity', primary_name: label,
-               source: 'local', rules: 'local', sort_name: label,
+               source: WIKIDATA_SOURCE, rules: 'local', sort_name: label,
                authority_id: @qid }
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_corporate_entity', primary_name: a,
-        source: 'local', rules: 'local', sort_name: a }
+        source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     {
@@ -152,7 +156,7 @@ class WikidataToAgent
     ids = [{
       primary_identifier: true,
       record_identifier:  @qid,
-      source:             'local',
+      source:             WIKIDATA_SOURCE,
       identifier_type:    'local'
     }]
 
