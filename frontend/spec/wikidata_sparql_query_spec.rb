@@ -143,4 +143,24 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(%r{wdt:P31/wdt:P279\*\s+wd:Q106668099}, query, 'Missing corporate body (Q106668099) subclass walk')
     assert_match(/"isCorporateBody"/, query)
   end
+
+  # Name-part items (given P735, family P734, suffix P8017, prefix P511) often
+  # lack an English rdfs:label but carry the language-agnostic "mul" label
+  # (e.g. Q24731165 "Rivera" has no en label, only mul). These blocks must
+  # accept en OR mul so the name resolves and the person imports in indirect
+  # order rather than falling back to direct.
+  def test_name_part_labels_accept_mul_fallback
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(/FILTER\(LANG\(\?value\) IN \("en", "mul"\)\)/, query,
+                 'name-part labels must accept the mul fallback')
+    assert_operator query.scan(/IN \("en", "mul"\)/).length, :>=, 4,
+                    'given, family, suffix and prefix name parts should all use the mul fallback'
+  end
+
+  # Display strings (the entity label and description) stay English-only.
+  def test_entity_label_and_description_remain_en_only
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(/FILTER\(LANG\(\?value\) = "en"\)\s*BIND\("label"/, query)
+    assert_match(/FILTER\(LANG\(\?value\) = "en"\)\s*BIND\("description"/, query)
+  end
 end
