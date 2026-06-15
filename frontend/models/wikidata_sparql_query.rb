@@ -121,9 +121,9 @@ module WikidataSparqlQuery
       }
       UNION
       {
-        wd:Q_PLACEHOLDER schema:url ?url .
-        FILTER(CONTAINS(STR(?url), "en.wikipedia.org"))
-        BIND(?url as ?value)
+        ?article schema:about wd:Q_PLACEHOLDER ;
+                 schema:isPartOf <https://en.wikipedia.org/> .
+        BIND(STR(?article) as ?value)
         BIND("wikipediaUrl" as ?propertyName)
       }
     }
