@@ -68,7 +68,7 @@ end
 Then 'the summary has a link to review or edit each agent' do
   links = all('a[href*="/agents/"]')
   expect(links.length).to be >= 2
-  links.each { |l| expect(l[:href]).to match(%r{/agents/agent_(person|family|corporate_entity)/\d+}) }
+  links.each { |l| expect(l[:href]).to match(%r{/agents/agent_(person|family|corporate_entity)/\d+/edit}) }
 end
 
 Then 'the agent name contains {string}' do |name_part|
