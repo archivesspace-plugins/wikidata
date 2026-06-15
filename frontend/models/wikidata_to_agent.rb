@@ -30,6 +30,7 @@ class WikidataToAgent
     @agent_type ||= begin
       return 'agent_family' if get('isFamily') == 'true'
       return 'agent_person' if get('isHuman') == 'true'
+      return 'agent_corporate_entity' if get('isCorporateBody') == 'true'
       instance_qids = get_values('instanceQid')
       if instance_qids.any? { |q| KNOWN_ORG_TYPES.include?(q) }
         return 'agent_family' if instance_qids.include?('Q8436')

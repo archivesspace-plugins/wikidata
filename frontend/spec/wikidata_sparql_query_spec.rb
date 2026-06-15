@@ -117,4 +117,13 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(/skos:altLabel/, query, 'Missing alias/altLabel block')
     assert_match(/"alias"/, query)
   end
+
+  # Any item whose P31 is zero or more subclass-of (P279) steps from corporate
+  # body (Q106668099) should be importable as an organization. Anchored to a
+  # single entity, this property path is fast (no timeout).
+  def test_includes_corporate_body_subclass_detection
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(%r{wdt:P31/wdt:P279\*\s+wd:Q106668099}, query, 'Missing corporate body (Q106668099) subclass walk')
+    assert_match(/"isCorporateBody"/, query)
+  end
 end
