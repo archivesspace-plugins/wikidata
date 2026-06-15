@@ -37,6 +37,22 @@ Then 'the import succeeds and redirects to the agent page' do
   expect(page).to have_current_path(%r{/agents/agent_(person|family|corporate_entity)/\d+}, wait: 15)
 end
 
+Then 'the current page is the agent edit page' do
+  expect(page).to have_current_path(%r{/agents/agent_(person|family|corporate_entity)/\d+/edit}, wait: 15)
+end
+
+Then 'the import shows a summary of {int} imported agents' do |count|
+  expect(page).to have_text 'Import Complete', wait: 15
+  expect(page).to have_text 'review or edit'
+  expect(page).to have_css('a[href*="/agents/"]', minimum: count, wait: 5)
+end
+
+Then 'the summary has a link to review or edit each agent' do
+  links = all('a[href*="/agents/"]')
+  expect(links.length).to be >= 2
+  links.each { |l| expect(l[:href]).to match(%r{/agents/agent_(person|family|corporate_entity)/\d+}) }
+end
+
 Then 'the agent name contains {string}' do |name_part|
   expect(page).to have_text name_part
 end

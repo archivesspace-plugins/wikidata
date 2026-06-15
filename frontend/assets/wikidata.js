@@ -129,15 +129,22 @@ $(function () {
     },
     success: function (json) {
       $('#import-selected').removeClass('busy');
-      if (json.created && json.created.length > 0) {
+      if (json.created && json.created.length === 1) {
+        // A single agent: go straight to its edit page.
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_success_title'),
           AS.renderTemplate('template_wikidata_import_success_message')
         );
-        // Redirect to the first created agent after a short delay
         setTimeout(function () {
-          window.location = json.created[0].uri;
+          window.location = json.created[0].edit_uri || json.created[0].uri;
         }, 1500);
+      } else if (json.created && json.created.length > 1) {
+        // Multiple agents: present a summary list of links to review/edit each.
+        $('#import-selected').removeAttr('disabled').removeClass('disabled');
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_import_summary_title'),
+          AS.renderTemplate('template_wikidata_import_summary', { agents: json.created })
+        );
       } else if (json.error) {
         $('#import-selected').removeAttr('disabled').removeClass('busy');
         AS.openQuickModal(
