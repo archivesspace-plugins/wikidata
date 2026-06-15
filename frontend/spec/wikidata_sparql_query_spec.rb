@@ -134,4 +134,13 @@ class WikidataSparqlQueryTest < Minitest::Test
     query = WikidataSparqlQuery.query_for('Q42')
     refute_match(/wd:Q42\s+schema:url/, query, 'Items do not have schema:url to their Wikipedia article')
   end
+
+  # Any item whose P31 is zero or more subclass-of (P279) steps from corporate
+  # body (Q106668099) should be importable as an organization. Anchored to a
+  # single entity, this property path is fast (no timeout).
+  def test_includes_corporate_body_subclass_detection
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(%r{wdt:P31/wdt:P279\*\s+wd:Q106668099}, query, 'Missing corporate body (Q106668099) subclass walk')
+    assert_match(/"isCorporateBody"/, query)
+  end
 end

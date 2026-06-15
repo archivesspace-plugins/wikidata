@@ -9,6 +9,8 @@ Feature: Wikidata Import
      When the user selects the first Wikidata result
       And the user clicks on 'Import' in the Wikidata panel
      Then the import succeeds and redirects to the agent page
+      # A single selected agent lands directly on its edit page
+      And the current page is the agent edit page
       # Name verification
       And the agent name contains 'Einstein'
       And the agent has given name 'Albert'
@@ -42,3 +44,15 @@ Feature: Wikidata Import
       # Identifiers
       And the agent has a Library of Congress ID 'n80076765'
       And the agent has a VIAF ID '113230702'
+
+  Scenario: Importing multiple agents shows a summary with links to review or edit each
+    Given the user is on the Wikidata import page
+     When the user searches for 'Q937' in Wikidata
+     Then Wikidata search results are displayed
+     When the user selects the first Wikidata result
+     When the user searches for 'Q7186' in Wikidata
+     Then Wikidata search results are displayed
+     When the user selects the first Wikidata result
+      And the user clicks on 'Import' in the Wikidata panel
+     Then the import shows a summary of 2 imported agents
+      And the summary has a link to review or edit each agent

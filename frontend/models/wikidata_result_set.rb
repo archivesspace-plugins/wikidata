@@ -55,7 +55,11 @@ class WikidataResultSet
   def agent_type
     return 'agent_family' if @data['isFamily']&.include?('true')
     return 'agent_person' if @data['isHuman']&.include?('true')
-    # Check instanceQid against known organizational types (handles SPARQL timeout)
+    # Any item whose P31 is zero or more `subclass of` (P279) steps from
+    # corporate body (Q106668099) is importable as a corporate entity.
+    return 'agent_corporate_entity' if @data['isCorporateBody']&.include?('true')
+    # Fallback: check instanceQid against known organizational types
+    # (covers offline fixtures and older SPARQL responses without isCorporateBody).
     instance_qids = @data['instanceQid'] || []
     if instance_qids.any? { |qid| KNOWN_ORG_TYPES.include?(qid) }
       return 'agent_family' if instance_qids.include?('Q8436')

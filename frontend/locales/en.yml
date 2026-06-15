@@ -15,6 +15,8 @@ en:
         selected: Selected
         import_success: Imported successfully
         import_success_message: Redirecting to the agent record...
+        import_summary_title: Import Complete
+        import_summary_message: The following agents were imported. Click a link to review or edit each record.
         already_imported_title: Already Imported
         already_imported_message: The following entities have already been imported. Click the link to view the existing record.
         import_error: Error while importing from Wikidata
@@ -23,3 +25,6 @@ en:
         search_error_message: A problem was encountered while completing this search. Please ensure the Wikidata service is available.
         service_warning: This plugin depends on the Wikidata API which may have rate limits.
       result_summary: 'Page %{page} - Showing results %{first_record_index} to %{last_record_index} of %{hit_count} matches'
+  enumerations:
+    name_source:
+      wikidata: Wikidata

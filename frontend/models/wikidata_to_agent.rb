@@ -12,6 +12,10 @@ class WikidataToAgent
 
   KNOWN_ORG_TYPES = WikidataResultSet::KNOWN_ORG_TYPES
 
+  # name_source enum value attributing imported records to Wikidata.
+  # Seeded by plugins/wikidata/migrations/001_add_wikidata_name_source.rb.
+  WIKIDATA_SOURCE = 'wikidata'.freeze
+
   # Maps Wikidata field names to valid ArchivesSpace agent_record_identifiers/source enum values.
   # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac
   AGENT_SOURCE_MAP = {
@@ -30,6 +34,7 @@ class WikidataToAgent
     @agent_type ||= begin
       return 'agent_family' if get('isFamily') == 'true'
       return 'agent_person' if get('isHuman') == 'true'
+      return 'agent_corporate_entity' if get('isCorporateBody') == 'true'
       instance_qids = get_values('instanceQid')
       if instance_qids.any? { |q| KNOWN_ORG_TYPES.include?(q) }
         return 'agent_family' if instance_qids.include?('Q8436')
@@ -59,17 +64,7 @@ class WikidataToAgent
     prefix = get('honorificPrefix')
     suffix = get('generationalSuffix')
 
-    if family || given
-      primary  = family || label || @qid
-      rest     = given
-      order    = 'inverted'
-      sort_key = [family, given].compact.join(', ')
-    else
-      primary  = label || @qid
-      rest     = nil
-      order    = 'direct'
-      sort_key = primary
-    end
+    primary, rest, order, sort_key = derive_person_name(label, family, given)
 
     name = compact_hash(
       jsonmodel_type: 'name_person',
@@ -78,7 +73,7 @@ class WikidataToAgent
       prefix:         prefix,
       suffix:         suffix,
       name_order:     order,
-      source:         'local',
+      source:         WIKIDATA_SOURCE,
       rules:          'local',
       sort_name:      sort_key,
       authority_id:   @qid
@@ -86,7 +81,7 @@ class WikidataToAgent
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_person', primary_name: a,
-        name_order: 'direct', source: 'local', rules: 'local', sort_name: a }
+        name_order: 'direct', source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     {
@@ -102,12 +97,12 @@ class WikidataToAgent
   def build_family
     label = get('label') || @qid
     name  = { jsonmodel_type: 'name_family', family_name: label,
-               source: 'local', rules: 'local', sort_name: label,
+               source: WIKIDATA_SOURCE, rules: 'local', sort_name: label,
                authority_id: @qid }
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_family', family_name: a,
-        source: 'local', rules: 'local', sort_name: a }
+        source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     begin_date = parse_date(get('dateOfBirth')) || parse_date(get('inception'))
@@ -126,12 +121,12 @@ class WikidataToAgent
   def build_corporate
     label = get('label') || @qid
     name  = { jsonmodel_type: 'name_corporate_entity', primary_name: label,
-               source: 'local', rules: 'local', sort_name: label,
+               source: WIKIDATA_SOURCE, rules: 'local', sort_name: label,
                authority_id: @qid }
 
     aliases = (get_values('alias') + get_values('pseudonym')).uniq.map do |a|
       { jsonmodel_type: 'name_corporate_entity', primary_name: a,
-        source: 'local', rules: 'local', sort_name: a }
+        source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
     {
@@ -151,7 +146,7 @@ class WikidataToAgent
     ids = [{
       primary_identifier: true,
       record_identifier:  @qid,
-      source:             'local',
+      source:             WIKIDATA_SOURCE,
       identifier_type:    'local'
     }]
 
@@ -275,6 +270,35 @@ class WikidataToAgent
         content:        [desc.to_s.strip]
       }]
     }]
+  end
+
+  # ── name derivation ─────────────────────────────────────────────────────
+  # Prefer the item label as the authoritative full name, rendered in indirect
+  # (family, given) order. The family name (P734) is used only to split the
+  # label — never to pick among multiple given-name (P735) values, which is
+  # unreliable when several given names with series ordinals exist.
+  #
+  # Returns [primary_name, rest_of_name, name_order, sort_name].
+  def derive_person_name(label, family, given)
+    label  = label.to_s.strip
+    family = family.to_s.strip
+    given  = given.to_s.strip
+
+    if !family.empty? && !label.empty? && label.downcase.end_with?(family.downcase)
+      # Split the label: everything before the trailing family name is the rest.
+      rest = label[0...(label.length - family.length)].sub(/[,\s]+\z/, '').strip
+      rest = nil if rest.empty?
+      [family, rest, 'inverted', [family, rest].compact.join(', ')]
+    elsif !family.empty?
+      # Family name known but not derivable from the label (e.g. the label is a
+      # mononym or pseudonym). Fall back to the given-name triple for the rest.
+      rest = given.empty? ? nil : given
+      [family, rest, 'inverted', [family, rest].compact.join(', ')]
+    else
+      # No family name: use the label as-is, in direct order.
+      primary = label.empty? ? @qid : label
+      [primary, nil, 'direct', primary]
+    end
   end
 
   # ── helpers ─────────────────────────────────────────────────────────────

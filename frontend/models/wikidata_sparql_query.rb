@@ -121,6 +121,12 @@ module WikidataSparqlQuery
       }
       UNION
       {
+        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q106668099 .
+        BIND("true" as ?value)
+        BIND("isCorporateBody" as ?propertyName)
+      }
+      UNION
+      {
         ?article schema:about wd:Q_PLACEHOLDER ;
                  schema:isPartOf <https://en.wikipedia.org/> .
         BIND(STR(?article) as ?value)

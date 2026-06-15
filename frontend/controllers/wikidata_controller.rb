@@ -58,7 +58,7 @@ class WikidataController < ApplicationController
       find_existing_agents(qids).each do |hit|
         agent_info = JSONModel::HTTP.get_json(hit['uri']) rescue nil
         if agent_info
-          created << { 'qid' => hit['qid'], 'uri' => frontend_uri_from_json_uri(hit['uri']) }
+          created << make_created(hit['qid'], hit['uri'], hit['title'] || agent_info['title'])
         end
       end
 
@@ -72,7 +72,7 @@ class WikidataController < ApplicationController
 
         begin
           agent_model.save
-          created << { 'qid' => entry[:qid], 'uri' => frontend_agent_url(agent_model) }
+          created << make_created(entry[:qid], agent_model.uri.to_s, agent_display_title(entry[:agent_hash]))
         rescue JSONModel::ValidationException, JSON::ValidationException => ve
           # Uniqueness conflict from the backend database.
           # Verify the conflicting record still exists (may have been deleted with Solr lag).
@@ -92,7 +92,7 @@ class WikidataController < ApplicationController
             agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
             if agent_info
               # Conflicting record exists; redirect to it.
-              created << { 'qid' => entry[:qid], 'uri' => frontend_uri_from_json_uri(conflicts.first) }
+              created << make_created(entry[:qid], conflicts.first, agent_info['title'])
             else
               # Record was deleted but backend DB still enforces uniqueness on the deleted row.
               # Continue with next agent; don't re-raise.
@@ -151,18 +151,31 @@ class WikidataController < ApplicationController
     'corporate_entities' => 'agent_corporate_entity'
   }.freeze
 
-  # Convert a saved agent model's backend URI → frontend path
-  def frontend_agent_url(agent_model)
-    frontend_uri_from_json_uri(agent_model.uri.to_s)
+  # Build a created-agent entry for the import response: the review (show) URL,
+  # the edit URL, and a human-readable title for the summary list.
+  def make_created(qid, backend_uri, title)
+    {
+      'qid'      => qid,
+      'uri'      => frontend_uri_from_json_uri(backend_uri, :show),
+      'edit_uri' => frontend_uri_from_json_uri(backend_uri, :edit),
+      'title'    => (title && !title.to_s.strip.empty?) ? title.to_s.strip : qid
+    }
   end
 
-  # Convert backend URI string (/agents/people/42) → frontend path (/agents/agent_person/42)
-  def frontend_uri_from_json_uri(uri)
+  # Best-effort display title from the agent hash we built for import.
+  def agent_display_title(agent_hash)
+    name = (agent_hash[:names] || []).first || {}
+    name[:sort_name] || name[:primary_name] || name[:family_name] || agent_hash[:jsonmodel_type]
+  end
+
+  # Convert backend URI string (/agents/people/42) → frontend path
+  # (/agents/agent_person/42), for the given action (:show or :edit).
+  def frontend_uri_from_json_uri(uri, action = :show)
     parts         = uri.to_s.split('/')   # ["", "agents", "people", "42"]
     backend_type  = parts[2]
     id            = parts[3]
     frontend_type = BACKEND_TO_FRONTEND_TYPE[backend_type] || backend_type
-    url_for(:controller => :agents, :action => :show,
+    url_for(:controller => :agents, :action => action,
             :agent_type => frontend_type, :id => id)
   end
 
