@@ -23,3 +23,6 @@ en:
         search_error_message: A problem was encountered while completing this search. Please ensure the Wikidata service is available.
         service_warning: This plugin depends on the Wikidata API which may have rate limits.
       result_summary: 'Page %{page} - Showing results %{first_record_index} to %{last_record_index} of %{hit_count} matches'
+  enumerations:
+    name_source:
+      wikidata: Wikidata
