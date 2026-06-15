@@ -7,28 +7,28 @@ module WikidataSparqlQuery
       {
         wd:Q_PLACEHOLDER wdt:P735 ?givenNameEntity .
         ?givenNameEntity rdfs:label ?value .
-        FILTER(LANG(?value) = "en")
+        FILTER(LANG(?value) IN ("en", "mul"))
         BIND("givenName" as ?propertyName)
       }
       UNION
       {
         wd:Q_PLACEHOLDER wdt:P734 ?familyNameEntity .
         ?familyNameEntity rdfs:label ?value .
-        FILTER(LANG(?value) = "en")
+        FILTER(LANG(?value) IN ("en", "mul"))
         BIND("familyName" as ?propertyName)
       }
       UNION
       {
         wd:Q_PLACEHOLDER wdt:P8017 ?generationalSuffixEntity .
         ?generationalSuffixEntity rdfs:label ?value .
-        FILTER(LANG(?value) = "en")
+        FILTER(LANG(?value) IN ("en", "mul"))
         BIND("generationalSuffix" as ?propertyName)
       }
       UNION
       {
         wd:Q_PLACEHOLDER wdt:P511 ?honorificPrefixEntity .
         ?honorificPrefixEntity rdfs:label ?value .
-        FILTER(LANG(?value) = "en")
+        FILTER(LANG(?value) IN ("en", "mul"))
         BIND("honorificPrefix" as ?propertyName)
       }
       UNION
