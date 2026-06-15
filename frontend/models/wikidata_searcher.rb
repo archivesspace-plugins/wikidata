@@ -15,6 +15,17 @@ class WikidataSearcher
 
   class WikidataError < StandardError; end
 
+  # Process-wide cache of raw SPARQL response bodies, keyed by query text, so a
+  # search preview and a subsequent import (or a retry) don't re-run the same
+  # query against the rate-limited endpoint. Short TTL keeps data reasonably fresh.
+  CACHE_TTL = 300 # seconds
+  @response_cache = {}
+  @cache_mutex = Mutex.new
+
+  class << self
+    attr_reader :response_cache, :cache_mutex
+  end
+
   # Extract Q ID from URL or plain input.
   # Accepts: "https://www.wikidata.org/wiki/Q42", "Q42", "42"
   def self.extract_qid(input)
@@ -31,23 +42,24 @@ class WikidataSearcher
     nil
   end
 
-  # Look up a single entity by Q ID or URL. Returns WikidataResultSet or nil.
+  # Full entity lookup (all fields) for import. Returns WikidataResultSet or nil.
   def fetch_entity(qid_or_url)
     qid = self.class.extract_qid(qid_or_url)
     return nil if qid.nil?
+    WikidataResultSet.new(fetch_cached(WikidataSparqlQuery.query_for(qid)), qid)
+  end
 
-    query = WikidataSparqlQuery.query_for(qid)
-    uri = URI(SPARQL_ENDPOINT)
-    uri.query = URI.encode_www_form(query: query, format: 'json')
-
-    body = fetch_sparql(uri)
-    WikidataResultSet.new(body, qid)
+  # Lightweight lookup for the search preview (label/description/type only).
+  def fetch_preview(qid_or_url)
+    qid = self.class.extract_qid(qid_or_url)
+    return nil if qid.nil?
+    WikidataResultSet.new(fetch_cached(WikidataSparqlQuery.preview_query_for(qid)), qid)
   end
 
   # Search: for this plugin, "search" means lookup by URL/Q ID.
   # Returns JSON structure compatible with frontend (records array).
   def search(query, page = 1, records_per_page = 10)
-    result_set = fetch_entity(query)
+    result_set = fetch_preview(query)
     return error_response('Invalid or missing Wikidata URL or Q ID') if result_set.nil?
 
     if result_set.error
@@ -91,6 +103,35 @@ class WikidataSearcher
   end
 
   private
+
+  # Returns the SPARQL response body for a query, using a short-lived
+  # process-wide cache. The query text is the cache key, so preview and full
+  # queries are cached independently.
+  def fetch_cached(query)
+    now = Time.now
+
+    self.class.cache_mutex.synchronize do
+      entry = self.class.response_cache[query]
+      return entry[:body] if entry && (now - entry[:ts]) < CACHE_TTL
+    end
+
+    body = fetch_sparql(build_uri(query))
+
+    self.class.cache_mutex.synchronize do
+      cache = self.class.response_cache
+      cache[query] = { body: body, ts: now }
+      # Bound the cache and drop stale entries.
+      cache.delete_if { |_q, e| (now - e[:ts]) >= CACHE_TTL } if cache.size > 256
+    end
+
+    body
+  end
+
+  def build_uri(query)
+    uri = URI(SPARQL_ENDPOINT)
+    uri.query = URI.encode_www_form(query: query, format: 'json')
+    uri
+  end
 
   def fetch_sparql(uri)
     ASHTTP.start_uri(uri, :open_timeout => 10, :read_timeout => 30) do |http|

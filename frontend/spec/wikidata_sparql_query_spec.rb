@@ -163,4 +163,26 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(/FILTER\(LANG\(\?value\) = "en"\)\s*BIND\("label"/, query)
     assert_match(/FILTER\(LANG\(\?value\) = "en"\)\s*BIND\("description"/, query)
   end
+
+  # The preview query (used by search) carries only what the preview needs:
+  # label, description and the type-detection signals.
+  def test_preview_query_includes_only_preview_fields
+    q = WikidataSparqlQuery.preview_query_for('Q42')
+    refute_match(/Q_PLACEHOLDER/, q)
+    assert_match(/wd:Q42/, q)
+    %w["label" "description" "qNumber" "instanceQid" "isHuman" "isFamily" "isCorporateBody"].each do |field|
+      assert_match(/#{Regexp.escape(field)}/, q, "preview must include #{field}")
+    end
+  end
+
+  # The preview query omits the expensive joins the full query carries.
+  def test_preview_query_omits_heavy_fields
+    q = WikidataSparqlQuery.preview_query_for('Q42')
+    refute_match(/wdt:P735/, q, 'preview should not join the given-name label')
+    refute_match(/wdt:P734/, q, 'preview should not join the family-name label')
+    refute_match(/wdt:P569/, q, 'preview should not fetch dates')
+    refute_match(/wdt:P244/, q, 'preview should not fetch identifiers')
+    refute_match(/skos:altLabel/, q, 'preview should not fetch aliases')
+    refute_match(/schema:isPartOf/, q, 'preview should not join the Wikipedia sitelink')
+  end
 end

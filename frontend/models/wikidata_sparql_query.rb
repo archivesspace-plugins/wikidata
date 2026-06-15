@@ -135,9 +135,67 @@ module WikidataSparqlQuery
     }
   SPARQL
 
+  # Lightweight query used for the search preview. It fetches only what
+  # to_preview_hash needs — label, description and the type-detection signals —
+  # and omits the name-part label joins, dates, identifiers, aliases and the
+  # Wikipedia sitelink join that the full query carries. The full query only
+  # needs to run at import time, so search no longer pays for all of it.
+  PREVIEW_TEMPLATE = <<~SPARQL.freeze
+    SELECT ?propertyName ?value WHERE {
+      {
+        wd:Q_PLACEHOLDER rdfs:label ?value .
+        FILTER(LANG(?value) = "en")
+        BIND("label" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER schema:description ?value .
+        FILTER(LANG(?value) = "en")
+        BIND("description" as ?propertyName)
+      }
+      UNION
+      {
+        BIND("Q_PLACEHOLDER" as ?value)
+        BIND("qNumber" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER wdt:P31 ?instanceQidEntity .
+        BIND(REPLACE(STR(?instanceQidEntity), "^.*/", "") as ?value)
+        BIND("instanceQid" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER p:P31/ps:P31 wd:Q5 .
+        BIND("true" as ?value)
+        BIND("isHuman" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q8436 .
+        BIND("true" as ?value)
+        BIND("isFamily" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER wdt:P31/wdt:P279* wd:Q106668099 .
+        BIND("true" as ?value)
+        BIND("isCorporateBody" as ?propertyName)
+      }
+    }
+  SPARQL
+
   def self.query_for(qid)
+    QUERY_TEMPLATE.gsub('Q_PLACEHOLDER', normalize(qid))
+  end
+
+  # Lightweight query for the search preview (label/description/type only).
+  def self.preview_query_for(qid)
+    PREVIEW_TEMPLATE.gsub('Q_PLACEHOLDER', normalize(qid))
+  end
+
+  def self.normalize(qid)
     normalized = qid.to_s.upcase.strip
-    normalized = "Q#{normalized}" unless normalized.start_with?('Q')
-    QUERY_TEMPLATE.gsub('Q_PLACEHOLDER', normalized)
+    normalized.start_with?('Q') ? normalized : "Q#{normalized}"
   end
 end
