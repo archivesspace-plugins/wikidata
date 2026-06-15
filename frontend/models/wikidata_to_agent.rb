@@ -64,17 +64,7 @@ class WikidataToAgent
     prefix = get('honorificPrefix')
     suffix = get('generationalSuffix')
 
-    if family || given
-      primary  = family || label || @qid
-      rest     = given
-      order    = 'inverted'
-      sort_key = [family, given].compact.join(', ')
-    else
-      primary  = label || @qid
-      rest     = nil
-      order    = 'direct'
-      sort_key = primary
-    end
+    primary, rest, order, sort_key = derive_person_name(label, family, given)
 
     name = compact_hash(
       jsonmodel_type: 'name_person',
@@ -280,6 +270,35 @@ class WikidataToAgent
         content:        [desc.to_s.strip]
       }]
     }]
+  end
+
+  # ── name derivation ─────────────────────────────────────────────────────
+  # Prefer the item label as the authoritative full name, rendered in indirect
+  # (family, given) order. The family name (P734) is used only to split the
+  # label — never to pick among multiple given-name (P735) values, which is
+  # unreliable when several given names with series ordinals exist.
+  #
+  # Returns [primary_name, rest_of_name, name_order, sort_name].
+  def derive_person_name(label, family, given)
+    label  = label.to_s.strip
+    family = family.to_s.strip
+    given  = given.to_s.strip
+
+    if !family.empty? && !label.empty? && label.downcase.end_with?(family.downcase)
+      # Split the label: everything before the trailing family name is the rest.
+      rest = label[0...(label.length - family.length)].sub(/[,\s]+\z/, '').strip
+      rest = nil if rest.empty?
+      [family, rest, 'inverted', [family, rest].compact.join(', ')]
+    elsif !family.empty?
+      # Family name known but not derivable from the label (e.g. the label is a
+      # mononym or pseudonym). Fall back to the given-name triple for the rest.
+      rest = given.empty? ? nil : given
+      [family, rest, 'inverted', [family, rest].compact.join(', ')]
+    else
+      # No family name: use the label as-is, in direct order.
+      primary = label.empty? ? @qid : label
+      [primary, nil, 'direct', primary]
+    end
   end
 
   # ── helpers ─────────────────────────────────────────────────────────────
