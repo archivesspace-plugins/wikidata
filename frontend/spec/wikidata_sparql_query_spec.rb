@@ -118,6 +118,23 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(/"alias"/, query)
   end
 
+  # Wikipedia sitelinks are modelled as `?article schema:about wd:Q… ; schema:isPartOf
+  # <https://en.wikipedia.org/>`. Items do NOT carry schema:url to their article, so the
+  # query must traverse from the article, not from the item.
+  def test_includes_wikipedia_sitelink_block
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(/schema:about\s+wd:Q42/, query, 'Wikipedia block must query article schema:about the item')
+    assert_match(%r{schema:isPartOf\s+<https://en\.wikipedia\.org/>}, query, 'Must scope to English Wikipedia')
+    assert_match(/"wikipediaUrl"/, query)
+  end
+
+  # Regression: must not use the (incorrect) `wd:Q… schema:url` direction, which never
+  # matches a Wikipedia article and so silently dropped the Wikipedia link.
+  def test_does_not_query_item_schema_url_for_wikipedia
+    query = WikidataSparqlQuery.query_for('Q42')
+    refute_match(/wd:Q42\s+schema:url/, query, 'Items do not have schema:url to their Wikipedia article')
+  end
+
   # Any item whose P31 is zero or more subclass-of (P279) steps from corporate
   # body (Q106668099) should be importable as an organization. Anchored to a
   # single entity, this property path is fast (no timeout).
