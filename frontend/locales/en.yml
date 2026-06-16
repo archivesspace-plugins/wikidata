@@ -17,6 +17,7 @@ en:
         import_success_message: Redirecting to the agent record...
         import_summary_title: Import Complete
         import_summary_message: The following agents were imported. Click a link to review or edit each record.
+        import_failed_message: 'The following could not be imported:'
         already_imported_title: Already Imported
         already_imported_message: The following entities have already been imported. Click the link to view the existing record.
         already_exists_title: Agent already exists
