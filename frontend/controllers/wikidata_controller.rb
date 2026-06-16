@@ -58,7 +58,7 @@ class WikidataController < ApplicationController
       find_existing_agents(qids).each do |hit|
         agent_info = JSONModel::HTTP.get_json(hit['uri']) rescue nil
         if agent_info
-          created << make_created(hit['qid'], hit['uri'], hit['title'] || agent_info['title'])
+          created << make_created(hit['qid'], hit['uri'], hit['title'] || agent_info['title'], true)
         end
       end
 
@@ -91,8 +91,8 @@ class WikidataController < ApplicationController
           if conflicts.any?
             agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
             if agent_info
-              # Conflicting record exists; redirect to it.
-              created << make_created(entry[:qid], conflicts.first, agent_info['title'])
+              # Conflicting record exists; treat as already-existing.
+              created << make_created(entry[:qid], conflicts.first, agent_info['title'], true)
             else
               # Record was deleted but backend DB still enforces uniqueness on the deleted row.
               # Continue with next agent; don't re-raise.
@@ -153,12 +153,13 @@ class WikidataController < ApplicationController
 
   # Build a created-agent entry for the import response: the review (show) URL,
   # the edit URL, and a human-readable title for the summary list.
-  def make_created(qid, backend_uri, title)
+  def make_created(qid, backend_uri, title, existed = false)
     {
       'qid'      => qid,
       'uri'      => frontend_uri_from_json_uri(backend_uri, :show),
       'edit_uri' => frontend_uri_from_json_uri(backend_uri, :edit),
-      'title'    => (title && !title.to_s.strip.empty?) ? title.to_s.strip : qid
+      'title'    => (title && !title.to_s.strip.empty?) ? title.to_s.strip : qid,
+      'existed'  => existed
     }
   end
 
