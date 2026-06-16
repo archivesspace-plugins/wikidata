@@ -71,6 +71,24 @@ Then 'the summary has a link to review or edit each agent' do
   links.each { |l| expect(l[:href]).to match(%r{/agents/agent_(person|family|corporate_entity)/\d+/edit}) }
 end
 
+When 'the import finishes' do
+  # Allow the AJAX post plus the post-import redirect (newly created, ~1.5s)
+  # or the modal (already exists) to settle.
+  wait_for_ajax
+  sleep 3
+end
+
+When 'the user re-opens the Wikidata import page' do
+  visit "#{STAFF_URL}/plugins/wikidata"
+  expect(page).to have_text 'Wikidata Import'
+end
+
+Then 'an {string} notice links to the existing record' do |title|
+  expect(page).to have_text title, wait: 15
+  expect(page).to have_text 'This agent has already been imported'
+  expect(page).to have_css('a[href*="/agents/agent_"]')
+end
+
 Then 'the agent name contains {string}' do |name_part|
   expect(page).to have_text name_part
 end

@@ -129,21 +129,30 @@ $(function () {
     },
     success: function (json) {
       $('#import-selected').removeClass('busy');
-      if (json.created && json.created.length === 1) {
-        // A single agent: go straight to its edit page.
+      var created = json.created || [];
+      if (created.length === 1 && created[0].existed) {
+        // A single agent that was already imported: don't redirect, just point
+        // to the existing record.
+        $('#import-selected').removeAttr('disabled').removeClass('disabled');
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_already_exists_title'),
+          AS.renderTemplate('template_wikidata_already_exists', { agent: created[0] })
+        );
+      } else if (created.length === 1) {
+        // A single newly-imported agent: go straight to its edit page.
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_success_title'),
           AS.renderTemplate('template_wikidata_import_success_message')
         );
         setTimeout(function () {
-          window.location = json.created[0].edit_uri || json.created[0].uri;
+          window.location = created[0].edit_uri || created[0].uri;
         }, 1500);
-      } else if (json.created && json.created.length > 1) {
-        // Multiple agents: present a summary list of links to review/edit each.
+      } else if (created.length > 1) {
+        // Multiple agents: a summary list, marking which already existed.
         $('#import-selected').removeAttr('disabled').removeClass('disabled');
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_summary_title'),
-          AS.renderTemplate('template_wikidata_import_summary', { agents: json.created })
+          AS.renderTemplate('template_wikidata_import_summary', { agents: created })
         );
       } else if (json.error) {
         $('#import-selected').removeAttr('disabled').removeClass('busy');

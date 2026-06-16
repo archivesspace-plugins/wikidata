@@ -19,6 +19,9 @@ en:
         import_summary_message: The following agents were imported. Click a link to review or edit each record.
         already_imported_title: Already Imported
         already_imported_message: The following entities have already been imported. Click the link to view the existing record.
+        already_exists_title: Agent already exists
+        already_exists_message: 'This agent has already been imported:'
+        already_exists_tag: already exists
         import_error: Error while importing from Wikidata
         import_no_agents: No valid agent records to import.
         search_error: Search Error

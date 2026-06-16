@@ -56,3 +56,17 @@ Feature: Wikidata Import
       And the user clicks on 'Import' in the Wikidata panel
      Then the import shows a summary of 2 imported agents
       And the summary has a link to review or edit each agent
+
+  Scenario: Re-importing an agent reports it already exists with a link
+    Given the user is on the Wikidata import page
+     When the user searches for 'Q42' in Wikidata
+     Then Wikidata search results are displayed
+     When the user selects the first Wikidata result
+      And the user clicks on 'Import' in the Wikidata panel
+      And the import finishes
+     When the user re-opens the Wikidata import page
+      And the user searches for 'Q42' in Wikidata
+     Then Wikidata search results are displayed
+     When the user selects the first Wikidata result
+      And the user clicks on 'Import' in the Wikidata panel
+     Then an "Agent already exists" notice links to the existing record
