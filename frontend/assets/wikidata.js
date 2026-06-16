@@ -130,7 +130,8 @@ $(function () {
     success: function (json) {
       $('#import-selected').removeClass('busy');
       var created = json.created || [];
-      if (created.length === 1 && created[0].existed) {
+      var failed = json.failed || [];
+      if (failed.length === 0 && created.length === 1 && created[0].existed) {
         // A single agent that was already imported: don't redirect, just point
         // to the existing record.
         $('#import-selected').removeAttr('disabled').removeClass('disabled');
@@ -138,7 +139,7 @@ $(function () {
           AS.renderTemplate('template_wikidata_already_exists_title'),
           AS.renderTemplate('template_wikidata_already_exists', { agent: created[0] })
         );
-      } else if (created.length === 1) {
+      } else if (failed.length === 0 && created.length === 1) {
         // A single newly-imported agent: go straight to its edit page.
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_success_title'),
@@ -147,12 +148,23 @@ $(function () {
         setTimeout(function () {
           window.location = created[0].edit_uri || created[0].uri;
         }, 1500);
-      } else if (created.length > 1) {
-        // Multiple agents: a summary list, marking which already existed.
+      } else if (created.length > 0) {
+        // Some agents imported (and possibly some failed): show a summary of both.
         $('#import-selected').removeAttr('disabled').removeClass('disabled');
         AS.openQuickModal(
           AS.renderTemplate('template_wikidata_import_summary_title'),
-          AS.renderTemplate('template_wikidata_import_summary', { agents: created })
+          AS.renderTemplate('template_wikidata_import_summary', {
+            agents: created,
+            failed: failed,
+            has_failed: failed.length > 0
+          })
+        );
+      } else if (failed.length > 0) {
+        // Nothing imported; report what went wrong per item.
+        $('#import-selected').removeAttr('disabled').removeClass('disabled');
+        AS.openQuickModal(
+          AS.renderTemplate('template_wikidata_import_error_title'),
+          AS.renderTemplate('template_wikidata_import_failures', { failed: failed })
         );
       } else if (json.error) {
         $('#import-selected').removeAttr('disabled').removeClass('busy');

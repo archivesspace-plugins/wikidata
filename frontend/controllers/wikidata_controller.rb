@@ -44,69 +44,45 @@ class WikidataController < ApplicationController
     end
 
     begin
-      agents = searcher.results_to_agents(qids)
-
-      if agents.empty?
-        render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_no_agents") }, :status => 422
-        return
-      end
+      result = searcher.results_to_agents(qids)
+      agents = result[:agents]
+      failed = result[:failed]   # [{ 'qid' =>, 'reason' => }] from the fetch/build phase
 
       created = []
 
-      # Pre-populate with agents already indexed in Solr (avoids a redundant save attempt).
-      # Validate that each Solr hit actually exists in the database (handles deletion + index lag).
+      # Agents already indexed in Solr — skip a redundant save and mark as existing.
+      # Validate that each Solr hit actually exists in the database (handles index lag).
       find_existing_agents(qids).each do |hit|
         agent_info = JSONModel::HTTP.get_json(hit['uri']) rescue nil
-        if agent_info
-          created << make_created(hit['qid'], hit['uri'], hit['title'] || agent_info['title'], true)
-        end
+        created << make_created(hit['qid'], hit['uri'], hit['title'] || agent_info['title'], true) if agent_info
       end
-
       already_found = created.map { |c| c['qid'] }.to_set
 
+      # Save each built agent independently: one failure must not abort the batch.
       agents.each do |entry|
         next if already_found.include?(entry[:qid])
 
-        agent_type  = entry[:agent_hash][:jsonmodel_type]
-        agent_model = JSONModel(agent_type.to_sym).from_hash(entry[:agent_hash])
-
         begin
+          agent_model = JSONModel(entry[:agent_hash][:jsonmodel_type].to_sym).from_hash(entry[:agent_hash])
           agent_model.save
           created << make_created(entry[:qid], agent_model.uri.to_s, agent_display_title(entry[:agent_hash]))
         rescue JSONModel::ValidationException, JSON::ValidationException => ve
-          # Uniqueness conflict from the backend database.
-          # Verify the conflicting record still exists (may have been deleted with Solr lag).
-          conflicts = []
-
-          # Try different ways to access conflicting_record from the exception
-          if ve.respond_to?(:errors) && ve.errors.is_a?(Hash) && ve.errors['conflicting_record']
-            conflicts = Array(ve.errors['conflicting_record'])
-          elsif ve.respond_to?(:invalid_object) && ve.invalid_object && ve.invalid_object.respond_to?(:_exceptions)
-            exceptions_data = ve.invalid_object._exceptions rescue {}
-            conflicts = Array(exceptions_data['conflicting_record']) if exceptions_data.is_a?(Hash)
-          elsif ve.to_s =~ /conflicting_record["\]]*\s*[:=>\s]*["\/]*(\/agents\/[^"\/\s]+\/\d+)/
-            conflicts = [$1]
-          end
-
-          if conflicts.any?
-            agent_info = JSONModel::HTTP.get_json(conflicts.first) rescue nil
-            if agent_info
-              # Conflicting record exists; treat as already-existing.
-              created << make_created(entry[:qid], conflicts.first, agent_info['title'], true)
-            else
-              # Record was deleted but backend DB still enforces uniqueness on the deleted row.
-              # Continue with next agent; don't re-raise.
-              Rails.logger.warn("Wikidata import: record #{conflicts.first} was deleted but uniqueness is still enforced")
-            end
+          # A uniqueness conflict means the agent already exists; anything else is a
+          # genuine failure for this one record.
+          existing = resolve_conflict(entry[:qid], ve)
+          if existing
+            created << existing
           else
-            # No clear conflicting record found; re-raise the full exception
-            raise
+            failed << { 'qid' => entry[:qid], 'reason' => validation_message(ve) }
           end
+        rescue => e
+          Rails.logger.error("Wikidata import: failed to save #{entry[:qid]}: #{e.class}: #{e.message}")
+          failed << { 'qid' => entry[:qid], 'reason' => e.message }
         end
       end
 
-      if created.any?
-        render :json => { 'created' => created }
+      if created.any? || failed.any?
+        render :json => { 'created' => created, 'failed' => failed }
       else
         render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_no_agents") }, :status => 422
       end
@@ -114,19 +90,7 @@ class WikidataController < ApplicationController
       render :json => { 'error' => e.message }, :status => 422
     rescue => e
       Rails.logger.error("Wikidata import error: #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}")
-
-      # Try to extract conflicting_record from error message for duplicate agents
-      if e.to_s.include?('conflicting_record') && e.to_s.match(/\/agents\/(people|families|corporate_entities)\/\d+/)
-        uri_match = e.to_s.match(/\/agents\/(people|families|corporate_entities)\/\d+/)
-        if uri_match && created.any?
-          # At least some agents were created, include them in response
-          render :json => { 'created' => created }
-        else
-          render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_duplicate_agent_generic") }, :status => 422
-        end
-      else
-        render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_error") + ": #{e.message}" }, :status => 500
-      end
+      render :json => { 'error' => I18n.t("plugins.wikidata.messages.import_error") + ": #{e.message}" }, :status => 500
     end
   end
 
@@ -161,6 +125,38 @@ class WikidataController < ApplicationController
       'title'    => (title && !title.to_s.strip.empty?) ? title.to_s.strip : qid,
       'existed'  => existed
     }
+  end
+
+  # If a save failed on a uniqueness conflict whose conflicting record still
+  # exists, return a created-entry pointing at it (existed: true); otherwise nil.
+  def resolve_conflict(qid, exception)
+    uri = conflicting_record_uri(exception)
+    return nil unless uri
+    agent_info = JSONModel::HTTP.get_json(uri) rescue nil
+    return nil unless agent_info
+    make_created(qid, uri, agent_info['title'], true)
+  end
+
+  # Extract the conflicting_record URI from a backend validation exception, if any.
+  def conflicting_record_uri(ve)
+    if ve.respond_to?(:errors) && ve.errors.is_a?(Hash) && ve.errors['conflicting_record']
+      return Array(ve.errors['conflicting_record']).first
+    end
+    if ve.respond_to?(:invalid_object) && ve.invalid_object && ve.invalid_object.respond_to?(:_exceptions)
+      data = (ve.invalid_object._exceptions rescue {})
+      return Array(data['conflicting_record']).first if data.is_a?(Hash) && data['conflicting_record']
+    end
+    return $1 if ve.to_s =~ /conflicting_record["\]]*\s*[:=>\s]*["\/]*(\/agents\/[^"\/\s]+\/\d+)/
+    nil
+  end
+
+  # Human-readable reason from a backend validation exception.
+  def validation_message(ve)
+    if ve.respond_to?(:errors) && ve.errors.is_a?(Hash) && ve.errors.any?
+      ve.errors.map { |field, msgs| "#{field}: #{Array(msgs).join(', ')}" }.join('; ')
+    else
+      ve.message.to_s
+    end
   end
 
   # Best-effort display title from the agent hash we built for import.

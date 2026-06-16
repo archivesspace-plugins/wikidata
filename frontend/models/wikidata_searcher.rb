@@ -76,18 +76,35 @@ class WikidataSearcher
   end
 
   # Convert selected Q IDs directly to ArchivesSpace agent JSON hashes.
-  # Returns an array of { qid:, agent_hash: } objects for API creation.
+  # Each Q ID is fetched independently: a failure for one (network error,
+  # invalid entity) is recorded rather than aborting the whole batch.
+  # Returns { agents: [{ qid:, agent_hash: }], failed: [{ 'qid' =>, 'reason' => }] }.
   def results_to_agents(qids)
-    Array(qids).compact.filter_map do |qid_param|
+    agents = []
+    failed = []
+
+    Array(qids).compact.each do |qid_param|
       qid = self.class.extract_qid(qid_param)
       next if qid.nil?
 
-      result_set = fetch_entity(qid)
-      next if result_set.nil? || !result_set.valid? || !result_set.agent_type_valid?
+      begin
+        result_set = fetch_entity(qid)
 
-      converter = WikidataToAgent.new(result_set.data, qid)
-      { qid: qid, agent_hash: converter.to_agent_hash }
+        if result_set.nil? || !result_set.valid?
+          failed << { 'qid' => qid, 'reason' => (result_set && result_set.error) || 'No data returned from Wikidata' }
+        elsif !result_set.agent_type_valid?
+          failed << { 'qid' => qid, 'reason' => 'Not a person, family, or corporate body' }
+        else
+          agents << { qid: qid, agent_hash: WikidataToAgent.new(result_set.data, qid).to_agent_hash }
+        end
+      rescue WikidataError => e
+        failed << { 'qid' => qid, 'reason' => "Could not retrieve from Wikidata: #{e.message}" }
+      rescue => e
+        failed << { 'qid' => qid, 'reason' => e.message }
+      end
     end
+
+    { agents: agents, failed: failed }
   end
 
   private
