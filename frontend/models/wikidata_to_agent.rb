@@ -58,13 +58,13 @@ class WikidataToAgent
   # ── builders ─────────────────────────────────────────────────────────────
 
   def build_person
-    given  = get('givenName')
-    family = get('familyName')
-    label  = get('label')
-    prefix = get('honorificPrefix')
-    suffix = get('generationalSuffix')
+    given    = get('givenName')
+    families = get_values('familyName')
+    label    = get('label')
+    prefix   = get('honorificPrefix')
+    suffix   = get('generationalSuffix')
 
-    primary, rest, order, sort_key = derive_person_name(label, family, given)
+    primary, rest, order, sort_key = derive_person_name(label, families, given)
 
     name = compact_hash(
       jsonmodel_type: 'name_person',
@@ -278,18 +278,29 @@ class WikidataToAgent
   # label — never to pick among multiple given-name (P735) values, which is
   # unreliable when several given names with series ordinals exist.
   #
+  # When an item carries several family names (e.g. Imelda Marcos, Q285536, has
+  # both "Marcos" and "Romuáldez"), prefer the one the label actually ends with
+  # so the authorized form matches the label ("Marcos, Imelda") rather than an
+  # arbitrarily ordered P734 value.
+  #
+  # `families` may be a single string or an array of family-name strings.
   # Returns [primary_name, rest_of_name, name_order, sort_name].
-  def derive_person_name(label, family, given)
-    label  = label.to_s.strip
-    family = family.to_s.strip
-    given  = given.to_s.strip
+  def derive_person_name(label, families, given)
+    label    = label.to_s.strip
+    given    = given.to_s.strip
+    families = Array(families).map { |f| f.to_s.strip }.reject(&:empty?).uniq
 
-    if !family.empty? && !label.empty? && label.downcase.end_with?(family.downcase)
+    # Among possibly several family names, prefer the one the label ends with;
+    # otherwise fall back to the first one.
+    family = families.find { |f| !label.empty? && label.downcase.end_with?(f.downcase) }
+    family ||= families.first
+
+    if family && !label.empty? && label.downcase.end_with?(family.downcase)
       # Split the label: everything before the trailing family name is the rest.
       rest = label[0...(label.length - family.length)].sub(/[,\s]+\z/, '').strip
       rest = nil if rest.empty?
       [family, rest, 'inverted', [family, rest].compact.join(', ')]
-    elsif !family.empty?
+    elsif family
       # Family name known but not derivable from the label (e.g. the label is a
       # mononym or pseudonym). Fall back to the given-name triple for the rest.
       rest = given.empty? ? nil : given

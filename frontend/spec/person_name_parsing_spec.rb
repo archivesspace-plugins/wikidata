@@ -49,6 +49,31 @@ class PersonNameParsingTest < Minitest::Test
     assert_equal 'inverted', n[:name_order]
   end
 
+  # Q285536 (Imelda Marcos): two family names (Romuáldez listed before Marcos).
+  # The label "Imelda Marcos" ends with Marcos, so that value must win over the
+  # arbitrarily first-listed Romuáldez.
+  def test_multiple_family_names_prefers_label_suffix
+    n = person_name('label'      => ['Imelda Marcos'],
+                    'familyName' => ['Romuáldez', 'Marcos'],
+                    'givenName'  => ['Imelda', 'Remedios'])
+    assert_equal 'Marcos',         n[:primary_name]
+    assert_equal 'Imelda',         n[:rest_of_name]
+    assert_equal 'inverted',       n[:name_order]
+    assert_equal 'Marcos, Imelda', n[:sort_name]
+  end
+
+  # Multiple family names, none of which is a suffix of the label: fall back to
+  # the first family name (and the given-name triple for the rest).
+  def test_multiple_family_names_none_in_label_uses_first
+    n = person_name('label'      => ['Some Stage Name'],
+                    'familyName' => ['Alpha', 'Beta'],
+                    'givenName'  => ['Given'])
+    assert_equal 'Alpha',        n[:primary_name]
+    assert_equal 'Given',        n[:rest_of_name]
+    assert_equal 'inverted',     n[:name_order]
+    assert_equal 'Alpha, Given', n[:sort_name]
+  end
+
   # Family name present but not a suffix of the label (e.g. label is a stage
   # name): fall back to the given-name triple for the rest.
   def test_family_not_in_label_falls_back_to_given
