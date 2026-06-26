@@ -434,12 +434,30 @@ class CorporateEdgeCaseTest < Minitest::Test
     assert_equal 'European Union', pn[:primary_name]
   end
 
-  # 7. Q9531 - BBC: year-only inception (1927-01-01)
+  # 7. Q9531 - BBC: year-precision inception. The truthy date is 1927-01-01 but
+  # the precision (9) means only the year is known, so the standardized date is
+  # "1927" — not "1927-01-01".
   def test_q9531_bbc_year_inception
     data, agent, h = agent_for('Q9531')
     assert_equal 'agent_corporate_entity', h[:jsonmodel_type]
     pn = primary_name_hash(h)
     assert pn[:primary_name].include?('British Broadcasting') || pn[:primary_name].include?('BBC'), 'BBC name'
+    assert_equal '1927', begin_date_value(h), 'Year-precision inception standardized as YYYY'
+    sd = dig_date_struct(h)
+    assert_equal '1927', sd[:date_standardized], 'standardized year, not full date'
+    assert_nil sd[:date_expression], 'no date expression for a standardizable year'
+  end
+
+  # 31. Q762266 - City University of New York: reported beta bug. Inception was
+  # standardized as "1961-01-01" although Wikidata only knows the year (1961).
+  def test_q762266_cuny_year_precision_standardized
+    data, agent, h = agent_for('Q762266')
+    assert_equal 'agent_corporate_entity', h[:jsonmodel_type]
+    assert_equal '9', data['inceptionPrecision'].first, 'Fixture carries year precision'
+    sd = dig_date_struct(h)
+    assert_equal '1961', sd[:date_standardized], 'Standardized inception is just the year'
+    assert_nil sd[:date_expression], 'Year value should be standardized, not an expression'
+    assert_equal '1961', begin_date_value(h)
   end
 
   # 8. Q1065 - United Nations

@@ -1,8 +1,9 @@
 # Converts a Wikidata SPARQL result set into an ArchivesSpace agent JSON hash
 # suitable for direct API creation via JSONModel.
 #
-# Dates: standardized (YYYY-MM-DD) only when we have full-date precision.
-# Year-only and BCE dates are stored as expressions, never as standardized.
+# Dates: standardized at whatever granularity Wikidata reports via its time
+# precision (YYYY, YYYY-MM, or YYYY-MM-DD). BCE and unparseable values are
+# stored as date_expression instead. A field never carries both.
 
 require_relative 'wikidata_date_parser'
 require_relative 'wikidata_result_set'
@@ -88,7 +89,8 @@ class WikidataToAgent
       jsonmodel_type:           'agent_person',
       agent_record_identifiers: build_identifiers,
       names:                    [name] + aliases,
-      dates_of_existence:       build_dates(parse_date(get('dateOfBirth')), parse_date(get('dateOfDeath'))),
+      dates_of_existence:       build_dates(parse_date(get('dateOfBirth'), get('dateOfBirthPrecision')),
+                                             parse_date(get('dateOfDeath'), get('dateOfDeathPrecision'))),
       notes:                    build_notes,
       external_documents:       build_external_documents
     }
@@ -105,8 +107,10 @@ class WikidataToAgent
         source: WIKIDATA_SOURCE, rules: 'local', sort_name: a }
     end
 
-    begin_date = parse_date(get('dateOfBirth')) || parse_date(get('inception'))
-    end_date   = parse_date(get('dateOfDeath')) || parse_date(get('dissolvedDate'))
+    begin_date = parse_date(get('dateOfBirth'), get('dateOfBirthPrecision')) ||
+                 parse_date(get('inception'), get('inceptionPrecision'))
+    end_date   = parse_date(get('dateOfDeath'), get('dateOfDeathPrecision')) ||
+                 parse_date(get('dissolvedDate'), get('dissolvedDatePrecision'))
 
     {
       jsonmodel_type:           'agent_family',
@@ -133,8 +137,8 @@ class WikidataToAgent
       jsonmodel_type:           'agent_corporate_entity',
       agent_record_identifiers: build_identifiers,
       names:                    [name] + aliases,
-      dates_of_existence:       build_dates(parse_date(get('inception')),
-                                             parse_date(get('dissolvedDate'))),
+      dates_of_existence:       build_dates(parse_date(get('inception'), get('inceptionPrecision')),
+                                             parse_date(get('dissolvedDate'), get('dissolvedDatePrecision'))),
       notes:                    build_notes,
       external_documents:       build_external_documents
     }
@@ -165,15 +169,15 @@ class WikidataToAgent
   end
 
   # ── dates ─────────────────────────────────────────────────────────────────
-  # Rule: use date_standardized (YYYY-MM-DD) when we have full-date precision.
-  # Use date_expression for year-only, BCE, or unparseable values.
+  # Rule: use date_standardized at the precision Wikidata reports (YYYY,
+  # YYYY-MM, or YYYY-MM-DD). Use date_expression for BCE or unparseable values.
   # Never set both for the same date field.
 
   def build_dates(begin_val, end_val)
     return [] if begin_val.nil? && end_val.nil?
 
-    begin_std  = full_date_iso(begin_val)
-    end_std    = full_date_iso(end_val)
+    begin_std  = standardized_iso(begin_val)
+    end_std    = standardized_iso(end_val)
 
     # Only use 'range' when both ends are present
     date_type = (begin_val && end_val) ? 'range' : 'single'
@@ -216,17 +220,24 @@ class WikidataToAgent
     }]
   end
 
-  # Returns "YYYY-MM-DD" (ISO 8601) if the value has full date precision.
-  # Input is the output of parse_date/parse_wikidata_date: "YYYYMMDD", "YYYYMM",
-  # "YYYY", or "-YYYY..." for BCE. Returns nil for anything not a full positive date.
-  def full_date_iso(val)
+  # Returns an ArchivesSpace-standardisable date string at whatever precision the
+  # value carries: "YYYY-MM-DD", "YYYY-MM", or "YYYY". Input is the output of
+  # parse_date/parse_wikidata_date: "YYYYMMDD", "YYYYMM", "YYYY", or "-YYYY..."
+  # for BCE. Returns nil for BCE or anything not a positive year/month/day value
+  # (those fall back to date_expression).
+  def standardized_iso(val)
     return nil if val.nil?
     s = val.to_s.strip
-    return nil if s.start_with?('-')  # BCE
-    m = s.match(/^(\d{4})(\d{2})(\d{2})$/)
-    return nil unless m
-    return nil if m[2] == '00' || m[3] == '00'
-    "#{m[1]}-#{m[2]}-#{m[3]}"
+    return nil if s.empty? || s.start_with?('-')  # blank or BCE
+    if (m = s.match(/^(\d{4})(\d{2})(\d{2})$/))
+      return nil if m[2] == '00' || m[3] == '00'
+      "#{m[1]}-#{m[2]}-#{m[3]}"
+    elsif (m = s.match(/^(\d{4})(\d{2})$/))
+      return nil if m[2] == '00'
+      "#{m[1]}-#{m[2]}"
+    elsif s.match?(/^\d{4}$/)
+      s
+    end
   end
 
   # ── external documents ─────────────────────────────────────────────────────
@@ -303,8 +314,8 @@ class WikidataToAgent
 
   # ── helpers ─────────────────────────────────────────────────────────────
 
-  def parse_date(val)
-    parse_wikidata_date(val)
+  def parse_date(val, precision = nil)
+    parse_wikidata_date(val, precision)
   end
 
   def get(key)
