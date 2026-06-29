@@ -370,6 +370,20 @@ class PersonEdgeCaseTest < Minitest::Test
     assert aliases.length >= 5, "Mandela has #{data['alias']&.length || 0} aliases"
     assert_equal 'n85153068', data['libraryOfCongressAuthorityId']&.first
   end
+
+  # 31. Q285536 - Imelda Marcos: TWO family names (Romuáldez, Marcos). The label
+  # ("Imelda Marcos") ends with the second-listed value, so the authorized form
+  # must use "Marcos" — not the first-listed "Romuáldez".
+  def test_q285536_imelda_marcos_prefers_label_family_name
+    data, agent, h = agent_for('Q285536')
+    # Reproduces the source quirk: Romuáldez is returned before Marcos.
+    assert_equal 'Romuáldez', data['familyName'].first, 'Fixture lists Romuáldez first'
+    pn = primary_name_hash(h)
+    assert_equal 'inverted', pn[:name_order]
+    assert_equal 'Marcos', pn[:primary_name], 'Primary part of name is the label family name'
+    assert_equal 'Imelda', pn[:rest_of_name], 'Rest of name is the label remainder'
+    assert_equal 'Marcos, Imelda', pn[:sort_name]
+  end
 end
 
 
