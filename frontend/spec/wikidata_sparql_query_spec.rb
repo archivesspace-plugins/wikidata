@@ -70,6 +70,18 @@ class WikidataSparqlQueryTest < Minitest::Test
     assert_match(/wdt:P576/, query, 'Missing dissolved date (P576)')
   end
 
+  # Date precision: each date property must also fetch wikibase:timePrecision so
+  # year/month-precision dates are not standardized as full YYYY-MM-DD values.
+  def test_includes_date_precision_blocks
+    query = WikidataSparqlQuery.query_for('Q42')
+    assert_match(/wikibase:timePrecision/, query, 'Missing time precision lookup')
+    assert_match(/"dateOfBirthPrecision"/, query)
+    assert_match(/"dateOfDeathPrecision"/, query)
+    assert_match(/"inceptionPrecision"/, query)
+    assert_match(/"dissolvedDatePrecision"/, query)
+    assert_match(%r{p:P571/psv:P571}, query, 'Precision must come from the statement value node')
+  end
+
   def test_includes_label_block
     query = WikidataSparqlQuery.query_for('Q42')
     assert_match(/rdfs:label/, query, 'Missing label')

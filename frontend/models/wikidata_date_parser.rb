@@ -2,21 +2,39 @@
 module WikidataDateParser
   module_function
 
+  # Wikidata date precision codes (wikibase:timePrecision): 9 = year,
+  # 10 = month, 11 = day. Anything coarser (decade/century/...) is treated as
+  # year, the finest standardisable granularity we can safely assert.
+  PRECISION_YEAR  = 9
+  PRECISION_MONTH = 10
+
   # Normalise a Wikidata date string to a compact form:
   #   "+1952-03-11T00:00:00Z" → "19520311"  (full date)
   #   "+1960-06-00T00:00:00Z" → "196006"    (year-month)
   #   "+1960-00-00T00:00:00Z" → "1960"      (year only)
   #   "-0550-01-01T00:00:00Z" → "-0550"     (BCE)
   #   "1952"                  → "1952"       (plain year)
+  # When a Wikidata precision is supplied it overrides the month/day components:
+  # the truthy wdt: predicate reports year/month-precision dates as YYYY-01-01,
+  # so e.g. ("+1961-01-01T00:00:00Z", 9) → "1961" rather than "19610101".
   # Returns nil for blank or unparseable input.
-  def parse_wikidata_date(val)
+  def parse_wikidata_date(val, precision = nil)
     return nil if val.nil? || val.to_s.strip.empty?
     s = val.to_s.strip
+    prec = precision.nil? || precision.to_s.strip.empty? ? nil : precision.to_i
     if m = s.match(/^([+-]?)(\d{4})-(\d{2})-(\d{2})/)
       sign, y, mo, d = m[1], m[2], m[3], m[4]
       prefix = (sign == '-') ? '-' : ''
       # For BCE dates, always return year-only since full dates are usually approximate
       return "#{prefix}#{y}" if sign == '-'
+      # Honour an explicit precision before falling back to the 00 placeholders.
+      if prec
+        return "#{prefix}#{y}"        if prec <= PRECISION_YEAR
+        return "#{prefix}#{y}#{mo}"   if prec == PRECISION_MONTH && mo != '00'
+        return "#{prefix}#{y}#{mo}#{d}" if mo != '00' && d != '00'
+        return "#{prefix}#{y}#{mo}"   if mo != '00'
+        return "#{prefix}#{y}"
+      end
       return "#{prefix}#{y}#{mo}#{d}" if mo != '00' && d != '00'
       return "#{prefix}#{y}#{mo}" if mo != '00'
       return "#{prefix}#{y}"

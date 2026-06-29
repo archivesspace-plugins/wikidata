@@ -58,6 +58,33 @@ module WikidataSparqlQuery
       }
       UNION
       {
+        # Wikidata stores a precision (9=year, 10=month, 11=day) per date value.
+        # The truthy wdt: dates above normalise year/month precision to YYYY-01-01,
+        # so we fetch the precision to standardise dates at the correct granularity.
+        wd:Q_PLACEHOLDER p:P569/psv:P569 ?dobValueNode .
+        ?dobValueNode wikibase:timePrecision ?value .
+        BIND("dateOfBirthPrecision" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER p:P570/psv:P570 ?dodValueNode .
+        ?dodValueNode wikibase:timePrecision ?value .
+        BIND("dateOfDeathPrecision" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER p:P571/psv:P571 ?incValueNode .
+        ?incValueNode wikibase:timePrecision ?value .
+        BIND("inceptionPrecision" as ?propertyName)
+      }
+      UNION
+      {
+        wd:Q_PLACEHOLDER p:P576/psv:P576 ?dissValueNode .
+        ?dissValueNode wikibase:timePrecision ?value .
+        BIND("dissolvedDatePrecision" as ?propertyName)
+      }
+      UNION
+      {
         wd:Q_PLACEHOLDER rdfs:label ?value .
         FILTER(LANG(?value) = "en")
         BIND("label" as ?propertyName)
