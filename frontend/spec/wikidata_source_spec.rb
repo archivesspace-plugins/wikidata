@@ -54,10 +54,34 @@ class WikidataSourceTest < Minitest::Test
     assert_equal 'n12345', naf[:record_identifier]
   end
 
-  def test_migration_file_is_valid_ruby
+  # VIAF cluster IDs (P214) are attributed to the dedicated 'viaf' source
+  # (seeded by migrations/002_add_viaf_name_source.rb), not the generic 'local'.
+  def test_viaf_identifier_source_is_viaf
+    h = agent('label' => ['Grace Lee Boggs'], 'familyName' => ['Boggs'],
+              'givenName' => ['Grace'], 'isHuman' => ['true'],
+              'viafClusterId' => ['67976526'])
+    viaf = (h[:agent_record_identifiers] || []).find { |id| id[:source] == 'viaf' }
+    refute_nil viaf, 'VIAF identifier should use the viaf source'
+    assert_equal '67976526', viaf[:record_identifier]
+    refute viaf[:primary_identifier], 'VIAF id is a secondary identifier'
+    # The VIAF id must not be mislabelled as a local identifier.
+    locals = (h[:agent_record_identifiers] || []).select { |id| id[:source] == 'local' }
+    assert locals.none? { |id| id[:record_identifier] == '67976526' }, 'VIAF id must not be a local identifier'
+  end
+
+  def test_wikidata_migration_file_is_valid_ruby
     path = File.expand_path('../../../migrations/001_add_wikidata_name_source.rb', __FILE__)
     assert File.exist?(path), 'Migration file should exist'
     # Parses without raising (Ruby 2.6 compatible syntax check).
     assert RubyVM::InstructionSequence.compile(File.read(path))
+  end
+
+  def test_viaf_migration_file_is_valid_ruby_and_adds_viaf
+    path = File.expand_path('../../../migrations/002_add_viaf_name_source.rb', __FILE__)
+    assert File.exist?(path), 'VIAF migration file should exist'
+    src = File.read(path)
+    assert RubyVM::InstructionSequence.compile(src)
+    assert_match(/value\s*=\s*"viaf"/, src, 'Migration seeds the viaf value')
+    assert_match(/name_source/, src, 'Migration targets the name_source enumeration')
   end
 end

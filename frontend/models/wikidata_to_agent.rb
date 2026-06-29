@@ -17,11 +17,12 @@ class WikidataToAgent
   WIKIDATA_SOURCE = 'wikidata'.freeze
 
   # Maps Wikidata field names to valid ArchivesSpace agent_record_identifiers/source enum values.
-  # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac
+  # ArchivesSpace accepts: local, nad, naf, ulan, ingest, snac; the plugin's
+  # migrations add 'wikidata' (001) and 'viaf' (002).
   AGENT_SOURCE_MAP = {
     'libraryOfCongressAuthorityId' => 'naf',   # Library of Congress Name Authority File
     'snacArkId'                    => 'snac',  # Social Networks and Archival Context
-    'viafClusterId'                => 'local'  # VIAF has no dedicated ArchivesSpace enum; store as local
+    'viafClusterId'                => 'viaf'   # Virtual International Authority File (seeded by migration 002)
   }.freeze
 
   def initialize(data, qid)
