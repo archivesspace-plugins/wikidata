@@ -39,11 +39,11 @@ The plugin uses a unified SPARQL query template that fetches all relevant proper
 
 - **Name components**: given name (P735), family name (P734), generational suffix (P8017), honorific prefix (P511)
 - **Aliases**: pseudonym (P742), alternative labels (skos:altLabel)
-- **Dates**: date of birth (P569), date of death (P570), inception (P571), dissolved date (P576)
+- **Dates**: date of birth (P569), date of death (P570), inception (P571), dissolved date (P576), plus each value's time precision (`wikibase:timePrecision`, fetched from the statement value node)
 - **Labels**: rdfs:label, schema:description
 - **Identifiers**: qNumber, Library of Congress (P244), SNAC (P3430), VIAF (P214)
-- **External resources**: Wikidata URL (always), Wikipedia article URL (if available via schema:url)
-- **Type detection**: instance of (P31), isHuman (Q5), isCollectiveAgent (Q131085629), isFamily (Q8436)
+- **External resources**: Wikidata URL (always), Wikipedia article URL (if available, via `schema:about` + `schema:isPartOf <https://en.wikipedia.org/>`)
+- **Type detection**: instance of (P31), isHuman (Q5), isFamily (Q8436), isCorporateBody (corporate body Q106668099 and its subclasses, via `wdt:P31/wdt:P279*`)
 
 The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extracted_id}`) so the same query template works for any Wikidata entity.
 
@@ -51,9 +51,11 @@ The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extract
 
 | Wikidata `instance of` (P31) | ArchivesSpace Agent Type |
 |------------------------------|---------------------------|
-| human (Q5) or subclass | `agent_person` |
-| collective agent (Q131085629) or subclass (not family) | `agent_corporate_entity` |
+| human (Q5) | `agent_person` |
 | family (Q8436) or subclass | `agent_family` |
+| corporate body (Q106668099) or subclass — not family | `agent_corporate_entity` |
+
+Corporate detection follows the full subclass chain (`wdt:P31/wdt:P279* wd:Q106668099`). As a fallback for popular entities whose property-path query may time out, the plugin also matches `instance of` against a curated list of common organizational types (`WikidataResultSet::KNOWN_ORG_TYPES`).
 
 ## Property Mappings (Wikidata → ArchivesSpace)
 
@@ -73,10 +75,14 @@ The Q number in the query is parameterized (e.g., `wd:Q42` becomes `wd:Q{extract
 | schema:description | description | Biography/Historical Note |
 | ID | qNumber | Record Identifier (source: wikidata, primary) |
 | P244 | libraryOfCongressAuthorityId | Record Identifier (source: Library of Congress) |
-| P3430 | snacArkId | Record Identifier (source: SNAC) |
+| P3430 | snacArkId | Record Identifier (source: snac) |
 | P214 | viafClusterId | Record Identifier (source: viaf) |
 
-**Name order**: Use "Indirect" when given/family name present; use "Direct" when using label only.
+**Name order**: Use "Indirect" when a family name is present; use "Direct" when using the label only.
+
+**Authorized form**: the entity label is the authoritative full name. The family name (P734) is used only to split the label into Primary Part of Name and Rest of Name. When an entity has several family names (e.g. Imelda Marcos has both *Marcos* and *Romuáldez*), the one the label ends with is used as the Primary Part of Name.
+
+**Identifier sources**: the `wikidata` (primary QID) and `viaf` sources are added to the `name_source` enumeration by the plugin's database migrations; `naf` and `snac` are part of the ArchivesSpace defaults.
 
 ### Family (agent_family)
 
@@ -123,13 +129,16 @@ These appear in ArchivesSpace as "Related External Resources" on the agent recor
 
 ## Date Handling
 
-Wikidata dates may have varying precision. See [Wikidata Help:Dates](https://www.wikidata.org/wiki/Help:Dates) and [Help:Dates#Precision](https://www.wikidata.org/wiki/Help:Dates#Precision).
+Wikidata dates carry a precision (`wikibase:timePrecision`: 9 = year, 10 = month, 11 = day). See [Wikidata Help:Dates](https://www.wikidata.org/wiki/Help:Dates) and [Help:Dates#Precision](https://www.wikidata.org/wiki/Help:Dates#Precision).
+
+The truthy `wdt:` predicate normalizes year- and month-precision dates to `YYYY-01-01`, so the plugin fetches the precision and standardizes each date at the granularity Wikidata actually knows — rather than emitting an over-precise full date.
 
 | Date precision | ArchivesSpace field | Example |
 |----------------|---------------------|---------|
-| Full date (YYYY-MM-DD) | `date_standardized` | `1879-03-14` |
-| Year only | `date_expression` | `1879` |
-| BCE / negative year | `date_expression` | `-0550` |
+| Day (precision 11) | `date_standardized` | `1879-03-14` |
+| Month (precision 10) | `date_standardized` | `1960-06` |
+| Year (precision 9, or coarser) | `date_standardized` | `1961` |
+| BCE / negative year | `date_expression` | `550 BCE` |
 | Unparseable | `date_expression` | `19th Century` |
 
 The two fields are **never set simultaneously** for the same date endpoint. This avoids the double-display issue present in the MARCXML importer (see [Workarounds](#workarounds) in README).
